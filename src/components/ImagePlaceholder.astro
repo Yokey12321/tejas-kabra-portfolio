@@ -1,0 +1,18 @@
+---
+interface Props {
+  label: string;
+  note?: string;
+}
+
+const { label, note = "Replace with project photography" } = Astro.props;
+---
+
+<figure class="image-slot wide">
+  <div class="px-6 text-center">
+    <div class="mx-auto mb-5 grid h-12 w-12 place-items-center rounded-full border border-ink/20 font-mono text-lg text-signal">
+      +
+    </div>
+    <strong class="block text-lg">{label}</strong>
+    <span class="technical-label mt-2 block text-ink/45">{note}</span>
+  </div>
+</figure>

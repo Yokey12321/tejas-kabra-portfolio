@@ -1,6 +1,7 @@
 ---
 title: Formula Electric CAN–LTE Telemetry System
-summary: A vehicle telemetry pipeline carrying CAN data from the race car to remote engineering dashboards over LTE.
+shortTitle: CAN–LTE Telemetry
+summary: A vehicle-to-cloud telemetry pipeline designed to move race-car CAN data off-track over LTE for live engineering visibility.
 status: in-progress
 featured: true
 order: 1
@@ -13,17 +14,61 @@ technologies:
   - LTE
   - Embedded C
 role: Electrical and embedded systems
-timeframe: To be documented
+timeframe: Formula Electric
+accent: "#e5663a"
+visual: telemetry
+metrics:
+  - value: CAN → LTE
+    label: Data path
+  - value: Live
+    label: Trackside visibility
+  - value: Field
+    label: Validation target
 ---
 
-## Engineering problem
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-Document the communications constraints, required signals, update rates, failure modes, and trackside operating environment.
+## The engineering problem
 
-## Architecture
+A race car produces more data than a driver can interpret in the moment. The useful system is not simply a CAN logger—it is a reliable path from **vehicle signals to remote engineering decisions** under vibration, RF uncertainty, power transients, and limited track time.
 
-Add a system block diagram from vehicle CAN nodes through the LTE uplink and dashboard.
+The telemetry architecture therefore has two jobs: preserve the meaning of the CAN traffic and fail predictably when the cellular link does not cooperate.
 
-## Verification
+<div className="data-grid">
+  <div><small>Input</small><b>Vehicle CAN frames from distributed controllers</b></div>
+  <div><small>Transport</small><b>Buffered LTE uplink with reconnect behavior</b></div>
+  <div><small>Output</small><b>Remote signals useful to trackside engineers</b></div>
+</div>
 
-Add measured latency, packet-loss behavior, bandwidth, reconnect time, and track-test results.
+## System architecture
+
+The design separates acquisition from transport. A CAN-facing embedded node filters and timestamps the required frames, packages them for transmission, and hands them to the LTE path. That boundary matters: a dropped cellular connection should not destabilize the vehicle bus.
+
+> The central design question was not “How do we send CAN over LTE?” It was “How do we keep the vehicle-side behavior deterministic when LTE becomes unreliable?”
+
+<ImagePlaceholder label="Telemetry system block diagram" note="Vehicle CAN → gateway → LTE → ingestion → dashboard" />
+
+### Decisions to document
+
+- CAN message filtering and signal selection
+- Timestamp ownership and clock behavior
+- Buffer depth during loss of service
+- Packet format and bandwidth budget
+- Reconnect strategy and stale-data handling
+- Vehicle power entry and transient protection
+
+## Validation plan
+
+The portfolio version of this project will show evidence at three levels: a bench replay of representative CAN traffic, a network impairment test, and a track test with recorded link behavior.
+
+<div className="data-grid">
+  <div><small>Bench</small><b>Replay CAN traffic and verify decoded signal integrity</b></div>
+  <div><small>Network</small><b>Measure latency, packet loss, and recovery after outage</b></div>
+  <div><small>Track</small><b>Correlate remote data with vehicle-side logs</b></div>
+</div>
+
+<ImagePlaceholder label="Track test and dashboard capture" note="Add dashboard, enclosure, antenna, and vehicle installation photography" />
+
+## What the final case study will prove
+
+The finished story should make the reliability argument visible: what entered the gateway, what reached the server, what happened during a connection loss, and how quickly the system recovered. The strongest result will be a synchronized plot comparing vehicle-side and remote timestamps.

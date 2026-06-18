@@ -1,6 +1,7 @@
 ---
 title: STM32H723 Custom Development Board
-summary: A custom high-performance microcontroller board designed around the STM32H723 for embedded control and rapid subsystem development.
+shortTitle: STM32H723 Dev Board
+summary: A custom high-performance STM32H723 platform designed for fast subsystem bring-up, robust debugging, and reusable embedded development.
 status: in-progress
 featured: true
 order: 2
@@ -12,17 +13,61 @@ technologies:
   - KiCad
   - ARM Cortex-M7
 role: Hardware design and bring-up
-timeframe: To be documented
+timeframe: Personal hardware platform
+accent: "#69a884"
+visual: pcb
+metrics:
+  - value: Cortex-M7
+    label: Compute core
+  - value: Custom PCB
+    label: Hardware platform
+  - value: SWD
+    label: Debug strategy
 ---
 
-## Design requirements
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-Document compute, memory, communications, power, debugging, and connector requirements.
+## Why build another development board?
 
-## Schematic and layout
+Commercial development kits optimize for broad compatibility. This board is intended to optimize for **repeatable subsystem development**: a known power tree, accessible communications, deliberate debug access, and connectors chosen around the projects it will actually support.
 
-Add power-tree, clocking, decoupling, stackup, impedance, and placement decisions.
+The STM32H723 brings enough compute and peripheral bandwidth for controls, communications, data acquisition, and future real-time work without turning every prototype into a wiring exercise.
 
-## Bring-up
+<div className="data-grid">
+  <div><small>Compute</small><b>STM32H723 / ARM Cortex-M7 platform</b></div>
+  <div><small>Bring-up</small><b>Power rails, clocks, reset, and SWD first</b></div>
+  <div><small>Reuse</small><b>Interfaces exposed for rapid subsystem work</b></div>
+</div>
 
-Capture the test sequence, first-article failures, rework, and validated peripherals.
+## Schematic strategy
+
+The board is organized around functional blocks rather than sheet-filling convenience: power entry and regulation, MCU core requirements, clocking, debug, communications, and external I/O. Every block should be independently inspectable during bring-up.
+
+> A development board earns its keep when a failure is easy to isolate. Test access and observability are part of the circuit, not post-layout luxuries.
+
+<ImagePlaceholder label="Annotated schematic overview" note="Show power tree, MCU core, debug, communications, and I/O blocks" />
+
+### Layout decisions worth showing
+
+- Decoupling placement and return paths
+- Crystal placement and clock routing
+- Layer stack and uninterrupted reference planes
+- High-current versus sensitive signal regions
+- Connector placement driven by bench use
+- SWD and UART access during enclosure integration
+
+<ImagePlaceholder label="PCB layout and assembled board" note="Add KiCad render, bare PCB, assembled board, and microscope detail" />
+
+## Bring-up sequence
+
+The bring-up plan starts with resistance checks and current-limited power. Only after the rails and reset state are verified does firmware enter the loop.
+
+<div className="data-grid">
+  <div><small>01 / Unpowered</small><b>Inspect assembly and check rail-to-ground resistance</b></div>
+  <div><small>02 / Power</small><b>Current-limit the input and validate every rail</b></div>
+  <div><small>03 / Digital</small><b>Establish SWD, clock configuration, and serial output</b></div>
+</div>
+
+## Evidence to add
+
+The final page should include rail ripple captures, startup waveforms, current consumption by mode, interface loopback results, and the first revision’s rework notes. A redline image of any layout mistake would make the debugging story stronger—not weaker.

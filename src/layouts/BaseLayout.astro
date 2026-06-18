@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -15,24 +16,64 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#f2efe5" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23171914%22/><path d=%22M22 28h56M50 28v50%22 stroke=%22%23e5663a%22 stroke-width=%2212%22/></svg>" />
     <title>{title}</title>
   </head>
   <body>
-    <header class="border-b border-ink/15">
-      <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-        <a class="font-semibold tracking-tight" href="/">Tejas Kabra</a>
-        <div class="flex gap-6 font-mono text-xs uppercase tracking-[0.15em]">
-          <a href="/#projects">Projects</a>
-          <a href="/about">About</a>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
+      Skip to content
+    </a>
+    <header class="relative z-40 border-b hairline bg-paper/90 backdrop-blur-md">
+      <nav class="shell flex h-20 items-center justify-between">
+        <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
+          <span class="grid h-8 w-8 place-items-center bg-ink font-mono text-xs font-bold text-signal">TK</span>
+          <span>
+            <strong class="block text-sm leading-none tracking-tight">Tejas Kabra</strong>
+            <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
+          </span>
+        </a>
+        <div class="flex items-center gap-5 sm:gap-8">
+          <a class:list={["technical-label transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
+            Work
+          </a>
+          <a class:list={["technical-label transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
+            About
+          </a>
+          <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-paper sm:block" href="https://github.com/Yokey12321">
+            Contact
+          </a>
         </div>
       </nav>
     </header>
-    <main>
+    <main id="main">
       <slot />
     </main>
-    <footer class="mx-auto max-w-7xl border-t border-ink/15 px-6 py-8 font-mono text-xs lg:px-10">
-      Electrical engineering · Embedded systems · Hardware
+    <footer class="bg-ink text-paper">
+      <div class="shell grid gap-10 py-12 md:grid-cols-2 md:items-end">
+        <div>
+          <span class="eyebrow text-signal">Build something real</span>
+          <p class="mt-5 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em]">
+            Available for Fall 2026 electrical engineering co-op opportunities.
+          </p>
+        </div>
+        <div class="md:text-right">
+          <a class="text-lg underline decoration-signal decoration-2 underline-offset-8" href="https://github.com/Yokey12321">
+            github.com/Yokey12321
+          </a>
+          <p class="technical-label mt-6 text-paper/40">Texas A&amp;M University // College Station, TX</p>
+        </div>
+      </div>
+      <div class="border-t border-paper/10">
+        <div class="shell flex flex-col gap-3 py-5 technical-label text-paper/40 sm:flex-row sm:justify-between">
+          <span>Designed around evidence, not buzzwords.</span>
+          <span>© {new Date().getFullYear()} Tejas Kabra</span>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

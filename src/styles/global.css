@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #171816;
-  --color-paper: #f2f0e9;
-  --color-panel: #e7e3d8;
-  --color-signal: #bb4d2f;
-  --color-trace: #5f6f65;
-  --font-sans: "Inter", "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", "Cascadia Code", monospace;
+  --color-ink: #171914;
+  --color-paper: #f2efe5;
+  --color-paper-deep: #e5e0d2;
+  --color-panel: #20231f;
+  --color-signal: #e5663a;
+  --color-copper: #b87944;
+  --color-trace: #68766c;
+  --font-sans: "Aptos", "Segoe UI Variable", "Segoe UI", sans-serif;
+  --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 :root {
@@ -15,15 +17,27 @@
   background: var(--color-paper);
   font-family: var(--font-sans);
   font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--color-paper);
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
+  background:
+    linear-gradient(rgba(23, 25, 20, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 25, 20, 0.025) 1px, transparent 1px),
+    var(--color-paper);
+  background-size: 32px 32px;
 }
 
 ::selection {
@@ -33,4 +47,243 @@ body {
 
 a {
   color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 4px;
+}
+
+.shell {
+  width: min(100% - 2rem, 86rem);
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  width: 1.6rem;
+  height: 1px;
+  content: "";
+  background: currentColor;
+}
+
+.technical-label {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.hairline {
+  border-color: color-mix(in srgb, var(--color-ink) 16%, transparent);
+}
+
+.project-visual {
+  position: relative;
+  min-height: 18rem;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--project-bg, #252924);
+}
+
+.project-visual::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom right, black, transparent 85%);
+}
+
+.project-visual::after {
+  position: absolute;
+  width: 14rem;
+  height: 14rem;
+  right: -3rem;
+  bottom: -4rem;
+  content: "";
+  border: 1px solid color-mix(in srgb, var(--project-accent, #e5663a) 55%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2rem color-mix(in srgb, var(--project-accent, #e5663a) 8%, transparent),
+    0 0 0 5rem color-mix(in srgb, var(--project-accent, #e5663a) 5%, transparent);
+}
+
+.image-slot {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+  background:
+    linear-gradient(135deg, transparent 49.8%, rgba(23, 25, 20, 0.08) 50%, transparent 50.2%),
+    var(--color-paper-deep);
+}
+
+.image-slot::before,
+.image-slot::after {
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  content: "";
+  border-color: var(--color-signal);
+}
+
+.image-slot::before {
+  left: 1rem;
+  top: 1rem;
+  border-left: 1px solid;
+  border-top: 1px solid;
+}
+
+.image-slot::after {
+  right: 1rem;
+  bottom: 1rem;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.case-study {
+  color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+}
+
+.case-study > * {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.case-study h2 {
+  margin-top: 6rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-ink);
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.case-study h3 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.case-study p,
+.case-study li {
+  font-size: 1.08rem;
+  line-height: 1.85;
+}
+
+.case-study ul,
+.case-study ol {
+  padding-left: 1.3rem;
+}
+
+.case-study strong {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+
+.case-study blockquote {
+  margin-block: 3rem;
+  padding: 1.5rem 0 1.5rem 1.5rem;
+  border-left: 2px solid var(--color-signal);
+  color: var(--color-ink);
+  font-size: 1.35rem;
+  line-height: 1.55;
+}
+
+.case-study .wide {
+  max-width: 72rem;
+}
+
+.case-study .full {
+  max-width: none;
+}
+
+.case-study .data-grid {
+  display: grid;
+  max-width: 72rem;
+  margin-block: 2.5rem;
+  border-top: 1px solid rgba(23, 25, 20, 0.18);
+  border-left: 1px solid rgba(23, 25, 20, 0.18);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-study .data-grid > div {
+  min-height: 9rem;
+  padding: 1.25rem;
+  border-right: 1px solid rgba(23, 25, 20, 0.18);
+  border-bottom: 1px solid rgba(23, 25, 20, 0.18);
+}
+
+.case-study .data-grid small {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.case-study .data-grid b {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 700px) {
+  .shell {
+    width: min(100% - 1.25rem, 86rem);
+  }
+
+  .case-study .data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-visual {
+    min-height: 15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

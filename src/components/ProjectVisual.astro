@@ -1,0 +1,75 @@
+---
+interface Props {
+  type: "telemetry" | "pcb" | "power" | "robotics";
+  accent: string;
+  compact?: boolean;
+}
+
+const { type, accent, compact = false } = Astro.props;
+---
+
+<div
+  class:list={["project-visual text-paper", compact ? "min-h-64" : "min-h-[28rem]"]}
+  style={`--project-accent:${accent}`}
+  aria-hidden="true"
+>
+  <svg class="absolute inset-0 h-full w-full" viewBox="0 0 800 500" fill="none" preserveAspectRatio="xMidYMid slice">
+    {
+      type === "telemetry" && (
+        <>
+          <path d="M70 360H180V280H310V330H430V205H560V140H730" stroke={accent} stroke-width="4" />
+          {[180, 310, 430, 560].map((x, i) => <circle cx={x} cy={[360,280,330,205][i]} r="7" fill="#20231f" stroke={accent} stroke-width="4" />)}
+          <path d="M545 155c42-42 88-42 130 0M570 180c25-25 52-25 78 0M598 208c8-8 16-8 24 0" stroke="#f2efe5" stroke-width="3" opacity=".72" />
+          <text x="70" y="402" fill="#f2efe5" opacity=".55" font-size="13" font-family="monospace">CAN // LTE // CLOUD</text>
+        </>
+      )
+    }
+    {
+      type === "pcb" && (
+        <>
+          <rect x="155" y="65" width="490" height="370" rx="10" stroke={accent} stroke-width="3" />
+          <rect x="325" y="165" width="150" height="150" fill={accent} fill-opacity=".12" stroke={accent} stroke-width="3" />
+          {Array.from({ length: 8 }, (_, i) => <path d={`M${340 + i * 17} 165V115H${250 - i * 8}`} stroke="#f2efe5" opacity=".55" stroke-width="2" />)}
+          {Array.from({ length: 8 }, (_, i) => <path d={`M${340 + i * 17} 315V365H${215 + i * 9}`} stroke="#f2efe5" opacity=".55" stroke-width="2" />)}
+          <circle cx="225" cy="135" r="15" stroke={accent} stroke-width="3" />
+          <circle cx="575" cy="360" r="15" stroke={accent} stroke-width="3" />
+          <text x="349" y="247" fill="#f2efe5" font-size="18" font-family="monospace">H723</text>
+        </>
+      )
+    }
+    {
+      type === "power" && (
+        <>
+          <path d="M70 250H205M260 250H400M465 250H730" stroke="#f2efe5" stroke-width="3" />
+          <path d="M205 205V295M220 220V280M260 205V295M245 220V280" stroke={accent} stroke-width="4" />
+          <path d="M400 205V295L465 250Z" stroke={accent} stroke-width="4" />
+          <path d="M420 190V145H515" stroke="#f2efe5" stroke-width="2" opacity=".6" />
+          <path d="M80 355C150 355 150 135 220 135S290 355 360 355 430 135 500 135 570 355 640 355" stroke={accent} stroke-width="3" opacity=".45" />
+          <text x="68" y="285" fill="#f2efe5" opacity=".5" font-size="13" font-family="monospace">VIN</text>
+          <text x="692" y="285" fill="#f2efe5" opacity=".5" font-size="13" font-family="monospace">VOUT</text>
+        </>
+      )
+    }
+    {
+      type === "robotics" && (
+        <>
+          {Array.from({ length: 4 }, (_, row) =>
+            Array.from({ length: 5 }, (_, col) => (
+              <rect x={100 + col * 120} y={80 + row * 90} width="92" height="58" stroke="#f2efe5" stroke-width="2" opacity={row === 1 && col === 3 ? 1 : .28} />
+            )),
+          )}
+          <rect x="460" y="170" width="92" height="58" fill={accent} fill-opacity=".25" stroke={accent} stroke-width="4" />
+          <circle cx="506" cy="199" r="8" fill={accent} />
+          <path d="M80 440H720" stroke="#f2efe5" opacity=".35" />
+          <text x="100" y="470" fill="#f2efe5" opacity=".55" font-size="13" font-family="monospace">BIN SELECT // ACTUATE // CONFIRM</text>
+        </>
+      )
+    }
+  </svg>
+  <div class="absolute left-5 top-5 flex gap-2">
+    <span class="h-2 w-2 rounded-full" style={`background:${accent}`}></span>
+    <span class="h-2 w-2 rounded-full bg-paper/25"></span>
+    <span class="h-2 w-2 rounded-full bg-paper/25"></span>
+  </div>
+  <span class="technical-label absolute bottom-5 right-5 text-paper/45">System view // placeholder</span>
+</div>

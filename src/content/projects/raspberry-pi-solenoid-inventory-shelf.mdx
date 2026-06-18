@@ -1,6 +1,7 @@
 ---
 title: Raspberry Pi Solenoid Inventory Shelf
-summary: A networked inventory shelf that physically indicates selected bins using Raspberry Pi control and solenoid actuation.
+shortTitle: Solenoid Inventory Shelf
+summary: A networked inventory shelf that turns a digital bin selection into a physical indication using Raspberry Pi control and solenoid actuation.
 status: in-progress
 featured: true
 order: 4
@@ -12,17 +13,61 @@ technologies:
   - Solenoids
   - Python
 role: System design and implementation
-timeframe: To be documented
+timeframe: Inventory automation prototype
+accent: "#79a9d1"
+visual: robotics
+metrics:
+  - value: Pi
+    label: System controller
+  - value: Solenoid
+    label: Physical output
+  - value: Closed loop
+    label: Workflow goal
 ---
 
-## System goal
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-Document the inventory workflow, operator interaction, bin count, and actuation requirements.
+## From database row to physical bin
 
-## Electrical and software architecture
+Inventory software can identify an item instantly. A person still has to map that answer onto a physical shelf. This project closes that gap by actuating the selected location, reducing search time and making the digital state visible in the real environment.
 
-Add the control topology, driver circuitry, power budget, software services, and fault handling.
+That simple interaction spans a surprising number of domains: networked software, GPIO expansion, inductive-load drivers, power distribution, mechanical mounting, and fault recovery.
 
-## Validation
+<div className="data-grid">
+  <div><small>Command</small><b>Operator selects an inventory item</b></div>
+  <div><small>Control</small><b>Raspberry Pi resolves the target output</b></div>
+  <div><small>Action</small><b>Driver energizes the physical bin indicator</b></div>
+</div>
 
-Report selection accuracy, actuation reliability, response time, and lessons from deployment.
+## System architecture
+
+The controller should never drive a solenoid directly. A dedicated driver stage handles current, flyback energy, and channel isolation while the Raspberry Pi owns selection logic and system state.
+
+> The interface is successful only if the correct bin actuates every time—and a software restart cannot leave a coil energized.
+
+<ImagePlaceholder label="Shelf architecture and driver topology" note="Show UI/service, Raspberry Pi, driver channels, power supply, and solenoids" />
+
+### Electrical design concerns
+
+- Solenoid pull-in and hold current
+- Simultaneous-channel power budget
+- Flyback suppression and driver stress
+- Logic-level compatibility
+- Startup and shutdown output states
+- Connector and harness serviceability
+
+<ImagePlaceholder label="Installed shelf and electronics enclosure" note="Add full shelf, driver PCB, wiring, and selected-bin close-up" />
+
+## Reliability tests
+
+The most persuasive validation is a repeated selection test across every channel, including rapid commands and deliberate power interruption.
+
+<div className="data-grid">
+  <div><small>Accuracy</small><b>Correct bin selected over repeated trials</b></div>
+  <div><small>Timing</small><b>Command-to-actuation response measured</b></div>
+  <div><small>Recovery</small><b>Safe behavior after restart or network loss</b></div>
+</div>
+
+## What I would improve next
+
+A mature revision would add explicit actuation feedback rather than assuming that electrical drive produced mechanical motion. Current sensing, a position switch, or another confirmation method would turn the system from command-driven to verifiably closed-loop.

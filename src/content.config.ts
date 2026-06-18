@@ -7,6 +7,7 @@ const projects = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      shortTitle: z.string(),
       summary: z.string(),
       status: z.enum(["complete", "in-progress", "archived"]),
       featured: z.boolean().default(false),
@@ -15,6 +16,14 @@ const projects = defineCollection({
       technologies: z.array(z.string()),
       role: z.string(),
       timeframe: z.string(),
+      accent: z.string(),
+      visual: z.enum(["telemetry", "pcb", "power", "robotics"]),
+      metrics: z.array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+        }),
+      ),
       heroImage: image().optional(),
       outcome: z.string().optional(),
       repository: z.url().optional(),

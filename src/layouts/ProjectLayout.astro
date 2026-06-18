@@ -1,30 +1,74 @@
 ---
+import ProjectVisual from "../components/ProjectVisual.astro";
 import BaseLayout from "./BaseLayout.astro";
 
-const { frontmatter } = Astro.props;
+interface Metric {
+  value: string;
+  label: string;
+}
+
+interface Frontmatter {
+  title: string;
+  summary: string;
+  disciplines: string[];
+  role: string;
+  timeframe: string;
+  status: string;
+  technologies: string[];
+  accent: string;
+  visual: "telemetry" | "pcb" | "power" | "robotics";
+  metrics: Metric[];
+}
+
+const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
 ---
 
 <BaseLayout title={`${frontmatter.title} — Tejas Kabra`} description={frontmatter.summary}>
-  <article class="mx-auto max-w-5xl px-6 py-16 lg:px-10 lg:py-24">
-    <a class="font-mono text-xs uppercase tracking-[0.15em] text-trace" href="/#projects">
-      ← All projects
-    </a>
-    <header class="mt-10 border-b border-ink/15 pb-12">
-      <p class="font-mono text-xs uppercase tracking-[0.15em] text-signal">
-        {frontmatter.disciplines.join(" · ")}
-      </p>
-      <h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.04em] lg:text-7xl">
-        {frontmatter.title}
-      </h1>
-      <p class="mt-6 max-w-3xl text-xl leading-8 text-ink/70">{frontmatter.summary}</p>
-      <dl class="mt-10 grid gap-6 border-t border-ink/15 pt-6 font-mono text-xs sm:grid-cols-3">
-        <div><dt class="text-ink/50">Role</dt><dd class="mt-2">{frontmatter.role}</dd></div>
-        <div><dt class="text-ink/50">Timeframe</dt><dd class="mt-2">{frontmatter.timeframe}</dd></div>
-        <div><dt class="text-ink/50">Status</dt><dd class="mt-2">{frontmatter.status}</dd></div>
-      </dl>
+  <article>
+    <header class="border-b hairline">
+      <div class="shell py-6">
+        <a class="technical-label text-ink/45 transition-colors hover:text-signal" href="/#projects">← Selected work</a>
+      </div>
+      <div class="shell grid gap-12 pb-16 pt-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:pb-24">
+        <div>
+          <p class="eyebrow" style={`color:${frontmatter.accent}`}>{frontmatter.disciplines.join(" / ")}</p>
+          <h1 class="mt-7 text-[clamp(3.5rem,7vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
+            {frontmatter.title}
+          </h1>
+        </div>
+        <div class="lg:pb-2">
+          <p class="max-w-xl text-xl leading-8 text-ink/65">{frontmatter.summary}</p>
+          <dl class="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-t hairline pt-6">
+            <div><dt class="technical-label text-ink/40">Role</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.role}</dd></div>
+            <div><dt class="technical-label text-ink/40">Timeframe</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.timeframe}</dd></div>
+            <div><dt class="technical-label text-ink/40">Status</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.status}</dd></div>
+            <div><dt class="technical-label text-ink/40">Stack</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.technologies.slice(0, 3).join(", ")}</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="shell">
+        <ProjectVisual type={frontmatter.visual} accent={frontmatter.accent} />
+      </div>
+      <div class="shell grid grid-cols-3 border-x border-b hairline">
+        {frontmatter.metrics.map((metric) => (
+          <div class="min-h-32 border-r p-5 hairline last:border-r-0 md:p-7">
+            <strong class="block text-xl font-semibold md:text-3xl">{metric.value}</strong>
+            <span class="technical-label mt-3 block text-ink/45">{metric.label}</span>
+          </div>
+        ))}
+      </div>
     </header>
-    <div class="prose prose-neutral mt-12 max-w-none prose-headings:tracking-tight">
+    <div class="case-study shell py-8 pb-24 md:pb-32">
       <slot />
     </div>
+    <aside class="border-t hairline bg-paper-deep">
+      <div class="shell flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <span class="technical-label text-signal">Next case study</span>
+          <p class="mt-2 text-2xl font-semibold tracking-tight">Explore more engineering work.</p>
+        </div>
+        <a class="bg-ink px-6 py-4 technical-label text-paper" href="/#projects">View all projects →</a>
+      </div>
+    </aside>
   </article>
 </BaseLayout>

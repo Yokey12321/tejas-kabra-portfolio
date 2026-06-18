@@ -1,5 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import ProjectVisual from "../components/ProjectVisual.astro";
+import SignalTrace from "../components/SignalTrace";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = (await getCollection("projects"))
@@ -11,43 +13,144 @@ const projects = (await getCollection("projects"))
   title="Tejas Kabra — Electrical Engineering"
   description="Electrical engineering portfolio focused on embedded systems, PCB design, CAN, telemetry, power electronics, and robotics."
 >
-  <section class="mx-auto grid min-h-[70vh] max-w-7xl content-center gap-10 px-6 py-20 lg:grid-cols-[1.4fr_0.6fr] lg:px-10">
-    <div>
-      <p class="font-mono text-xs uppercase tracking-[0.18em] text-signal">
-        Electrical Engineering · Texas A&M
-      </p>
-      <h1 class="mt-6 max-w-5xl text-6xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-8xl">
-        I build embedded systems that survive contact with the real world.
-      </h1>
+  <section class="relative overflow-hidden border-b hairline">
+    <div class="shell grid min-h-[calc(100vh-5rem)] items-stretch lg:grid-cols-[1.08fr_0.92fr]">
+      <div class="relative z-10 flex flex-col justify-center py-20 lg:py-28 lg:pr-16">
+        <p class="eyebrow text-signal">Electrical Engineering // Texas A&amp;M</p>
+        <h1 class="mt-7 max-w-4xl text-[clamp(4rem,8vw,8.5rem)] font-semibold leading-[0.82] tracking-[-0.075em]">
+          Hardware,
+          <span class="block text-ink/35">proven.</span>
+        </h1>
+        <p class="mt-10 max-w-2xl text-lg leading-8 text-ink/65 md:text-xl">
+          I design embedded systems from schematic to field test—custom PCBs, vehicle telemetry,
+          power electronics, and electromechanical systems built to produce measurable results.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a class="bg-ink px-6 py-4 technical-label text-paper transition-transform hover:-translate-y-1" href="#projects">
+            Explore the work <span class="ml-3 text-signal">↓</span>
+          </a>
+          <a class="border border-ink/20 px-6 py-4 technical-label transition-colors hover:border-ink" href="/about">
+            About Tejas
+          </a>
+        </div>
+      </div>
+      <div class="relative min-h-[30rem] border-t hairline bg-panel text-paper lg:min-h-0 lg:border-l lg:border-t-0">
+        <SignalTrace client:load />
+        <div class="absolute inset-x-6 bottom-6 z-10 grid grid-cols-3 border border-paper/15 bg-panel/75 backdrop-blur md:inset-x-10 md:bottom-10">
+          <div class="p-4 md:p-5">
+            <span class="technical-label text-paper/35">Focus 01</span>
+            <strong class="mt-2 block text-sm">Embedded</strong>
+          </div>
+          <div class="border-x border-paper/15 p-4 md:p-5">
+            <span class="technical-label text-paper/35">Focus 02</span>
+            <strong class="mt-2 block text-sm">Hardware</strong>
+          </div>
+          <div class="p-4 md:p-5">
+            <span class="technical-label text-paper/35">Focus 03</span>
+            <strong class="mt-2 block text-sm">Validation</strong>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="self-end text-lg leading-8 text-ink/65">
-      Hardware and firmware spanning vehicle telemetry, custom STM32 boards, power protection,
-      and robotic inventory systems.
-    </p>
   </section>
 
-  <section id="projects" class="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
-    <div class="mb-8 flex items-end justify-between border-b border-ink/20 pb-4">
-      <h2 class="text-2xl font-semibold tracking-tight">Selected engineering work</h2>
-      <span class="font-mono text-xs">{projects.length.toString().padStart(2, "0")} projects</span>
+  <section class="border-b hairline bg-paper-deep">
+    <div class="shell grid grid-cols-2 md:grid-cols-4">
+      {["STM32 / ARM", "CAN / LTE", "PCB Design", "Power Electronics"].map((skill, index) => (
+        <div class:list={["flex min-h-24 items-center gap-4 px-4 md:px-6", index > 0 && "border-l hairline"]}>
+          <span class="font-mono text-xs text-signal">0{index + 1}</span>
+          <span class="text-sm font-semibold">{skill}</span>
+        </div>
+      ))}
     </div>
-    <ol>
+  </section>
+
+  <section id="projects" class="shell py-24 md:py-32">
+    <div class="grid gap-8 border-b hairline pb-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <p class="eyebrow text-signal">Selected case studies</p>
+        <h2 class="mt-5 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">Engineering in context.</h2>
+      </div>
+      <p class="max-w-sm text-sm leading-6 text-ink/55 md:text-right">
+        Each project documents the constraint, architecture, tradeoffs, validation, and what changed after testing.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-x-5 gap-y-16 md:grid-cols-2">
       {
         projects.map(({ id, data }, index) => (
-          <li class="border-b border-ink/15">
-            <a class="group grid gap-5 py-8 sm:grid-cols-[4rem_1fr_auto] sm:items-baseline" href={`/projects/${id}/`}>
-              <span class="font-mono text-xs text-ink/45">{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3 class="text-3xl font-semibold tracking-[-0.025em] transition-transform group-hover:translate-x-2">
-                  {data.title}
-                </h3>
-                <p class="mt-3 max-w-3xl leading-7 text-ink/65">{data.summary}</p>
+          <article class:list={["group", index % 2 === 1 && "md:mt-24"]}>
+            <a href={`/projects/${id}/`}>
+              <div class="relative overflow-hidden transition-transform duration-500 group-hover:-translate-y-2">
+                <ProjectVisual type={data.visual} accent={data.accent} compact />
+                <span class="absolute left-5 bottom-5 bg-paper px-3 py-2 technical-label text-ink">
+                  Case study 0{index + 1}
+                </span>
               </div>
-              <span class="font-mono text-xs uppercase tracking-wider text-signal">{data.disciplines[0]}</span>
+              <div class="grid gap-4 border-b hairline py-6 sm:grid-cols-[1fr_auto]">
+                <div>
+                  <p class="technical-label text-signal">{data.disciplines.join(" / ")}</p>
+                  <h3 class="mt-3 text-3xl font-semibold leading-tight tracking-[-0.035em] md:text-4xl">{data.shortTitle}</h3>
+                </div>
+                <span class="mt-1 grid h-10 w-10 place-items-center rounded-full border border-ink/20 text-xl transition-colors group-hover:border-signal group-hover:bg-signal group-hover:text-paper">
+                  ↗
+                </span>
+              </div>
+              <p class="mt-4 max-w-xl leading-7 text-ink/60">{data.summary}</p>
+              <div class="mt-6 grid grid-cols-3 gap-px bg-ink/15">
+                {data.metrics.map((metric) => (
+                  <div class="bg-paper p-3">
+                    <strong class="block text-sm">{metric.value}</strong>
+                    <span class="technical-label mt-1 block text-ink/40">{metric.label}</span>
+                  </div>
+                ))}
+              </div>
             </a>
-          </li>
+          </article>
         ))
       }
-    </ol>
+    </div>
+  </section>
+
+  <section class="bg-ink py-24 text-paper md:py-32">
+    <div class="shell">
+      <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
+        <div>
+          <p class="eyebrow text-signal">How I work</p>
+          <h2 class="mt-6 text-4xl font-semibold leading-tight tracking-[-0.045em] md:text-6xl">
+            The bench is where assumptions go to get tested.
+          </h2>
+        </div>
+        <ol class="grid border-l border-t border-paper/15 md:grid-cols-2">
+          {[
+            ["01", "Define", "Turn the real operating environment into electrical, timing, thermal, and interface requirements."],
+            ["02", "Architect", "Partition hardware, firmware, communications, and power around explicit failure modes."],
+            ["03", "Instrument", "Design test points, logs, and observability into the system before the first prototype."],
+            ["04", "Iterate", "Use measurements and failure evidence to drive the next revision—not intuition alone."],
+          ].map(([number, title, body]) => (
+            <li class="min-h-56 border-b border-r border-paper/15 p-7">
+              <span class="technical-label text-signal">{number}</span>
+              <h3 class="mt-10 text-2xl font-semibold">{title}</h3>
+              <p class="mt-4 text-sm leading-7 text-paper/55">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell py-20 md:py-28">
+    <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+      <blockquote class="text-4xl font-semibold leading-[1.08] tracking-[-0.045em] md:text-6xl">
+        “Good engineering is a chain of decisions you can explain.”
+      </blockquote>
+      <div>
+        <p class="leading-7 text-ink/60">
+          This portfolio is built around that chain: what the system needed to do, why the architecture took its shape,
+          what broke, and what the instruments said next.
+        </p>
+        <a class="mt-8 inline-block border-b-2 border-signal pb-2 technical-label" href="/about">More about my approach →</a>
+      </div>
+    </div>
   </section>
 </BaseLayout>
