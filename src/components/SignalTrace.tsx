@@ -21,7 +21,7 @@ export default function SignalTrace() {
         </g>
         <motion.path
           d="M-40 360H120V290H235V332H346V218H470V194H597V104H790"
-          stroke="#e5663a"
+          stroke="#ff6b2c"
           strokeWidth="3"
           strokeLinecap="square"
           initial={{ pathLength: reduceMotion ? 1 : 0, opacity: 0 }}
@@ -41,7 +41,7 @@ export default function SignalTrace() {
             cy={cy}
             r="5"
             fill="#f2efe5"
-            stroke="#e5663a"
+            stroke="#8b5cf6"
             strokeWidth="3"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

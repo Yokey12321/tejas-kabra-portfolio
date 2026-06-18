@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import Volleyball from "../components/Volleyball";
 
 interface Props {
   title: string;
@@ -17,7 +16,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#111510" />
+    <meta name="theme-color" content="#0a080d" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -29,7 +28,6 @@ const currentPath = Astro.url.pathname;
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
       Skip to content
     </a>
-    <Volleyball client:load />
     <header class="relative z-40 border-b hairline bg-paper/80 backdrop-blur-md">
       <nav class="shell flex h-20 items-center justify-between">
         <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">

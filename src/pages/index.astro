@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import NetDivider from "../components/NetDivider.astro";
 import ProjectVisual from "../components/ProjectVisual.astro";
+import ScrollServe from "../components/ScrollServe";
 import SignalTrace from "../components/SignalTrace";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -67,6 +68,8 @@ const projects = (await getCollection("projects"))
       ))}
     </div>
   </section>
+
+  <ScrollServe client:load />
 
   <section id="projects" class="court-section shell py-24 md:py-32">
     <div class="grid gap-8 border-b hairline pb-8 md:grid-cols-[1fr_auto] md:items-end">
