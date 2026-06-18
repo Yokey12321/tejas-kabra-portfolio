@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import HeroCourt from "../components/HeroCourt.astro";
+import MottoBanner from "../components/MottoBanner.astro";
 import ProjectPanel from "../components/ProjectPanel.astro";
 import ScrollServe from "../components/ScrollServe.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import flyBanner from "../assets/banners/fly.webp";
 
 const projects = (await getCollection("projects"))
   .filter(({ data }) => data.featured)
@@ -14,6 +16,8 @@ const projects = (await getCollection("projects"))
   title="Tejas Kabra — Electrical Engineering"
   description="Electrical engineering portfolio focused on embedded systems, PCB design, CAN, telemetry, power electronics, and robotics."
 >
+  <MottoBanner image={flyBanner} alt="Fly — Haikyuu team motto banner" />
+
   <section class="court-section court-lines relative overflow-hidden border-b hairline">
     <div class="shell grid min-h-[calc(100vh-5rem)] items-stretch lg:grid-cols-[1.08fr_0.92fr]">
       <div class="relative z-10 flex flex-col justify-center py-20 lg:py-28 lg:pr-16">
@@ -128,18 +132,4 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
-  <section class="court-section shell py-20 md:py-28">
-    <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-      <blockquote class="text-4xl font-semibold leading-[1.08] tracking-[-0.045em] md:text-6xl">
-        “Good engineering is a chain of decisions you can explain.”
-      </blockquote>
-      <div>
-        <p class="leading-7 text-ink/60">
-          This portfolio is built around that chain: what the system needed to do, why the architecture took its shape,
-          what broke, and what the instruments said next.
-        </p>
-        <a class="mt-8 inline-block border-b-2 border-signal pb-2 technical-label" href="/about">More about my approach →</a>
-      </div>
-    </div>
-  </section>
 </BaseLayout>

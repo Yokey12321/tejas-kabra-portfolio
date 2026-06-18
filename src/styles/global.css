@@ -112,6 +112,49 @@ a {
   border-color: color-mix(in srgb, var(--color-ink) 14%, transparent);
 }
 
+.motto-banner {
+  position: relative;
+  width: calc(100% - 2rem);
+  max-width: 72rem;
+  margin: 2.75rem auto 2rem;
+  overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--banner-accent) 42%, rgba(243, 240, 230, 0.18));
+  background: #050407;
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.36),
+    0 0 3rem color-mix(in srgb, var(--banner-accent) 8%, transparent);
+}
+
+.motto-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.motto-banner-index {
+  position: absolute;
+  z-index: 2;
+  left: -1px;
+  top: -1.8rem;
+  color: color-mix(in srgb, var(--banner-accent) 82%, #f3f0e6);
+}
+
+.motto-banner-line {
+  position: absolute;
+  width: 28%;
+  height: 3px;
+  left: 0;
+  bottom: -1px;
+  background: var(--banner-accent);
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--banner-accent) 55%, transparent);
+}
+
+.motto-banner-compact {
+  max-width: 64rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
 .project-visual {
   position: relative;
   min-height: 18rem;
@@ -1010,6 +1053,18 @@ a {
 @media (max-width: 700px) {
   .shell {
     width: calc(100% - 1.25rem);
+  }
+
+  .motto-banner,
+  .motto-banner-compact {
+    width: calc(100% - 1.25rem);
+    margin-top: 2.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .motto-banner-index {
+    top: -1.45rem;
+    font-size: 0.58rem;
   }
 
   header nav.shell {
