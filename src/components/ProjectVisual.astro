@@ -9,7 +9,7 @@ const { type, accent, compact = false } = Astro.props;
 ---
 
 <div
-  class:list={["project-visual text-paper", compact ? "min-h-64" : "min-h-[28rem]"]}
+  class:list={["project-visual text-ink", compact ? "min-h-64" : "min-h-[28rem]"]}
   style={`--project-accent:${accent}`}
   aria-hidden="true"
 >
@@ -68,8 +68,8 @@ const { type, accent, compact = false } = Astro.props;
   </svg>
   <div class="absolute left-5 top-5 flex gap-2">
     <span class="h-2 w-2 rounded-full" style={`background:${accent}`}></span>
-    <span class="h-2 w-2 rounded-full bg-paper/25"></span>
-    <span class="h-2 w-2 rounded-full bg-paper/25"></span>
+    <span class="h-2 w-2 rounded-full bg-ink/25"></span>
+    <span class="h-2 w-2 rounded-full bg-ink/25"></span>
   </div>
-  <span class="technical-label absolute bottom-5 right-5 text-paper/45">System view // placeholder</span>
+  <span class="technical-label absolute bottom-5 right-5 text-ink/45">System view // placeholder</span>
 </div>
