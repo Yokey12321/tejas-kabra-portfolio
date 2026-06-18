@@ -529,6 +529,189 @@ a {
   transform: translateY(-1rem) rotate(0.35deg);
 }
 
+.project-panel {
+  position: relative;
+  min-height: 32rem;
+  overflow: hidden;
+  border: 1px solid rgba(243, 240, 230, 0.16);
+  background:
+    radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--team-accent) 24%, transparent), transparent 16rem),
+    linear-gradient(150deg, color-mix(in srgb, var(--team-accent) 9%, #0b0910), #050407 62%);
+  isolation: isolate;
+}
+
+.project-panel::after {
+  position: absolute;
+  inset: 0.75rem;
+  z-index: 4;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(243, 240, 230, 0.08);
+}
+
+.project-panel-stripes {
+  position: absolute;
+  z-index: -1;
+  width: 14rem;
+  height: 42rem;
+  right: -5rem;
+  top: -9rem;
+  opacity: 0.23;
+  transform: rotate(28deg);
+  background:
+    linear-gradient(
+      90deg,
+      var(--team-accent) 0 24%,
+      transparent 24% 36%,
+      var(--team-accent) 36% 48%,
+      transparent 48% 100%
+    );
+}
+
+.project-panel-top {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  color: rgba(243, 240, 230, 0.46);
+}
+
+.project-panel-number {
+  color: var(--team-accent);
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-shadow: 0 0 1rem color-mix(in srgb, var(--team-accent) 55%, transparent);
+}
+
+.project-panel-image {
+  position: absolute;
+  inset: 4.5rem 1.5rem 7rem;
+  overflow: hidden;
+  background:
+    linear-gradient(to top, rgba(5, 4, 7, 0.92), transparent 52%),
+    color-mix(in srgb, var(--team-accent) 8%, #0d0a12);
+}
+
+.project-panel-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  color: rgba(243, 240, 230, 0.3);
+  text-align: center;
+}
+
+.project-panel-mark {
+  display: grid;
+  width: 6.5rem;
+  height: 6.5rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--team-accent) 55%, transparent);
+  border-radius: 50%;
+  color: var(--team-accent);
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 800;
+  box-shadow:
+    inset 0 0 2rem color-mix(in srgb, var(--team-accent) 10%, transparent),
+    0 0 2rem color-mix(in srgb, var(--team-accent) 12%, transparent);
+}
+
+.project-panel-court {
+  position: absolute;
+  inset: 12% 9%;
+  border: 1px solid rgba(243, 240, 230, 0.08);
+  transform: perspective(500px) rotateX(66deg);
+  transform-origin: bottom;
+}
+
+.project-panel-court::before,
+.project-panel-court::after,
+.project-panel-court span {
+  position: absolute;
+  content: "";
+  background: rgba(243, 240, 230, 0.08);
+}
+
+.project-panel-court::before {
+  width: 1px;
+  inset-block: 0;
+  left: 50%;
+}
+
+.project-panel-court::after {
+  height: 1px;
+  inset-inline: 0;
+  top: 34%;
+}
+
+.project-panel-court span:nth-child(1) {
+  height: 1px;
+  inset-inline: 0;
+  bottom: 34%;
+}
+
+.project-panel-court span:nth-child(2) {
+  width: 0.35rem;
+  height: 0.35rem;
+  left: 20%;
+  top: 24%;
+  border-radius: 50%;
+  background: var(--team-accent);
+}
+
+.project-panel-court span:nth-child(3) {
+  width: 0.35rem;
+  height: 0.35rem;
+  right: 20%;
+  bottom: 24%;
+  border-radius: 50%;
+  background: var(--team-accent);
+}
+
+.project-panel-caption {
+  position: absolute;
+  z-index: 5;
+  inset-inline: 1.5rem;
+  bottom: 1.5rem;
+}
+
+.project-panel-caption span {
+  color: var(--team-accent);
+}
+
+.project-panel-caption strong {
+  display: block;
+  max-width: 22rem;
+  margin-top: 0.55rem;
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.project-panel-caption small {
+  display: block;
+  margin-top: 0.75rem;
+  color: rgba(243, 240, 230, 0.38);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-card:hover .project-panel-image {
+  transform: scale(1.025);
+}
+
+.project-panel-image {
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .case-study .data-grid small {
   display: block;
   margin-bottom: 1.5rem;

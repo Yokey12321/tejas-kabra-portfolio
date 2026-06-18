@@ -1,8 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import NetDivider from "../components/NetDivider.astro";
 import HeroCourt from "../components/HeroCourt";
-import ProjectVisual from "../components/ProjectVisual.astro";
+import ProjectPanel from "../components/ProjectPanel.astro";
 import ScrollServe from "../components/ScrollServe";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -28,8 +27,8 @@ const projects = (await getCollection("projects"))
           power electronics, and electromechanical systems built to produce measurable results.
         </p>
         <div class="mt-10 flex flex-wrap gap-4">
-          <a class="bg-ink px-6 py-4 technical-label text-paper transition-transform hover:-translate-y-1" href="#projects">
-            Explore the work <span class="ml-3 text-signal">↓</span>
+          <a class="bg-signal px-6 py-4 technical-label text-panel transition-transform hover:-translate-y-1 hover:bg-[#ff824f]" href="#projects">
+            Explore the work <span class="ml-3 text-panel">↓</span>
           </a>
           <a class="border border-ink/20 px-6 py-4 technical-label transition-colors hover:border-ink" href="/about">
             About Tejas
@@ -41,8 +40,6 @@ const projects = (await getCollection("projects"))
       </div>
     </div>
   </section>
-
-  <NetDivider label="First rotation" />
 
   <section class="border-b hairline bg-paper-deep">
     <div class="shell grid grid-cols-2 md:grid-cols-4">
@@ -73,12 +70,12 @@ const projects = (await getCollection("projects"))
         projects.map(({ id, data }, index) => (
           <article class:list={["project-card group", index % 2 === 1 && "md:mt-24"]} style={`--section-accent:${data.accent}`}>
             <a href={`/projects/${id}/`}>
-              <div class="relative overflow-hidden transition-transform duration-500 group-hover:-translate-y-2">
-                <ProjectVisual type={data.visual} accent={data.accent} compact />
-                <span class="absolute left-5 bottom-5 border border-ink/15 bg-paper px-3 py-2 technical-label text-ink">
-                  Case study 0{index + 1}
-                </span>
-              </div>
+              <ProjectPanel
+                title={data.shortTitle}
+                category={data.disciplines[0]}
+                accent={data.accent}
+                index={index}
+              />
               <div class="grid gap-4 border-b hairline py-6 sm:grid-cols-[1fr_auto]">
                 <div>
                   <p class="technical-label text-signal">{data.disciplines.join(" / ")}</p>
@@ -103,8 +100,6 @@ const projects = (await getCollection("projects"))
       }
     </div>
   </section>
-
-  <NetDivider label="Second rotation" />
 
   <section class="court-section court-lines bg-panel py-24 text-ink md:py-32">
     <div class="shell">
@@ -132,8 +127,6 @@ const projects = (await getCollection("projects"))
       </div>
     </div>
   </section>
-
-  <NetDivider label="Match point" />
 
   <section class="court-section shell py-20 md:py-28">
     <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
