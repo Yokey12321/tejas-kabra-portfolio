@@ -1,5 +1,6 @@
 ---
 import ProjectVisual from "../components/ProjectVisual.astro";
+import ProjectBall from "../components/ProjectBall.astro";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Metric {
@@ -24,8 +25,10 @@ const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
 ---
 
 <BaseLayout title={`${frontmatter.title} — Tejas Kabra`} description={frontmatter.summary}>
-  <article>
-    <header class="border-b hairline">
+  <article class="project-case" style={`--project-accent:${frontmatter.accent}`}>
+    <header class="project-case-hero border-b hairline">
+      <div class="project-jersey-stripes" aria-hidden="true"></div>
+      <ProjectBall accent={frontmatter.accent} />
       <div class="shell py-6">
         <a class="technical-label text-ink/45 transition-colors hover:text-signal" href="/#projects">← Selected work</a>
       </div>
@@ -58,8 +61,15 @@ const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
         ))}
       </div>
     </header>
-    <div class="case-study shell py-8 pb-24 md:pb-32">
-      <slot />
+    <div class="project-case-body">
+      <aside class="project-net-rail" aria-hidden="true">
+        <span class="project-net-post"></span>
+        <span class="project-net-mesh"></span>
+        <span class="project-net-post"></span>
+      </aside>
+      <div class="case-study shell py-8 pb-24 md:pb-32">
+        <slot />
+      </div>
     </div>
     <aside class="border-t hairline bg-paper-deep">
       <div class="shell flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">

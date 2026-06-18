@@ -1,0 +1,29 @@
+---
+interface Props {
+  accent: string;
+}
+
+const { accent } = Astro.props;
+---
+
+<svg
+  class="project-ball"
+  style={`--project-accent:${accent}`}
+  viewBox="0 0 100 100"
+  aria-hidden="true"
+>
+  <defs>
+    <clipPath id="project-ball-clip">
+      <circle cx="50" cy="50" r="46"></circle>
+    </clipPath>
+  </defs>
+  <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+  <g clip-path="url(#project-ball-clip)" fill="none" stroke-width="7">
+    <path d="M50 50C26 36 23 13 32-6" stroke="var(--project-accent)"></path>
+    <path d="M50 50C74 35 92 40 109 52" stroke="currentColor"></path>
+    <path d="M50 50C50 78 30 92 14 103" stroke="var(--project-accent)"></path>
+    <path d="M50 50C38 22 48 4 61-8" stroke="currentColor"></path>
+    <path d="M50 50C81 58 92 75 97 92" stroke="var(--project-accent)"></path>
+    <path d="M50 50C29 67 9 61-7 52" stroke="currentColor"></path>
+  </g>
+</svg>

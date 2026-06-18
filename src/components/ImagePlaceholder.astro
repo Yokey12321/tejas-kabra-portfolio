@@ -7,7 +7,9 @@ interface Props {
 const { label, note = "Replace with project photography" } = Astro.props;
 ---
 
-<figure class="image-slot wide">
+<figure class="image-slot project-photo-frame wide">
+  <span class="photo-frame-tape photo-frame-tape-left" aria-hidden="true"></span>
+  <span class="photo-frame-tape photo-frame-tape-right" aria-hidden="true"></span>
   <div class="px-6 text-center">
     <div class="mx-auto mb-5 grid h-12 w-12 place-items-center rounded-full border border-ink/20 font-mono text-lg text-signal">
       +
