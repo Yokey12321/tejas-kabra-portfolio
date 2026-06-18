@@ -8,3 +8,5 @@ dist/
 # Codex scratch and deliverable folders
 work/
 outputs/
+
+.vercel/
