@@ -1,0 +1,38 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="border-b border-ink/15">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+        <a class="font-semibold tracking-tight" href="/">Tejas Kabra</a>
+        <div class="flex gap-6 font-mono text-xs uppercase tracking-[0.15em]">
+          <a href="/#projects">Projects</a>
+          <a href="/about">About</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="mx-auto max-w-7xl border-t border-ink/15 px-6 py-8 font-mono text-xs lg:px-10">
+      Electrical engineering · Embedded systems · Hardware
+    </footer>
+  </body>
+</html>

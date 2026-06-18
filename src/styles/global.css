@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #171816;
+  --color-paper: #f2f0e9;
+  --color-panel: #e7e3d8;
+  --color-signal: #bb4d2f;
+  --color-trace: #5f6f65;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Cascadia Code", monospace;
+}
+
+:root {
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+::selection {
+  color: var(--color-paper);
+  background: var(--color-signal);
+}
+
+a {
+  color: inherit;
+}

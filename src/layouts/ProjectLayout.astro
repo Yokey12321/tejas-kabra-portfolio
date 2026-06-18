@@ -1,0 +1,30 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={`${frontmatter.title} — Tejas Kabra`} description={frontmatter.summary}>
+  <article class="mx-auto max-w-5xl px-6 py-16 lg:px-10 lg:py-24">
+    <a class="font-mono text-xs uppercase tracking-[0.15em] text-trace" href="/#projects">
+      ← All projects
+    </a>
+    <header class="mt-10 border-b border-ink/15 pb-12">
+      <p class="font-mono text-xs uppercase tracking-[0.15em] text-signal">
+        {frontmatter.disciplines.join(" · ")}
+      </p>
+      <h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.04em] lg:text-7xl">
+        {frontmatter.title}
+      </h1>
+      <p class="mt-6 max-w-3xl text-xl leading-8 text-ink/70">{frontmatter.summary}</p>
+      <dl class="mt-10 grid gap-6 border-t border-ink/15 pt-6 font-mono text-xs sm:grid-cols-3">
+        <div><dt class="text-ink/50">Role</dt><dd class="mt-2">{frontmatter.role}</dd></div>
+        <div><dt class="text-ink/50">Timeframe</dt><dd class="mt-2">{frontmatter.timeframe}</dd></div>
+        <div><dt class="text-ink/50">Status</dt><dd class="mt-2">{frontmatter.status}</dd></div>
+      </dl>
+    </header>
+    <div class="prose prose-neutral mt-12 max-w-none prose-headings:tracking-tight">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
