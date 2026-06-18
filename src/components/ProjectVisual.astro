@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: "telemetry" | "pcb" | "power" | "robotics";
+  type: "telemetry" | "pcb" | "power" | "robotics" | "drone";
   accent: string;
   compact?: boolean;
 }
@@ -62,6 +62,25 @@ const { type, accent, compact = false } = Astro.props;
           <circle cx="506" cy="199" r="8" fill={accent} />
           <path d="M80 440H720" stroke="#f2efe5" opacity=".35" />
           <text x="100" y="470" fill="#f2efe5" opacity=".55" font-size="13" font-family="monospace">BIN SELECT // ACTUATE // CONFIRM</text>
+        </>
+      )
+    }
+    {
+      type === "drone" && (
+        <>
+          <g stroke="#f2efe5" stroke-width="3" opacity=".72">
+            <path d="M400 250L225 145M400 250L575 145M400 250L225 355M400 250L575 355" />
+            <ellipse cx="225" cy="145" rx="88" ry="24" />
+            <ellipse cx="575" cy="145" rx="88" ry="24" />
+            <ellipse cx="225" cy="355" rx="88" ry="24" />
+            <ellipse cx="575" cy="355" rx="88" ry="24" />
+          </g>
+          <rect x="332" y="205" width="136" height="90" rx="18" fill={accent} fill-opacity=".16" stroke={accent} stroke-width="4" />
+          <path d="M360 295V340H440V295M352 340H448" stroke={accent} stroke-width="4" />
+          <rect x="365" y="340" width="70" height="58" rx="6" stroke="#f2efe5" stroke-width="3" />
+          <path d="M400 398V440M368 440H432" stroke={accent} stroke-width="3" stroke-dasharray="7 7" />
+          <circle cx="400" cy="250" r="12" fill={accent} />
+          <text x="70" y="465" fill="#f2efe5" opacity=".55" font-size="13" font-family="monospace">LIFT // STABILIZE // CARRY // RELEASE</text>
         </>
       )
     }

@@ -4,6 +4,7 @@ import ProjectBall from "../components/ProjectBall.astro";
 import MottoBanner from "../components/MottoBanner.astro";
 import BaseLayout from "./BaseLayout.astro";
 import connectBanner from "../assets/banners/connect.webp";
+import habitBanner from "../assets/banners/habit-second-nature.webp";
 import memoriesBanner from "../assets/banners/memories.webp";
 import oneBallBanner from "../assets/banners/one-ball-heart-soul.webp";
 import simplicityBanner from "../assets/banners/simplicity-fortitude.webp";
@@ -24,20 +25,22 @@ interface Frontmatter {
   accent: string;
   accentSecondary: string;
   themeSurface: string;
-  visual: "telemetry" | "pcb" | "power" | "robotics";
-  banner: "connect" | "simplicity-fortitude" | "one-ball-heart-soul" | "memories";
+  visual: "telemetry" | "pcb" | "power" | "robotics" | "drone";
+  banner: "connect" | "simplicity-fortitude" | "one-ball-heart-soul" | "memories" | "habit-second-nature";
   metrics: Metric[];
 }
 
 const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
 const bannerImages = {
   connect: connectBanner,
+  "habit-second-nature": habitBanner,
   "simplicity-fortitude": simplicityBanner,
   "one-ball-heart-soul": oneBallBanner,
   memories: memoriesBanner,
 };
 const bannerAlts = {
   connect: "Connect — Haikyuu team motto banner",
+  "habit-second-nature": "Habit Is Second Nature — Haikyuu team motto banner",
   "simplicity-fortitude": "Simplicity and Fortitude — Haikyuu team motto banner",
   "one-ball-heart-soul": "One Ball Heart and Soul — Haikyuu team motto banner",
   memories: "We Don't Need Memories — Haikyuu team motto banner",
@@ -64,7 +67,7 @@ const bannerAlts = {
       <div class="shell grid gap-12 pb-16 pt-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:pb-24">
         <div>
           <p class="eyebrow" style={`color:${frontmatter.accent}`}>{frontmatter.disciplines.join(" / ")}</p>
-          <h1 class="mt-7 text-[clamp(3.5rem,7vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
+          <h1 class="mt-7 text-[clamp(2.7rem,11vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.07em] [overflow-wrap:anywhere]">
             {frontmatter.title}
           </h1>
         </div>

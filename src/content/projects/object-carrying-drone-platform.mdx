@@ -1,0 +1,76 @@
+---
+title: Object-Carrying Drone Platform
+shortTitle: Object-Carrying Drone
+summary: A multirotor platform designed to pick up, stabilize, transport, and safely release a payload without compromising controllability.
+status: in-progress
+featured: true
+order: 5
+disciplines:
+  - Robotics
+  - Flight Controls
+technologies:
+  - Flight Controller
+  - Brushless Motors
+  - Embedded Control
+role: System architecture and prototyping
+timeframe: Active development
+accent: "#7ac5d3"
+accentSecondary: "#e9e59a"
+themeSurface: "#071419"
+visual: drone
+banner: habit-second-nature
+metrics:
+  - value: 6-DOF
+    label: Controlled motion
+  - value: Payload
+    label: Design variable
+  - value: Fail-safe
+    label: Release priority
+---
+
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+
+## Flight changes when the payload does
+
+Carrying an object is not simply a matter of adding enough motor thrust. Every payload changes the aircraft's mass, center of gravity, inertia, power demand, and response to control inputs. The platform has to remain predictable from pickup through transport and release.
+
+This project treats the drone, carrying mechanism, payload, and control system as one coupled machine rather than separate subsystems.
+
+<div className="data-grid">
+  <div><small>Acquire</small><b>Secure the object with a repeatable attachment</b></div>
+  <div><small>Transport</small><b>Maintain attitude under a shifted load</b></div>
+  <div><small>Release</small><b>Place the payload without destabilizing the aircraft</b></div>
+</div>
+
+## System architecture
+
+The airframe and propulsion system establish the available thrust margin. The flight controller stabilizes the vehicle while a dedicated payload mechanism handles retention and release. Power, sensing, and mechanical geometry all have to be designed around the worst-case payload rather than the unloaded drone.
+
+> The real design target is controlled payload delivery—not merely proving that the drone can lift an object.
+
+<ImagePlaceholder label="Drone system architecture" note="Add the airframe, flight controller, propulsion, payload mechanism, power system, and command link" />
+
+### Core engineering decisions
+
+- Payload mass and center-of-gravity envelope
+- Motor, propeller, and battery thrust margin
+- Attachment geometry and release mechanism
+- Vibration isolation for control electronics
+- Loss-of-signal and low-voltage behavior
+- Ground-test procedure before loaded flight
+
+<ImagePlaceholder label="Payload mechanism and airframe integration" note="Add CAD, mechanism close-ups, wiring, and the assembled drone" />
+
+## Validation plan
+
+Testing should increase risk gradually: mechanism cycling on the bench, restrained propulsion tests, unloaded hover, fixed-mass payload hover, controlled translation, and finally pickup and release trials.
+
+<div className="data-grid">
+  <div><small>Stability</small><b>Attitude error with and without payload</b></div>
+  <div><small>Endurance</small><b>Flight-time change across payload mass</b></div>
+  <div><small>Repeatability</small><b>Successful retention and release cycles</b></div>
+</div>
+
+## What I want to prove
+
+The final result should document a safe payload limit, measurable stability under load, repeatable release behavior, and the design changes revealed by flight data. Those results will turn the platform from a visual demonstration into a defensible controls and robotics project.
