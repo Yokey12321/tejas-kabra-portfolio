@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 
 export default function ScrollServe() {
@@ -9,24 +9,31 @@ export default function ScrollServe() {
     offset: ["start end", "end start"],
   });
 
-  const x = useTransform(scrollYProgress, [0.12, 0.78], ["-18vw", "102vw"]);
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 48,
+    damping: 18,
+    mass: 0.7,
+    restDelta: 0.001,
+  });
+
+  const x = useTransform(smoothProgress, [0.08, 0.88], ["-10vw", "94vw"]);
   const y = useTransform(
-    scrollYProgress,
-    [0.12, 0.42, 0.78],
-    ["7rem", "-5rem", "6rem"],
+    smoothProgress,
+    [0.08, 0.48, 0.88],
+    ["20vh", "-18vh", "20vh"],
   );
-  const rotate = useTransform(scrollYProgress, [0.12, 0.78], [0, 620]);
+  const rotate = useTransform(smoothProgress, [0.08, 0.88], [0, 720]);
   const ballOpacity = useTransform(
-    scrollYProgress,
-    [0.04, 0.12, 0.78, 0.88],
+    smoothProgress,
+    [0.02, 0.08, 0.88, 0.96],
     [0, 1, 1, 0],
   );
   const titleOpacity = useTransform(
-    scrollYProgress,
-    [0.2, 0.42, 0.72, 0.88],
+    smoothProgress,
+    [0.18, 0.38, 0.74, 0.9],
     [0, 1, 1, 0],
   );
-  const titleY = useTransform(scrollYProgress, [0.2, 0.48], [36, 0]);
+  const titleY = useTransform(smoothProgress, [0.18, 0.44], [36, 0]);
 
   return (
     <section ref={section} className="serve-transition" aria-label="Transition to selected projects">
@@ -47,21 +54,21 @@ export default function ScrollServe() {
             <svg viewBox="0 0 100 100">
               <defs>
                 <radialGradient id="serve-ball-light" cx="35%" cy="28%">
-                  <stop offset="0%" stopColor="#fffdf4" />
-                  <stop offset="78%" stopColor="#e8dfcb" />
-                  <stop offset="100%" stopColor="#ada18a" />
+                  <stop offset="0%" stopColor="#ffef57" />
+                  <stop offset="78%" stopColor="#ffd400" />
+                  <stop offset="100%" stopColor="#b99800" />
                 </radialGradient>
                 <clipPath id="serve-ball-clip">
                   <circle cx="50" cy="50" r="47" />
                 </clipPath>
               </defs>
               <circle cx="50" cy="50" r="47" fill="url(#serve-ball-light)" stroke="#09070d" strokeWidth="3" />
-              <g clipPath="url(#serve-ball-clip)" fill="none" stroke="#ff6b2c" strokeWidth="8">
+              <g clipPath="url(#serve-ball-clip)" fill="none" stroke="#1657b8" strokeWidth="10">
                 <path d="M50 50C26 36 23 13 32-6" />
                 <path d="M50 50C74 35 92 40 109 52" />
                 <path d="M50 50C50 78 30 92 14 103" />
               </g>
-              <g clipPath="url(#serve-ball-clip)" fill="none" stroke="#7c3aed" strokeWidth="5">
+              <g clipPath="url(#serve-ball-clip)" fill="none" stroke="#f7f5e9" strokeWidth="4">
                 <path d="M50 50C38 22 48 4 61-8" />
                 <path d="M50 50C81 58 92 75 97 92" />
                 <path d="M50 50C29 67 9 61-7 52" />
@@ -69,6 +76,19 @@ export default function ScrollServe() {
             </svg>
           </motion.div>
         )}
+        <div className="serve-court" aria-hidden="true">
+          <div className="serve-side serve-side-left">
+            <span className="serve-player serve-player-a"></span>
+            <span className="serve-player serve-player-b"></span>
+            <span className="serve-player serve-player-c"></span>
+          </div>
+          <div className="serve-net"></div>
+          <div className="serve-side serve-side-right">
+            <span className="serve-player serve-player-a"></span>
+            <span className="serve-player serve-player-b"></span>
+            <span className="serve-player serve-player-c"></span>
+          </div>
+        </div>
         <div className="serve-floor" aria-hidden="true"></div>
       </div>
     </section>

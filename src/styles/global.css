@@ -283,7 +283,7 @@ a {
 
 .serve-transition {
   position: relative;
-  height: 110vh;
+  height: 155vh;
   overflow: clip;
   background:
     radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent 34rem),
@@ -325,7 +325,7 @@ a {
 .serve-ball {
   position: absolute;
   left: 0;
-  top: 42%;
+  top: 48%;
   z-index: 2;
   width: clamp(4.5rem, 9vw, 8rem);
   filter: drop-shadow(0 1.5rem 1.25rem rgba(0, 0, 0, 0.48));
@@ -344,6 +344,123 @@ a {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255, 107, 44, 0.55), transparent);
   box-shadow: 0 0 2rem rgba(255, 107, 44, 0.25);
+}
+
+.serve-court {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 10%;
+  display: grid;
+  height: 31%;
+  grid-template-columns: 1fr 0.8rem 1fr;
+  perspective: 600px;
+  transform: rotateX(62deg);
+  transform-origin: bottom;
+  opacity: 0.54;
+}
+
+.serve-side {
+  position: relative;
+  border: 2px solid rgba(243, 240, 230, 0.32);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(255, 107, 44, 0.08));
+}
+
+.serve-side::after {
+  position: absolute;
+  inset-block: 0;
+  width: 1px;
+  left: 38%;
+  content: "";
+  background: rgba(243, 240, 230, 0.25);
+}
+
+.serve-net {
+  background:
+    linear-gradient(rgba(243, 240, 230, 0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 240, 230, 0.28) 1px, transparent 1px);
+  background-size: 100% 8px, 8px 100%;
+  border-inline: 2px solid rgba(243, 240, 230, 0.6);
+}
+
+.serve-player {
+  position: absolute;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid #f3f0e6;
+  border-radius: 50%;
+  background: #7c3aed;
+  box-shadow: 0 0 1rem rgba(124, 58, 237, 0.7);
+}
+
+.serve-side-right .serve-player {
+  background: #ff6b2c;
+  box-shadow: 0 0 1rem rgba(255, 107, 44, 0.55);
+}
+
+.serve-player-a { left: 22%; top: 28%; }
+.serve-player-b { left: 58%; top: 58%; }
+.serve-player-c { left: 72%; top: 18%; }
+
+.hero-court {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(124, 58, 237, 0.18), transparent 42%),
+    linear-gradient(160deg, #0d0913, #050407);
+}
+
+.hero-court-copy {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1.5rem, 4vw, 3rem);
+  top: clamp(1.5rem, 5vw, 3.75rem);
+}
+
+.hero-court-copy span {
+  color: rgba(243, 240, 230, 0.4);
+}
+
+.hero-court-copy strong {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2.65rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.hero-court-svg {
+  width: 100%;
+  max-height: 72%;
+  margin-top: 2.5rem;
+}
+
+.hero-court-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-top: 1rem;
+  color: rgba(243, 240, 230, 0.42);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-court-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hero-court-legend i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
 }
 
 .net-divider {

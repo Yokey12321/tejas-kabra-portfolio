@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import NetDivider from "../components/NetDivider.astro";
+import HeroCourt from "../components/HeroCourt";
 import ProjectVisual from "../components/ProjectVisual.astro";
 import ScrollServe from "../components/ScrollServe";
-import SignalTrace from "../components/SignalTrace";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = (await getCollection("projects"))
@@ -37,21 +37,7 @@ const projects = (await getCollection("projects"))
         </div>
       </div>
       <div class="relative min-h-[30rem] border-t hairline bg-panel text-ink lg:min-h-0 lg:border-l lg:border-t-0">
-        <SignalTrace client:load />
-        <div class="scoreboard absolute inset-x-6 bottom-6 z-10 grid grid-cols-3 backdrop-blur md:inset-x-10 md:bottom-10">
-          <div class="p-4 md:p-5">
-            <span class="technical-label text-ink/35">Receive</span>
-            <strong class="score-digit mt-2 block text-sm">Define</strong>
-          </div>
-          <div class="border-x border-ink/15 p-4 md:p-5">
-            <span class="technical-label text-ink/35">Set</span>
-            <strong class="score-digit mt-2 block text-sm">Design</strong>
-          </div>
-          <div class="p-4 md:p-5">
-            <span class="technical-label text-ink/35">Attack</span>
-            <strong class="score-digit mt-2 block text-sm">Validate</strong>
-          </div>
-        </div>
+        <HeroCourt client:load />
       </div>
     </div>
   </section>
