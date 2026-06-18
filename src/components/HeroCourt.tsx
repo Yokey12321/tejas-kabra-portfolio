@@ -1,12 +1,12 @@
 import { motion, useReducedMotion } from "motion/react";
 
 const positions = [
-  { x: 21, y: 27, label: "4" },
-  { x: 21, y: 50, label: "3" },
-  { x: 21, y: 73, label: "2" },
-  { x: 40, y: 27, label: "5" },
-  { x: 40, y: 50, label: "6" },
-  { x: 40, y: 73, label: "1" },
+  { x: 21, y: 27 },
+  { x: 21, y: 50 },
+  { x: 21, y: 73 },
+  { x: 40, y: 27 },
+  { x: 40, y: 50 },
+  { x: 40, y: 73 },
 ];
 
 export default function HeroCourt() {
@@ -34,7 +34,7 @@ export default function HeroCourt() {
         <path d="M48.7 11V89M51.3 11V89" stroke="#f3f0e6" strokeOpacity=".8" strokeWidth=".42" />
         <path d="M47.8 14V86M52.2 14V86" stroke="#ff6b2c" strokeOpacity=".5" strokeWidth=".25" />
         {positions.map((position, index) => (
-          <g key={position.label}>
+          <g key={`${position.x}-${position.y}`}>
             <motion.circle
               cx={position.x}
               cy={position.y}
@@ -44,11 +44,8 @@ export default function HeroCourt() {
               strokeWidth=".65"
               initial={reduceMotion ? undefined : { scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2 + index * 0.08, type: "spring", stiffness: 220 }}
+              transition={{ delay: 0.35 + index * 0.12, type: "spring", stiffness: 150, damping: 16 }}
             />
-            <text x={position.x} y={position.y + 1.2} textAnchor="middle" fill="#fff" fontSize="3.1" fontFamily="monospace">
-              {position.label}
-            </text>
           </g>
         ))}
         <motion.path
@@ -60,12 +57,12 @@ export default function HeroCourt() {
           filter="url(#court-glow)"
           initial={reduceMotion ? undefined : { pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.9 }}
-          transition={{ duration: 1.2, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.8, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
         />
         <motion.g
           initial={reduceMotion ? undefined : { x: -10, y: 16, opacity: 0 }}
           animate={{ x: 0, y: 0, opacity: 1 }}
-          transition={{ duration: 1.15, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.6, delay: 1.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <circle cx="81" cy="28" r="4.2" fill="#ffd400" stroke="#f3f0e6" strokeWidth=".55" />
           <path d="M77.4 26.2C80 27.2 82.1 25.1 84.5 23.9M78.2 31.1C79.4 28.8 78.8 27 77.4 25.5M82.8 31.3C81.2 29.5 81.7 27.4 84.8 25.9" fill="none" stroke="#1657b8" strokeWidth="1.35" />

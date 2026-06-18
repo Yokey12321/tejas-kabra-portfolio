@@ -283,7 +283,7 @@ a {
 
 .serve-transition {
   position: relative;
-  height: 155vh;
+  height: min(1200px, 125vh);
   overflow: clip;
   background:
     radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent 34rem),
@@ -291,10 +291,10 @@ a {
 }
 
 .serve-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
   display: grid;
-  height: 100vh;
+  height: 100%;
+  min-height: 44rem;
   place-items: center;
   overflow: hidden;
 }

@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
 export default function ScrollServe() {
@@ -9,31 +9,24 @@ export default function ScrollServe() {
     offset: ["start end", "end start"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 48,
-    damping: 18,
-    mass: 0.7,
-    restDelta: 0.001,
-  });
-
-  const x = useTransform(smoothProgress, [0.08, 0.88], ["-10vw", "94vw"]);
+  const x = useTransform(scrollYProgress, [0.06, 0.94], ["-12vw", "96vw"]);
   const y = useTransform(
-    smoothProgress,
-    [0.08, 0.48, 0.88],
-    ["20vh", "-18vh", "20vh"],
+    scrollYProgress,
+    [0.06, 0.5, 0.94],
+    ["18rem", "-7rem", "18rem"],
   );
-  const rotate = useTransform(smoothProgress, [0.08, 0.88], [0, 720]);
+  const rotate = useTransform(scrollYProgress, [0.06, 0.94], [0, 680]);
   const ballOpacity = useTransform(
-    smoothProgress,
-    [0.02, 0.08, 0.88, 0.96],
+    scrollYProgress,
+    [0, 0.07, 0.93, 1],
     [0, 1, 1, 0],
   );
   const titleOpacity = useTransform(
-    smoothProgress,
-    [0.18, 0.38, 0.74, 0.9],
+    scrollYProgress,
+    [0.1, 0.3, 0.72, 0.92],
     [0, 1, 1, 0],
   );
-  const titleY = useTransform(smoothProgress, [0.18, 0.44], [36, 0]);
+  const titleY = useTransform(scrollYProgress, [0.1, 0.36], [36, 0]);
 
   return (
     <section ref={section} className="serve-transition" aria-label="Transition to selected projects">
