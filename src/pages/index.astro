@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import NetDivider from "../components/NetDivider.astro";
 import ProjectVisual from "../components/ProjectVisual.astro";
 import SignalTrace from "../components/SignalTrace";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -13,7 +14,7 @@ const projects = (await getCollection("projects"))
   title="Tejas Kabra — Electrical Engineering"
   description="Electrical engineering portfolio focused on embedded systems, PCB design, CAN, telemetry, power electronics, and robotics."
 >
-  <section class="relative overflow-hidden border-b hairline">
+  <section class="court-section court-lines relative overflow-hidden border-b hairline">
     <div class="shell grid min-h-[calc(100vh-5rem)] items-stretch lg:grid-cols-[1.08fr_0.92fr]">
       <div class="relative z-10 flex flex-col justify-center py-20 lg:py-28 lg:pr-16">
         <p class="eyebrow text-signal">Electrical Engineering // Texas A&amp;M</p>
@@ -34,25 +35,27 @@ const projects = (await getCollection("projects"))
           </a>
         </div>
       </div>
-      <div class="relative min-h-[30rem] border-t hairline bg-panel text-paper lg:min-h-0 lg:border-l lg:border-t-0">
+      <div class="relative min-h-[30rem] border-t hairline bg-panel text-ink lg:min-h-0 lg:border-l lg:border-t-0">
         <SignalTrace client:load />
-        <div class="absolute inset-x-6 bottom-6 z-10 grid grid-cols-3 border border-paper/15 bg-panel/75 backdrop-blur md:inset-x-10 md:bottom-10">
+        <div class="scoreboard absolute inset-x-6 bottom-6 z-10 grid grid-cols-3 backdrop-blur md:inset-x-10 md:bottom-10">
           <div class="p-4 md:p-5">
-            <span class="technical-label text-paper/35">Focus 01</span>
-            <strong class="mt-2 block text-sm">Embedded</strong>
+            <span class="technical-label text-ink/35">Receive</span>
+            <strong class="score-digit mt-2 block text-sm">Define</strong>
           </div>
-          <div class="border-x border-paper/15 p-4 md:p-5">
-            <span class="technical-label text-paper/35">Focus 02</span>
-            <strong class="mt-2 block text-sm">Hardware</strong>
+          <div class="border-x border-ink/15 p-4 md:p-5">
+            <span class="technical-label text-ink/35">Set</span>
+            <strong class="score-digit mt-2 block text-sm">Design</strong>
           </div>
           <div class="p-4 md:p-5">
-            <span class="technical-label text-paper/35">Focus 03</span>
-            <strong class="mt-2 block text-sm">Validation</strong>
+            <span class="technical-label text-ink/35">Attack</span>
+            <strong class="score-digit mt-2 block text-sm">Validate</strong>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <NetDivider label="First rotation" />
 
   <section class="border-b hairline bg-paper-deep">
     <div class="shell grid grid-cols-2 md:grid-cols-4">
@@ -65,7 +68,7 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
-  <section id="projects" class="shell py-24 md:py-32">
+  <section id="projects" class="court-section shell py-24 md:py-32">
     <div class="grid gap-8 border-b hairline pb-8 md:grid-cols-[1fr_auto] md:items-end">
       <div>
         <p class="eyebrow text-signal">Selected case studies</p>
@@ -79,11 +82,11 @@ const projects = (await getCollection("projects"))
     <div class="mt-12 grid gap-x-5 gap-y-16 md:grid-cols-2">
       {
         projects.map(({ id, data }, index) => (
-          <article class:list={["group", index % 2 === 1 && "md:mt-24"]}>
+          <article class:list={["project-card group", index % 2 === 1 && "md:mt-24"]} style={`--section-accent:${data.accent}`}>
             <a href={`/projects/${id}/`}>
               <div class="relative overflow-hidden transition-transform duration-500 group-hover:-translate-y-2">
                 <ProjectVisual type={data.visual} accent={data.accent} compact />
-                <span class="absolute left-5 bottom-5 bg-paper px-3 py-2 technical-label text-ink">
+                <span class="absolute left-5 bottom-5 border border-ink/15 bg-paper px-3 py-2 technical-label text-ink">
                   Case study 0{index + 1}
                 </span>
               </div>
@@ -99,8 +102,8 @@ const projects = (await getCollection("projects"))
               <p class="mt-4 max-w-xl leading-7 text-ink/60">{data.summary}</p>
               <div class="mt-6 grid grid-cols-3 gap-px bg-ink/15">
                 {data.metrics.map((metric) => (
-                  <div class="bg-paper p-3">
-                    <strong class="block text-sm">{metric.value}</strong>
+                  <div class="scoreboard p-3">
+                    <strong class="score-digit block text-sm">{metric.value}</strong>
                     <span class="technical-label mt-1 block text-ink/40">{metric.label}</span>
                   </div>
                 ))}
@@ -112,7 +115,9 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
-  <section class="bg-ink py-24 text-paper md:py-32">
+  <NetDivider label="Second rotation" />
+
+  <section class="court-section court-lines bg-panel py-24 text-ink md:py-32">
     <div class="shell">
       <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
         <div>
@@ -121,17 +126,17 @@ const projects = (await getCollection("projects"))
             The bench is where assumptions go to get tested.
           </h2>
         </div>
-        <ol class="grid border-l border-t border-paper/15 md:grid-cols-2">
+        <ol class="grid border-l border-t border-ink/15 md:grid-cols-2">
           {[
-            ["01", "Define", "Turn the real operating environment into electrical, timing, thermal, and interface requirements."],
-            ["02", "Architect", "Partition hardware, firmware, communications, and power around explicit failure modes."],
-            ["03", "Instrument", "Design test points, logs, and observability into the system before the first prototype."],
-            ["04", "Iterate", "Use measurements and failure evidence to drive the next revision—not intuition alone."],
+            ["01 / Receive", "Define", "Read the environment: electrical, timing, thermal, mechanical, and interface constraints."],
+            ["02 / Set", "Architect", "Put each function in position across hardware, firmware, communications, and power."],
+            ["03 / Attack", "Instrument", "Commit to a design with test points, logs, and observability built in."],
+            ["04 / Cover", "Iterate", "Stay with the play: use failure evidence and measurements to improve the next revision."],
           ].map(([number, title, body]) => (
-            <li class="min-h-56 border-b border-r border-paper/15 p-7">
+            <li class="min-h-56 border-b border-r border-ink/15 p-7">
               <span class="technical-label text-signal">{number}</span>
               <h3 class="mt-10 text-2xl font-semibold">{title}</h3>
-              <p class="mt-4 text-sm leading-7 text-paper/55">{body}</p>
+              <p class="mt-4 text-sm leading-7 text-ink/55">{body}</p>
             </li>
           ))}
         </ol>
@@ -139,7 +144,9 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
-  <section class="shell py-20 md:py-28">
+  <NetDivider label="Match point" />
+
+  <section class="court-section shell py-20 md:py-28">
     <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
       <blockquote class="text-4xl font-semibold leading-[1.08] tracking-[-0.045em] md:text-6xl">
         “Good engineering is a chain of decisions you can explain.”

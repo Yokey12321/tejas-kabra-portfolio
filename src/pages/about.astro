@@ -22,17 +22,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <section class="border-y hairline bg-ink text-paper">
+  <section class="scoreboard border-y hairline text-ink">
     <div class="shell grid md:grid-cols-3">
       {[
         ["Current", "B.S. Electrical Engineering", "Texas A&M University"],
         ["Seeking", "Fall 2026 Co-op", "Embedded / Hardware / Systems"],
         ["Based", "College Station, Texas", "Open to relocation"],
       ].map(([label, value, detail]) => (
-        <div class="border-b border-paper/15 p-7 md:min-h-48 md:border-b-0 md:border-r md:last:border-r-0">
+        <div class="border-b border-ink/15 p-7 md:min-h-48 md:border-b-0 md:border-r md:last:border-r-0">
           <span class="technical-label text-signal">{label}</span>
-          <strong class="mt-12 block text-2xl">{value}</strong>
-          <span class="mt-2 block text-sm text-paper/45">{detail}</span>
+          <strong class="score-digit mt-12 block text-2xl">{value}</strong>
+          <span class="mt-2 block text-sm text-ink/45">{detail}</span>
         </div>
       ))}
     </div>

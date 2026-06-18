@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Volleyball from "../components/Volleyball";
 
 interface Props {
   title: string;
@@ -16,7 +17,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f2efe5" />
+    <meta name="theme-color" content="#111510" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -28,10 +29,11 @@ const currentPath = Astro.url.pathname;
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
       Skip to content
     </a>
-    <header class="relative z-40 border-b hairline bg-paper/90 backdrop-blur-md">
+    <Volleyball client:load />
+    <header class="relative z-40 border-b hairline bg-paper/80 backdrop-blur-md">
       <nav class="shell flex h-20 items-center justify-between">
         <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
-          <span class="grid h-8 w-8 place-items-center bg-ink font-mono text-xs font-bold text-signal">TK</span>
+          <span class="grid h-8 w-8 place-items-center border border-ink/20 bg-panel font-mono text-xs font-bold text-signal">TK</span>
           <span>
             <strong class="block text-sm leading-none tracking-tight">Tejas Kabra</strong>
             <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
@@ -44,7 +46,7 @@ const currentPath = Astro.url.pathname;
           <a class:list={["technical-label transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
             About
           </a>
-          <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-paper sm:block" href="https://github.com/Yokey12321">
+          <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
             Contact
           </a>
         </div>
@@ -53,7 +55,7 @@ const currentPath = Astro.url.pathname;
     <main id="main">
       <slot />
     </main>
-    <footer class="bg-ink text-paper">
+    <footer class="border-t border-ink/10 bg-panel text-ink">
       <div class="shell grid gap-10 py-12 md:grid-cols-2 md:items-end">
         <div>
           <span class="eyebrow text-signal">Build something real</span>
@@ -65,11 +67,11 @@ const currentPath = Astro.url.pathname;
           <a class="text-lg underline decoration-signal decoration-2 underline-offset-8" href="https://github.com/Yokey12321">
             github.com/Yokey12321
           </a>
-          <p class="technical-label mt-6 text-paper/40">Texas A&amp;M University // College Station, TX</p>
+          <p class="technical-label mt-6 text-ink/40">Texas A&amp;M University // College Station, TX</p>
         </div>
       </div>
-      <div class="border-t border-paper/10">
-        <div class="shell flex flex-col gap-3 py-5 technical-label text-paper/40 sm:flex-row sm:justify-between">
+      <div class="border-t border-ink/10">
+        <div class="shell flex flex-col gap-3 py-5 technical-label text-ink/40 sm:flex-row sm:justify-between">
           <span>Designed around evidence, not buzzwords.</span>
           <span>© {new Date().getFullYear()} Tejas Kabra</span>
         </div>

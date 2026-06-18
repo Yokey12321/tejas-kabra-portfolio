@@ -1,0 +1,15 @@
+---
+interface Props {
+  label?: string;
+  light?: boolean;
+}
+
+const { label = "Rotation", light = false } = Astro.props;
+---
+
+<div class:list={["net-divider", light && "net-divider-light"]} aria-hidden="true">
+  <span class="net-post"></span>
+  <span class="net-grid"></span>
+  <span class="net-post"></span>
+  <span class="net-label technical-label">{label}</span>
+</div>

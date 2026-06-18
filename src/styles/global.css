@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #171914;
-  --color-paper: #f2efe5;
-  --color-paper-deep: #e5e0d2;
-  --color-panel: #20231f;
-  --color-signal: #e5663a;
+  --color-ink: #f3f0e6;
+  --color-paper: #111510;
+  --color-paper-deep: #181d18;
+  --color-panel: #090c09;
+  --color-signal: #ee7042;
   --color-copper: #b87944;
-  --color-trace: #68766c;
+  --color-trace: #839388;
   --font-sans: "Aptos", "Segoe UI Variable", "Segoe UI", sans-serif;
   --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 }
@@ -34,8 +34,9 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   background:
-    linear-gradient(rgba(23, 25, 20, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 25, 20, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 18% 10%, rgba(238, 112, 66, 0.08), transparent 24rem),
+    linear-gradient(rgba(243, 240, 230, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 240, 230, 0.025) 1px, transparent 1px),
     var(--color-paper);
   background-size: 32px 32px;
 }
@@ -91,7 +92,7 @@ a {
 }
 
 .hairline {
-  border-color: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  border-color: color-mix(in srgb, var(--color-ink) 14%, transparent);
 }
 
 .project-visual {
@@ -99,7 +100,7 @@ a {
   min-height: 18rem;
   overflow: hidden;
   isolation: isolate;
-  background: var(--project-bg, #252924);
+  background: var(--project-bg, #090c09);
 }
 
 .project-visual::before {
@@ -137,7 +138,7 @@ a {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
   background:
-    linear-gradient(135deg, transparent 49.8%, rgba(23, 25, 20, 0.08) 50%, transparent 50.2%),
+    linear-gradient(135deg, transparent 49.8%, rgba(243, 240, 230, 0.08) 50%, transparent 50.2%),
     var(--color-paper-deep);
 }
 
@@ -231,16 +232,129 @@ a {
   display: grid;
   max-width: 72rem;
   margin-block: 2.5rem;
-  border-top: 1px solid rgba(23, 25, 20, 0.18);
-  border-left: 1px solid rgba(23, 25, 20, 0.18);
+  border-top: 1px solid rgba(243, 240, 230, 0.16);
+  border-left: 1px solid rgba(243, 240, 230, 0.16);
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .case-study .data-grid > div {
   min-height: 9rem;
   padding: 1.25rem;
-  border-right: 1px solid rgba(23, 25, 20, 0.18);
-  border-bottom: 1px solid rgba(23, 25, 20, 0.18);
+  border-right: 1px solid rgba(243, 240, 230, 0.16);
+  border-bottom: 1px solid rgba(243, 240, 230, 0.16);
+}
+
+.court-section {
+  --section-accent: var(--color-signal);
+  --section-surface: var(--color-paper);
+  --section-ink: var(--color-ink);
+  color: var(--section-ink);
+  background: var(--section-surface);
+}
+
+.court-lines {
+  position: relative;
+}
+
+.court-lines::before {
+  position: absolute;
+  inset: 1.25rem;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  border-block-width: 2px;
+}
+
+.court-lines::after {
+  position: absolute;
+  width: 1px;
+  inset-block: 1.25rem;
+  left: 50%;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.scoreboard {
+  border: 1px solid rgba(243, 240, 230, 0.18);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, rgba(243, 240, 230, 0.02) 3px 4px),
+    #080b08;
+  box-shadow: inset 0 0 3rem rgba(0, 0, 0, 0.45);
+}
+
+.score-digit {
+  color: var(--section-accent, var(--color-signal));
+  font-family: var(--font-mono);
+  text-shadow: 0 0 1rem color-mix(in srgb, var(--section-accent, var(--color-signal)) 55%, transparent);
+}
+
+.net-divider {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 4.5rem;
+  grid-template-columns: 8px 1fr 8px;
+  align-items: stretch;
+  overflow: hidden;
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+.net-grid {
+  opacity: 0.28;
+  background-image:
+    linear-gradient(currentColor 1px, transparent 1px),
+    linear-gradient(90deg, currentColor 1px, transparent 1px);
+  background-size: 22px 14px;
+  border-block: 3px solid currentColor;
+}
+
+.net-post {
+  background: currentColor;
+}
+
+.net-label {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  padding: 0.35rem 0.6rem;
+  transform: translateY(-50%);
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.net-divider-light {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.net-divider-light .net-label {
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+.ball-shadow {
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.45), transparent 68%);
+  filter: blur(5px);
+}
+
+.project-card {
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-1rem) rotate(-0.35deg);
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.35);
+}
+
+.project-card:nth-child(even):hover {
+  transform: translateY(-1rem) rotate(0.35deg);
 }
 
 .case-study .data-grid small {

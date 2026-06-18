@@ -51,8 +51,8 @@ const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
       </div>
       <div class="shell grid grid-cols-3 border-x border-b hairline">
         {frontmatter.metrics.map((metric) => (
-          <div class="min-h-32 border-r p-5 hairline last:border-r-0 md:p-7">
-            <strong class="block text-xl font-semibold md:text-3xl">{metric.value}</strong>
+          <div class="scoreboard min-h-32 border-r p-5 hairline last:border-r-0 md:p-7" style={`--section-accent:${frontmatter.accent}`}>
+            <strong class="score-digit block text-xl font-semibold md:text-3xl">{metric.value}</strong>
             <span class="technical-label mt-3 block text-ink/45">{metric.label}</span>
           </div>
         ))}
