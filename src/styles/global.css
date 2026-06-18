@@ -283,28 +283,30 @@ a {
 
 .serve-transition {
   position: relative;
-  height: min(1200px, 125vh);
+  height: min(1000px, 110vh);
+  min-height: 44rem;
   overflow: clip;
   background:
     radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent 34rem),
     #050407;
-}
-
-.serve-sticky {
-  position: relative;
-  display: grid;
-  height: 100%;
-  min-height: 44rem;
-  place-items: center;
-  overflow: hidden;
+  view-timeline-name: --serve-section;
+  view-timeline-axis: block;
 }
 
 .serve-message {
+  position: absolute;
+  inset: 0;
   z-index: 1;
   display: grid;
+  align-content: center;
+  justify-items: center;
   max-width: 68rem;
+  margin-inline: auto;
   padding-inline: 1.5rem;
   text-align: center;
+  animation: serve-copy linear both;
+  animation-timeline: --serve-section;
+  animation-range: entry 12% exit 88%;
 }
 
 .serve-message span {
@@ -324,11 +326,15 @@ a {
 
 .serve-ball {
   position: absolute;
-  left: 0;
-  top: 48%;
+  left: -10rem;
+  top: 56%;
   z-index: 2;
   width: clamp(4.5rem, 9vw, 8rem);
   filter: drop-shadow(0 1.5rem 1.25rem rgba(0, 0, 0, 0.48));
+  will-change: transform, opacity;
+  animation: court-pass linear both;
+  animation-timeline: --serve-section;
+  animation-range: entry 5% exit 95%;
 }
 
 .serve-ball svg {
@@ -344,6 +350,42 @@ a {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255, 107, 44, 0.55), transparent);
   box-shadow: 0 0 2rem rgba(255, 107, 44, 0.25);
+}
+
+@keyframes court-pass {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8rem, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(calc(50vw + 2rem), -11rem, 0) rotate(340deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 10rem), 8rem, 0) rotate(680deg);
+  }
+}
+
+@keyframes serve-copy {
+  0%,
+  10%,
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  30%,
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .serve-court {
@@ -437,6 +479,57 @@ a {
   width: 100%;
   max-height: 72%;
   margin-top: 2.5rem;
+}
+
+.hero-court-player {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: player-in 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(450ms + var(--player-delay));
+}
+
+.hero-court-path {
+  opacity: 0;
+  animation: path-in 1.4s ease-out 1.2s forwards;
+}
+
+.hero-court-ball {
+  opacity: 0;
+  animation: ball-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 1.85s forwards;
+}
+
+@keyframes player-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes path-in {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 24;
+  }
+  to {
+    opacity: 0.9;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ball-in {
+  from {
+    opacity: 0;
+    transform: translate(-8px, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
 
 .hero-court-legend {
@@ -754,5 +847,31 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .serve-ball,
+  .serve-message,
+  .hero-court-player,
+  .hero-court-path,
+  .hero-court-ball {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .serve-ball {
+    left: 50%;
+    top: 38%;
+    opacity: 1;
+    transform: translateX(-50%);
+    animation: none;
+  }
+
+  .serve-message {
+    opacity: 1;
+    transform: none;
+    animation: none;
   }
 }

@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import HeroCourt from "../components/HeroCourt";
+import HeroCourt from "../components/HeroCourt.astro";
 import ProjectPanel from "../components/ProjectPanel.astro";
-import ScrollServe from "../components/ScrollServe";
+import ScrollServe from "../components/ScrollServe.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = (await getCollection("projects"))
@@ -36,7 +36,7 @@ const projects = (await getCollection("projects"))
         </div>
       </div>
       <div class="relative min-h-[30rem] border-t hairline bg-panel text-ink lg:min-h-0 lg:border-l lg:border-t-0">
-        <HeroCourt client:load />
+        <HeroCourt />
       </div>
     </div>
   </section>
@@ -52,7 +52,7 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
-  <ScrollServe client:load />
+  <ScrollServe />
 
   <section id="projects" class="court-section shell py-24 md:py-32">
     <div class="grid gap-8 border-b hairline pb-8 md:grid-cols-[1fr_auto] md:items-end">
@@ -112,10 +112,10 @@ const projects = (await getCollection("projects"))
         </div>
         <ol class="grid border-l border-t border-ink/15 md:grid-cols-2">
           {[
-            ["01 / Receive", "Define", "Read the environment: electrical, timing, thermal, mechanical, and interface constraints."],
-            ["02 / Set", "Architect", "Put each function in position across hardware, firmware, communications, and power."],
-            ["03 / Attack", "Instrument", "Commit to a design with test points, logs, and observability built in."],
-            ["04 / Cover", "Iterate", "Stay with the play: use failure evidence and measurements to improve the next revision."],
+            ["01", "Define", "Translate the operating environment into electrical, timing, thermal, mechanical, and interface constraints."],
+            ["02", "Architect", "Partition each function across hardware, firmware, communications, and power."],
+            ["03", "Instrument", "Build in test points, logs, and observability before the first prototype."],
+            ["04", "Iterate", "Use failure evidence and measurements to improve the next revision."],
           ].map(([number, title, body]) => (
             <li class="min-h-56 border-b border-r border-ink/15 p-7">
               <span class="technical-label text-signal">{number}</span>
