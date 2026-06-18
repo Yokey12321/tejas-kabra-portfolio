@@ -4,8 +4,8 @@ import ProjectBall from "../components/ProjectBall.astro";
 import MottoBanner from "../components/MottoBanner.astro";
 import BaseLayout from "./BaseLayout.astro";
 import connectBanner from "../assets/banners/connect.webp";
-import forceBanner from "../assets/banners/irresistible-force.webp";
 import memoriesBanner from "../assets/banners/memories.webp";
+import oneBallBanner from "../assets/banners/one-ball-heart-soul.webp";
 import simplicityBanner from "../assets/banners/simplicity-fortitude.webp";
 
 interface Metric {
@@ -22,8 +22,10 @@ interface Frontmatter {
   status: string;
   technologies: string[];
   accent: string;
+  accentSecondary: string;
+  themeSurface: string;
   visual: "telemetry" | "pcb" | "power" | "robotics";
-  banner: "connect" | "simplicity-fortitude" | "irresistible-force" | "memories";
+  banner: "connect" | "simplicity-fortitude" | "one-ball-heart-soul" | "memories";
   metrics: Metric[];
 }
 
@@ -31,19 +33,22 @@ const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
 const bannerImages = {
   connect: connectBanner,
   "simplicity-fortitude": simplicityBanner,
-  "irresistible-force": forceBanner,
+  "one-ball-heart-soul": oneBallBanner,
   memories: memoriesBanner,
 };
 const bannerAlts = {
   connect: "Connect — Haikyuu team motto banner",
   "simplicity-fortitude": "Simplicity and Fortitude — Haikyuu team motto banner",
-  "irresistible-force": "Irresistible Force — Haikyuu team motto banner",
+  "one-ball-heart-soul": "One Ball Heart and Soul — Haikyuu team motto banner",
   memories: "We Don't Need Memories — Haikyuu team motto banner",
 };
 ---
 
 <BaseLayout title={`${frontmatter.title} — Tejas Kabra`} description={frontmatter.summary}>
-  <article class="project-case" style={`--project-accent:${frontmatter.accent}`}>
+  <article
+    class="project-case"
+    style={`--project-accent:${frontmatter.accent};--project-accent-secondary:${frontmatter.accentSecondary};--project-surface:${frontmatter.themeSurface}`}
+  >
     <MottoBanner
       image={bannerImages[frontmatter.banner]}
       alt={bannerAlts[frontmatter.banner]}

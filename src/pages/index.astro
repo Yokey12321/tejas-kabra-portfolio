@@ -78,6 +78,8 @@ const projects = (await getCollection("projects"))
                 title={data.shortTitle}
                 category={data.disciplines[0]}
                 accent={data.accent}
+                accentSecondary={data.accentSecondary}
+                surface={data.themeSurface}
                 index={index}
               />
               <div class="grid gap-4 border-b hairline py-6 sm:grid-cols-[1fr_auto]">

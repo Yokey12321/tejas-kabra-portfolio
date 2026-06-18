@@ -3,13 +3,18 @@ interface Props {
   title: string;
   category: string;
   accent: string;
+  accentSecondary?: string;
+  surface?: string;
   index: number;
 }
 
-const { title, category, accent, index } = Astro.props;
+const { title, category, accent, accentSecondary = accent, surface = "#050407", index } = Astro.props;
 ---
 
-<div class="project-panel" style={`--team-accent:${accent}`}>
+<div
+  class="project-panel"
+  style={`--team-accent:${accent};--team-accent-secondary:${accentSecondary};--team-surface:${surface}`}
+>
   <div class="project-panel-stripes" aria-hidden="true"></div>
   <div class="project-panel-top">
     <span class="technical-label">Featured project</span>

@@ -691,7 +691,8 @@ a {
   border: 1px solid rgba(243, 240, 230, 0.16);
   background:
     radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--team-accent) 24%, transparent), transparent 16rem),
-    linear-gradient(150deg, color-mix(in srgb, var(--team-accent) 9%, #0b0910), #050407 62%);
+    radial-gradient(circle at 12% 86%, color-mix(in srgb, var(--team-accent-secondary) 12%, transparent), transparent 18rem),
+    linear-gradient(150deg, color-mix(in srgb, var(--team-accent) 9%, var(--team-surface)), var(--team-surface) 62%);
   isolation: isolate;
 }
 
@@ -718,7 +719,7 @@ a {
       90deg,
       var(--team-accent) 0 24%,
       transparent 24% 36%,
-      var(--team-accent) 36% 48%,
+      var(--team-accent-secondary) 36% 48%,
       transparent 48% 100%
     );
 }
@@ -747,7 +748,7 @@ a {
   overflow: hidden;
   background:
     linear-gradient(to top, rgba(5, 4, 7, 0.92), transparent 52%),
-    color-mix(in srgb, var(--team-accent) 8%, #0d0a12);
+    color-mix(in srgb, var(--team-accent) 8%, var(--team-surface));
 }
 
 .project-panel-placeholder {
@@ -872,7 +873,8 @@ a {
   overflow: clip;
   background:
     radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--project-accent) 10%, transparent), transparent 28rem),
-    var(--color-paper);
+    radial-gradient(circle at 10% 58%, color-mix(in srgb, var(--project-accent-secondary) 5%, transparent), transparent 35rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--project-surface) 78%, var(--color-paper)), var(--color-paper) 42rem);
 }
 
 .project-case h1 {
@@ -881,7 +883,7 @@ a {
 
 .project-return-button {
   color: #09070d;
-  background: var(--project-accent, var(--color-signal));
+  background: linear-gradient(135deg, var(--project-accent), var(--project-accent-secondary));
   box-shadow: 0 0 1.5rem color-mix(in srgb, var(--project-accent, var(--color-signal)) 18%, transparent);
 }
 
@@ -908,7 +910,7 @@ a {
       90deg,
       var(--project-accent) 0 26%,
       transparent 26% 38%,
-      var(--project-accent) 38% 48%,
+      var(--project-accent-secondary) 38% 48%,
       transparent 48% 100%
     );
 }
@@ -982,7 +984,9 @@ a {
 
 .project-case .case-study blockquote {
   border-color: var(--project-accent);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 9%, transparent), transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 9%, transparent), transparent),
+    color-mix(in srgb, var(--project-surface) 70%, transparent);
 }
 
 .project-case .case-study .data-grid {
@@ -992,7 +996,9 @@ a {
 .project-case .case-study .data-grid > div {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(145deg, color-mix(in srgb, var(--project-accent) 5%, transparent), transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--project-accent) 7%, transparent), transparent),
+    color-mix(in srgb, var(--project-surface) 65%, transparent);
 }
 
 .project-case .case-study .data-grid > div::after {
@@ -1010,8 +1016,8 @@ a {
 .project-photo-frame {
   border-color: color-mix(in srgb, var(--project-accent) 35%, rgba(243, 240, 230, 0.16));
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--project-accent) 7%, transparent), transparent),
-    var(--color-paper-deep);
+    linear-gradient(145deg, color-mix(in srgb, var(--project-accent) 9%, transparent), transparent),
+    color-mix(in srgb, var(--project-surface) 85%, var(--color-paper-deep));
 }
 
 .photo-frame-tape {

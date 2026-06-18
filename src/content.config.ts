@@ -17,8 +17,10 @@ const projects = defineCollection({
       role: z.string(),
       timeframe: z.string(),
       accent: z.string(),
+      accentSecondary: z.string(),
+      themeSurface: z.string(),
       visual: z.enum(["telemetry", "pcb", "power", "robotics"]),
-      banner: z.enum(["connect", "simplicity-fortitude", "irresistible-force", "memories"]),
+      banner: z.enum(["connect", "simplicity-fortitude", "one-ball-heart-soul", "memories"]),
       metrics: z.array(
         z.object({
           value: z.string(),

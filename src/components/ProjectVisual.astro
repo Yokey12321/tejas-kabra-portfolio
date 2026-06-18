@@ -10,7 +10,7 @@ const { type, accent, compact = false } = Astro.props;
 
 <div
   class:list={["project-visual text-ink", compact ? "min-h-64" : "min-h-[28rem]"]}
-  style={`--project-accent:${accent}`}
+  style={`--project-accent:${accent};--project-bg:var(--project-surface,#090c09)`}
   aria-hidden="true"
 >
   <svg class="absolute inset-0 h-full w-full" viewBox="0 0 800 500" fill="none" preserveAspectRatio="xMidYMid slice">
