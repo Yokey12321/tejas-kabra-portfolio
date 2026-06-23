@@ -1,7 +1,7 @@
 ---
 title: STM32H723 Custom Development Board
 shortTitle: STM32H723 Dev Board
-summary: A custom high-performance STM32H723 platform designed for fast subsystem bring-up, robust debugging, and reusable embedded development.
+summary: A custom STM32H7-based control board for RoboMasters subsystems with onboard regulation, sensing, communications, programming access, and expanded GPIO.
 status: in-progress
 featured: true
 order: 2
@@ -10,67 +10,74 @@ disciplines:
   - Embedded Systems
 technologies:
   - STM32H723
-  - KiCad
+  - Altium
   - ARM Cortex-M7
-role: Hardware design and bring-up
-timeframe: Personal hardware platform
+role: Electrical design and subsystem integration
+timeframe: Aug 2025 – Present
 accent: "#e99b2f"
 accentSecondary: "#ffd166"
 themeSurface: "#171006"
 visual: pcb
 banner: simplicity-fortitude
 metrics:
-  - value: Cortex-M7
-    label: Compute core
-  - value: Custom PCB
-    label: Hardware platform
-  - value: SWD
-    label: Debug strategy
+  - value: 24→5→3.3 V
+    label: Power tree
+  - value: CAN/UART
+    label: Communications
+  - value: LSM6DSO32R
+    label: Onboard IMU
 ---
 
 import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-## Why build another development board?
+## A reusable controller for robot subsystems
 
-Commercial development kits optimize for broad compatibility. This board is intended to optimize for **repeatable subsystem development**: a known power tree, accessible communications, deliberate debug access, and connectors chosen around the projects it will actually support.
+Texas A&M RoboMasters needed a compact embedded platform that could control robot subsystems without rebuilding the same power, communication, sensing, and programming circuitry for every prototype.
 
-The STM32H723 brings enough compute and peripheral bandwidth for controls, communications, data acquisition, and future real-time work without turning every prototype into a wiring exercise.
+I designed a custom STM32H7-based development board that integrates those functions into one reusable controller. The board supports subsystem bring-up, hands-on debugging, and integration with the team’s mechanical and software systems.
 
 <div className="data-grid">
-  <div><small>Compute</small><b>STM32H723 / ARM Cortex-M7 platform</b></div>
-  <div><small>Bring-up</small><b>Power rails, clocks, reset, and SWD first</b></div>
-  <div><small>Reuse</small><b>Interfaces exposed for rapid subsystem work</b></div>
+  <div><small>Power</small><b>24 V input converted to 5 V and 3.3 V rails</b></div>
+  <div><small>Control</small><b>High-performance STM32H7 microcontroller</b></div>
+  <div><small>I/O</small><b>CAN, UART, SWD, sensors, and expanded GPIO</b></div>
 </div>
 
-## Schematic strategy
+## Board architecture
 
-The board is organized around functional blocks rather than sheet-filling convenience: power entry and regulation, MCU core requirements, clocking, debug, communications, and external I/O. Every block should be independently inspectable during bring-up.
+The power tree uses a 24 V-to-5 V buck stage followed by a 5 V-to-3.3 V LDO. This provides the rails required by the microcontroller, onboard sensing, and external interfaces while matching the robot’s available supply.
 
-> A development board earns its keep when a failure is easy to isolate. Test access and observability are part of the circuit, not post-layout luxuries.
+The STM32H7 is supported by an external crystal oscillator, SWD programming and debugging access, CAN and UART connectivity, multifunction GPIO expansion, and an onboard LSM6DSO32R inertial measurement unit.
 
-<ImagePlaceholder label="Annotated schematic overview" note="Show power tree, MCU core, debug, communications, and I/O blocks" />
+> The board was designed as an integration tool: power, communications, sensing, and debug access all needed to remain usable once installed on a robot.
 
-### Layout decisions worth showing
+<ImagePlaceholder label="Annotated STM32H7 schematic" note="Add power tree, MCU core, LSM6DSO32R, clock, CAN/UART, SWD, and GPIO sheets" />
 
-- Decoupling placement and return paths
-- Crystal placement and clock routing
-- Layer stack and uninterrupted reference planes
-- High-current versus sensitive signal regions
-- Connector placement driven by bench use
-- SWD and UART access during enclosure integration
+### Design scope
 
-<ImagePlaceholder label="PCB layout and assembled board" note="Add KiCad render, bare PCB, assembled board, and microscope detail" />
+- 24 V-to-5 V buck regulation
+- 5 V-to-3.3 V LDO regulation
+- STM32H7 core, decoupling, reset, and crystal oscillator
+- LSM6DSO32R six-axis IMU
+- CAN and UART communication
+- SWD programming and external debug access
+- Multifunction GPIO expansion
 
-## Bring-up sequence
+## Altium library and layout work
 
-The bring-up plan starts with resistance checks and current-limited power. Only after the rails and reset state are verified does firmware enter the loop.
+I created custom Altium component footprints for parts not already available in the team library and laid out the board around electrical function and subsystem access. I also supported development of a CAN breakout board used elsewhere in the robot architecture.
+
+<ImagePlaceholder label="PCB layout, 3D render, and assembled board" note="Add Altium views, custom footprints, bare PCB, soldering, and installed hardware" />
+
+## Bring-up and team integration
+
+My work continued beyond schematic and layout. I performed wiring, soldering, electrical testing, STM32 programming, and subsystem integration while coordinating with mechanical and software team members.
 
 <div className="data-grid">
-  <div><small>01 / Unpowered</small><b>Inspect assembly and check rail-to-ground resistance</b></div>
-  <div><small>02 / Power</small><b>Current-limit the input and validate every rail</b></div>
-  <div><small>03 / Digital</small><b>Establish SWD, clock configuration, and serial output</b></div>
+  <div><small>Hardware</small><b>Assembly, wiring, soldering, and rail checks</b></div>
+  <div><small>Firmware</small><b>STM32 programming and interface bring-up</b></div>
+  <div><small>Integration</small><b>Robot subsystem testing across disciplines</b></div>
 </div>
 
 ## Evidence to add
 
-The final page should include rail ripple captures, startup waveforms, current consumption by mode, interface loopback results, and the first revision’s rework notes. A redline image of any layout mistake would make the debugging story stronger—not weaker.
+The next visual pass should include the schematic hierarchy, layer stack, custom footprint examples, assembled board, rail measurements, first successful SWD connection, CAN traffic, and any revision notes discovered during integration.

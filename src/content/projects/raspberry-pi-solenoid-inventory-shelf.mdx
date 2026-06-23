@@ -1,8 +1,8 @@
 ---
-title: Raspberry Pi Solenoid Inventory Shelf
+title: Automated Electronic Inventory System
 shortTitle: Solenoid Inventory Shelf
-summary: A networked inventory shelf that turns a digital bin selection into a physical indication using Raspberry Pi control and solenoid actuation.
-status: in-progress
+summary: A Raspberry Pi inventory system combining card authentication, a touchscreen checkout workflow, I2C driver boards, and solenoid-actuated component access.
+status: complete
 featured: true
 order: 4
 disciplines:
@@ -10,67 +10,71 @@ disciplines:
   - Embedded Linux
 technologies:
   - Raspberry Pi
-  - Solenoids
   - Python
+  - I2C
 role: System design and implementation
-timeframe: Inventory automation prototype
+timeframe: Aug 2025 – Dec 2025
 accent: "#fb923c"
 accentSecondary: "#f8b24c"
 themeSurface: "#140d08"
 visual: robotics
 banner: memories
 metrics:
-  - value: Pi
-    label: System controller
-  - value: Solenoid
-    label: Physical output
-  - value: Closed loop
-    label: Workflow goal
+  - value: Python
+    label: Application layer
+  - value: I2C
+    label: Driver network
+  - value: Card + touch
+    label: User interface
 ---
 
 import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-## From database row to physical bin
+## Making Formula Electric inventory easier to use
 
-Inventory software can identify an item instantly. A person still has to map that answer onto a physical shelf. This project closes that gap by actuating the selected location, reducing search time and making the digital state visible in the real environment.
+Electrical components were organized physically, but team members still had to search bins manually and track access separately. I built an automated inventory system that connects authenticated digital checkout to electromechanical access at the shelf.
 
-That simple interaction spans a surprising number of domains: networked software, GPIO expansion, inductive-load drivers, power distribution, mechanical mounting, and fault recovery.
+The system uses a Raspberry Pi, a Python touchscreen application, card-based authentication, I2C-controlled solenoid driver boards, and mechanical actuators.
 
 <div className="data-grid">
-  <div><small>Command</small><b>Operator selects an inventory item</b></div>
-  <div><small>Control</small><b>Raspberry Pi resolves the target output</b></div>
-  <div><small>Action</small><b>Driver energizes the physical bin indicator</b></div>
+  <div><small>Authenticate</small><b>Identify the team member by card</b></div>
+  <div><small>Select</small><b>Choose a component through the touchscreen</b></div>
+  <div><small>Access</small><b>Actuate the corresponding inventory location</b></div>
 </div>
 
 ## System architecture
 
-The controller should never drive a solenoid directly. A dedicated driver stage handles current, flyback energy, and channel isolation while the Raspberry Pi owns selection logic and system state.
+The Raspberry Pi owns the user interface, authentication, checkout state, and command logic. Python software maps each inventory selection to an output on the I2C-connected driver network. The driver boards then switch the solenoids that control physical access to the organized components.
 
-> The interface is successful only if the correct bin actuates every time—and a software restart cannot leave a coil energized.
+This separation keeps the Pi on the logic side of the system while dedicated hardware handles the current and electromechanical behavior of the actuators.
 
-<ImagePlaceholder label="Shelf architecture and driver topology" note="Show UI/service, Raspberry Pi, driver channels, power supply, and solenoids" />
+> The useful product was not simply a moving solenoid—it was a controlled workflow that connected a specific user, component selection, and physical action.
 
-### Electrical design concerns
+<ImagePlaceholder label="Inventory system architecture" note="Add touchscreen, card reader, Raspberry Pi, I2C driver boards, power distribution, and solenoids" />
 
-- Solenoid pull-in and hold current
-- Simultaneous-channel power budget
-- Flyback suppression and driver stress
-- Logic-level compatibility
-- Startup and shutdown output states
-- Connector and harness serviceability
+### Implemented functions
 
-<ImagePlaceholder label="Installed shelf and electronics enclosure" note="Add full shelf, driver PCB, wiring, and selected-bin close-up" />
+- Raspberry Pi system controller
+- Python touchscreen interface
+- Card-based team-member authentication
+- Controlled component checkout workflow
+- I2C-connected solenoid driver boards
+- Electromechanical inventory access
 
-## Reliability tests
+## Integration and debugging
 
-The most persuasive validation is a repeated selection test across every channel, including rapid commands and deliberate power interruption.
+I integrated and debugged GPIO and I2C communication, solenoid actuation, power delivery, and driver-board behavior. Repeated mechanical operation exposed issues that do not appear in software-only testing, so reliability depended on validating the complete electrical and mechanical chain.
 
 <div className="data-grid">
-  <div><small>Accuracy</small><b>Correct bin selected over repeated trials</b></div>
-  <div><small>Timing</small><b>Command-to-actuation response measured</b></div>
-  <div><small>Recovery</small><b>Safe behavior after restart or network loss</b></div>
+  <div><small>Communication</small><b>Verify GPIO and I2C command behavior</b></div>
+  <div><small>Power</small><b>Support repeatable solenoid actuation</b></div>
+  <div><small>Mechanics</small><b>Confirm reliable access across repeated cycles</b></div>
 </div>
 
-## What I would improve next
+<ImagePlaceholder label="Touchscreen workflow and installed shelf" note="Add login, selection, checkout screens, driver electronics, wiring, and actuated bins" />
 
-A mature revision would add explicit actuation feedback rather than assuming that electrical drive produced mechanical motion. Current sensing, a position switch, or another confirmation method would turn the system from command-driven to verifiably closed-loop.
+## Project outcome
+
+The completed prototype allowed Formula Electric members to authenticate, select parts through the touchscreen, and access organized components without manually searching inventory bins.
+
+The next additions should document the number of controlled locations, actuator voltage and current, driver topology, authentication hardware, interface screenshots, and any measured reliability or cycle-test results.

@@ -1,76 +1,78 @@
 ---
 title: High-Side NMOS Surge Protection and Linear Regulator
 shortTitle: High-Side Surge Protection
-summary: An analog power-entry design using a high-side NMOS to manage surge exposure and protect a regulated downstream rail.
-status: in-progress
+summary: A high-side NMOS protection and regulation circuit designed for a 12 V, 5 A load exposed to a 50 V, 50 ms input transient.
+status: complete
 featured: true
 order: 3
 disciplines:
   - Power Electronics
   - Analog Design
 technologies:
+  - LTspice
   - High-side NMOS
-  - Linear regulation
-  - SPICE
-role: Circuit design and validation
-timeframe: Analog design study
+  - LT1054
+role: Circuit design and simulation
+timeframe: Dec 2025 – Feb 2026
 accent: "#f1c84b"
 accentSecondary: "#f4efe0"
 themeSurface: "#11100a"
 visual: power
 banner: one-ball-heart-soul
 metrics:
-  - value: High-side
-    label: Protection topology
-  - value: SOA
-    label: Design constraint
-  - value: Scope
-    label: Validation method
+  - value: 12 V / 5 A
+    label: Nominal load
+  - value: 50 V
+    label: Surge input
+  - value: 50 ms
+    label: Transient duration
 ---
 
 import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-## Protecting the downstream rail
+## Protecting a high-current 12 V load
 
-Power entry is where an otherwise correct system meets reversed connections, cable inductance, source variation, and transients. The goal of this circuit is to keep the protected rail inside a defined operating window without hiding the stress placed on the pass device.
+This circuit was designed to protect and regulate power for a **12 V, 5 A load** during a **50 V input transient lasting 50 ms**. The challenge was to hold the output within its intended operating range while ensuring the pass devices and control circuitry survived the short-duration surge.
 
-The high-side NMOS is treated as an energy-handling component, not an ideal switch. Its gate trajectory, safe operating area, dissipation, and thermal path determine whether the protection concept survives the event it was designed for.
-
-<div className="data-grid">
-  <div><small>Source</small><b>Variable input with surge exposure</b></div>
-  <div><small>Control</small><b>Gate network sets the pass-device response</b></div>
-  <div><small>Load</small><b>Regulated rail with a defined maximum voltage</b></div>
-</div>
-
-## Design reasoning
-
-The useful analysis combines the transient waveform with the device limits. A design can clamp the output correctly and still fail if the NMOS crosses its safe operating area long enough to overheat.
-
-> The output waveform is only half the result. The other half is the instantaneous voltage, current, and energy inside the transistor.
-
-<ImagePlaceholder label="Protection schematic and operating states" note="Annotate startup, normal operation, surge limiting, and shutdown" />
-
-### Questions the calculations must answer
-
-- What is the worst-case drain-to-source voltage?
-- How much current flows during the limiting interval?
-- Does the pulse remain inside the device SOA?
-- How sensitive is the response to threshold variation?
-- What is the steady-state power loss?
-- What does the regulator see during startup and recovery?
-
-## Simulation to bench
-
-The simulation should produce expectations, not decorative plots. Bench validation then checks the gate, protected output, input surge, and load current on a shared timebase.
-
-<ImagePlaceholder label="Oscilloscope capture: surge response" note="Overlay or pair measured waveforms with the matching SPICE result" />
+The design uses back-to-back N-channel MOSFETs on the high side, combining bidirectional blocking behavior with the lower conduction loss available from N-channel devices.
 
 <div className="data-grid">
-  <div><small>CH1</small><b>Input transient</b></div>
-  <div><small>CH2</small><b>NMOS gate voltage</b></div>
-  <div><small>CH3</small><b>Protected output rail</b></div>
+  <div><small>Normal input</small><b>12 V system supply</b></div>
+  <div><small>Load</small><b>Up to 5 A</b></div>
+  <div><small>Transient</small><b>50 V applied for 50 ms</b></div>
 </div>
 
-## Debugging story
+## Circuit topology
 
-The final case study should explicitly show where simulation and measurement disagree. Gate capacitance, source impedance, probe grounding, component tolerance, and thermal drift are all plausible sources—and each points toward a better model or a better circuit revision.
+An op-amp feedback loop controls the high-side MOSFETs during regulation. Because an N-channel device requires gate voltage above its source, an LT1054 charge pump provides the elevated gate-drive rail.
+
+The supporting network includes a zener-protected control rail, LDO regulation, and a current-sense shunt. Together, these blocks constrain the gate drive, establish the protected output, and expose load current for analysis.
+
+> Clamping the output was only one requirement—the MOSFETs also had to remain within acceptable voltage, current, gate-drive, and pulse-dissipation limits during the surge.
+
+<ImagePlaceholder label="Surge protection schematic" note="Annotate back-to-back NMOS devices, op-amp loop, LT1054, zener rail, LDO, and current shunt" />
+
+### Major circuit blocks
+
+- Back-to-back high-side N-channel MOSFETs
+- Op-amp feedback and linear control
+- LT1054 charge-pump gate drive
+- Zener-protected control supply
+- LDO output regulation
+- Current-sense shunt
+
+## LTspice validation
+
+I simulated the complete transient response in LTspice. The analysis focused on MOSFET linear-region operation, gate-to-source voltage limits, output regulation, and short-duration surge power dissipation.
+
+<div className="data-grid">
+  <div><small>VOUT</small><b>Verify regulation during the 50 V pulse</b></div>
+  <div><small>VGS</small><b>Confirm safe and sufficient gate drive</b></div>
+  <div><small>MOSFET</small><b>Evaluate transient voltage, current, and power</b></div>
+</div>
+
+<ImagePlaceholder label="LTspice transient plots" note="Add input/output voltage, VGS, load current, and MOSFET power on a shared timebase" />
+
+## Engineering outcome
+
+The simulation demonstrated how each control block behaved during startup, normal operation, surge clamping, and recovery. The most valuable portfolio evidence will be the complete schematic, component-selection calculations, transient plots, and safe-operating-area comparison for the selected MOSFET.
