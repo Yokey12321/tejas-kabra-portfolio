@@ -594,30 +594,6 @@ a {
   }
 }
 
-.hero-court-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  padding-top: 1rem;
-  color: rgba(243, 240, 230, 0.42);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hero-court-legend span {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.hero-court-legend i {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-}
-
 .net-divider {
   position: relative;
   display: grid;
@@ -848,16 +824,6 @@ a {
   font-size: clamp(1.5rem, 3vw, 2.35rem);
   line-height: 1;
   letter-spacing: -0.045em;
-}
-
-.project-panel-caption small {
-  display: block;
-  margin-top: 0.75rem;
-  color: rgba(243, 240, 230, 0.38);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .project-card:hover .project-panel-image {

@@ -73,7 +73,7 @@ const projects = (await getCollection("projects"))
       {
         projects.map(({ id, data }, index) => (
           <article class:list={["project-card group", index % 2 === 1 && "md:mt-24"]} style={`--section-accent:${data.accent}`}>
-            <a href={`/projects/${id}/`}>
+            <a class="block" href={`/projects/${id}/`}>
               <ProjectPanel
                 title={data.shortTitle}
                 category={data.disciplines[0]}
@@ -82,14 +82,11 @@ const projects = (await getCollection("projects"))
                 surface={data.themeSurface}
                 index={index}
               />
-              <div class="grid gap-4 border-b hairline py-6 sm:grid-cols-[1fr_auto]">
+              <div class="border-b hairline py-6">
                 <div>
                   <p class="technical-label text-signal">{data.disciplines.join(" / ")}</p>
                   <h3 class="mt-3 text-3xl font-semibold leading-tight tracking-[-0.035em] md:text-4xl">{data.shortTitle}</h3>
                 </div>
-                <span class="mt-1 grid h-10 w-10 place-items-center rounded-full border border-ink/20 text-xl transition-colors group-hover:border-signal group-hover:bg-signal group-hover:text-paper">
-                  ↗
-                </span>
               </div>
               <p class="mt-4 max-w-xl leading-7 text-ink/60">{data.summary}</p>
               <div class="mt-6 grid grid-cols-3 gap-px bg-ink/15">
