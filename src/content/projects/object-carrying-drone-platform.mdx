@@ -1,76 +1,98 @@
 ---
 title: Object-Carrying Drone Platform
 shortTitle: Object-Carrying Drone
-summary: A multirotor platform designed to pick up, stabilize, transport, and safely release a payload without compromising controllability.
-status: in-progress
+summary: A prototype UAV built around a carbon-fiber quadcopter base, Betaflight flight-control tuning, Arduino radio bridging, camera integration, CAD packaging, and payload mission constraints.
+status: complete
 featured: true
 order: 5
 disciplines:
   - Robotics
   - Flight Controls
+  - Embedded Systems
 technologies:
-  - Flight Controller
-  - Brushless Motors
-  - Embedded Control
-role: System architecture and prototyping
-timeframe: Active development
+  - STM32F411
+  - Betaflight
+  - Arduino
+  - I2C
+  - CAD
+role: Airframe integration, wiring, programming, and technical documentation
+timeframe: 2023-2024
 accent: "#7ac5d3"
 accentSecondary: "#e9e59a"
 themeSurface: "#071419"
 visual: drone
 banner: habit-second-nature
 metrics:
-  - value: 6-DOF
-    label: Controlled motion
-  - value: Payload
-    label: Design variable
-  - value: Fail-safe
-    label: Release priority
+  - value: STM32F411
+    label: Flight controller MCU
+  - value: $180
+    label: Prototype materials
+  - value: Betaflight
+    label: PID and motor setup
 ---
 
-import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import ProjectImage from "../../components/ProjectImage.astro";
+import assemblyLog from "../../assets/projects/drone/assembly-log.webp";
+import wiringLog from "../../assets/projects/drone/wiring-log.webp";
+import programmingSteps from "../../assets/projects/drone/programming-steps.webp";
+import cadModels from "../../assets/projects/drone/cad-models.webp";
+import materialsBom from "../../assets/projects/drone/materials-bom.webp";
+import flightRules from "../../assets/projects/drone/flight-rules.webp";
 
-## Flight changes when the payload does
+## A drone built around payload delivery
 
-Carrying an object is not simply a matter of adding enough motor thrust. Every payload changes the aircraft's mass, center of gravity, inertia, power demand, and response to control inputs. The platform has to remain predictable from pickup through transport and release.
+This project started as a Drone Challenge UAV build for Gulf Coast Texas. The goal was not just to assemble a quadcopter, but to turn a loose set of parts into a flyable platform with a camera link, radio-control path, tuned flight controller, documented wiring, CAD layout, and payload rules in mind.
 
-This project treats the drone, carrying mechanism, payload, and control system as one coupled machine rather than separate subsystems.
-
-<div className="data-grid">
-  <div><small>Acquire</small><b>Secure the object with a repeatable attachment</b></div>
-  <div><small>Transport</small><b>Maintain attitude under a shifted load</b></div>
-  <div><small>Release</small><b>Place the payload without destabilizing the aircraft</b></div>
-</div>
-
-## System architecture
-
-The airframe and propulsion system establish the available thrust margin. The flight controller stabilizes the vehicle while a dedicated payload mechanism handles retention and release. Power, sensing, and mechanical geometry all have to be designed around the worst-case payload rather than the unloaded drone.
-
-> The real design target is controlled payload delivery, not merely proving that the drone can lift an object.
-
-<ImagePlaceholder label="Drone system architecture" note="Add the airframe, flight controller, propulsion, payload mechanism, power system, and command link" />
-
-### Core engineering decisions
-
-- Payload mass and center-of-gravity envelope
-- Motor, propeller, and battery thrust margin
-- Attachment geometry and release mechanism
-- Vibration isolation for control electronics
-- Loss-of-signal and low-voltage behavior
-- Ground-test procedure before loaded flight
-
-<ImagePlaceholder label="Payload mechanism and airframe integration" note="Add CAD, mechanism close-ups, wiring, and the assembled drone" />
-
-## Validation plan
-
-Testing should increase risk gradually: mechanism cycling on the bench, restrained propulsion tests, unloaded hover, fixed-mass payload hover, controlled translation, and finally pickup and release trials.
+The final prototype used a carbon-fiber drone base, brushless motor layout, Li-ion battery pack, camera, radio/controller hardware, an Arduino bridge, and a flight controller running Betaflight on an STM32F411 microcontroller.
 
 <div className="data-grid">
-  <div><small>Stability</small><b>Attitude error with and without payload</b></div>
-  <div><small>Endurance</small><b>Flight-time change across payload mass</b></div>
-  <div><small>Repeatability</small><b>Successful retention and release cycles</b></div>
+  <div><small>Airframe</small><b>Carbon-fiber quadcopter base with packaged electronics</b></div>
+  <div><small>Control</small><b>Betaflight configuration for motors, gyro, and PID tuning</b></div>
+  <div><small>Command link</small><b>Arduino bridge between receiver, flight controller, camera, and radio path</b></div>
 </div>
 
-## What I want to prove
+<ProjectImage image={assemblyLog} alt="Color project log showing drone assembly stages" caption="Assembly evidence from the color project deck, including parts layout, frame build, and completed base." />
 
-The final result should document a safe payload limit, measurable stability under load, repeatable release behavior, and the design changes revealed by flight data. Those results will turn the platform from a visual demonstration into a defensible controls and robotics project.
+## Wiring, packaging, and integration
+
+The wiring work centered on making the flight controller, power distributor, radio hardware, camera, and Arduino physically fit inside the airframe while still remaining serviceable. The build log shows the process of organizing wire bundles, planning the layout, testing connections through the power distributor and flight controller, then zip-tying the final harness.
+
+A practical issue appeared during integration: one connection was difficult to solder cleanly in the available space, so the team changed the physical attachment approach and moved to a more workable connection method for the prototype. That kind of packaging problem is exactly why this page belongs in an engineering portfolio, because it shows the messy middle between a schematic idea and hardware that actually fits together.
+
+<ProjectImage image={wiringLog} alt="Color project log showing organized wiring and finished drone harness" caption="Wiring and packaging process: organized leads, flight-controller connections, power-distribution testing, and final harness routing." />
+
+## Flight-control and camera software
+
+The flight controller was configured in Betaflight, which handled the motor setup, gyro behavior, PID controller tuning, and general flight-control configuration. The project notes call out an STM32F411 microcontroller on the flight controller.
+
+The Arduino acted as a bridge between the physical controller and the flight controller. The deck describes the Arduino translating signals from the receiver into flight-controller commands, which allowed the drone to be piloted remotely while keeping the software stack flexible.
+
+Camera integration added another embedded layer. The project used Arduino code with `Wire.h` for I2C communication, sending camera information through the Arduino and radio path to the driver's visual setup. The deck also documents a webcam-to-radio mounting process, including validating the camera on a computer before stripping and integrating wires into the drone.
+
+<ProjectImage image={programmingSteps} alt="Color project log showing Betaflight configuration and camera code" caption="Programming evidence: Betaflight motor setup, PID configuration notes, and Arduino camera code using I2C." />
+
+## CAD and mechanical layout
+
+The mechanical work moved from hand sketches to CAD representations of the top plate, bottom plate, fastener locations, and electronics distribution. The drawings were used to reason about the physical placement of the flight controller, batteries, camera, wiring paths, and mounting hardware before committing to the final assembled layout.
+
+<div className="data-grid">
+  <div><small>Sketching</small><b>Mapped the airframe, electronics, and payload geometry before assembly</b></div>
+  <div><small>CAD</small><b>Modeled top and bottom plate layouts with dimensions and mounting locations</b></div>
+  <div><small>Packaging</small><b>Checked camera, battery, controller, wiring, and gripper placement against the frame</b></div>
+</div>
+
+<ProjectImage image={cadModels} alt="Color project log showing CAD drawings and a 3D drone frame model" caption="CAD documentation from the deck, including plate drawings, fastener locations, and an assembled frame model." />
+
+## Materials and constraints
+
+The prototype materials list totals approximately $180. The largest cost was the carbon-fiber drone base at $125, followed by the camera at $35, extra wires at $11, and Li-ion batteries at $9. The Arduino, controller/radio hardware, and gripper were repurposed from older robotics parts, which kept the build cost down while making integration more constrained.
+
+The competition framing emphasized payload delivery. The stated objective was to place bean bags and rings in different locations to gain as many points as possible and land the drone. The rules constrained the design toward short missions, one payload at a time, controlled flight, and safety-first operation.
+
+<ProjectImage image={materialsBom} alt="Color project log showing drone materials and a 180 dollar bill of materials" caption="Prototype bill of materials from the deck. Reused robotics parts reduced cost, but increased integration complexity." />
+
+<ProjectImage image={flightRules} alt="Color project log showing general flight mission rules and regulations" caption="Mission constraints from the rules section, including payload limits, timing, safety, and field procedures." />
+
+## What this project shows
+
+This is an early but useful robotics project because it touches the full system: mechanical layout, electrical wiring, embedded communication, flight-controller setup, software configuration, cost control, and test-driven iteration. The strongest parts for the portfolio are the integration decisions, the CAD-to-hardware workflow, and the way the build captures real tradeoffs instead of pretending the drone was only a clean final product.

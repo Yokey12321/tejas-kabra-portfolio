@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  caption?: string;
+  variant?: "wide" | "full";
+}
+
+const { image, alt, caption, variant = "wide" } = Astro.props;
+---
+
+<figure class:list={["image-slot", "project-photo-frame", "project-image", variant]}>
+  <span class="photo-frame-tape photo-frame-tape-left" aria-hidden="true"></span>
+  <span class="photo-frame-tape photo-frame-tape-right" aria-hidden="true"></span>
+  <Image class="project-image-media" src={image} alt={alt} loading="lazy" decoding="async" />
+  {caption && <figcaption class="project-image-caption">{caption}</figcaption>}
+</figure>

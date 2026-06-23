@@ -994,6 +994,32 @@ a {
     color-mix(in srgb, var(--project-surface) 85%, var(--color-paper-deep));
 }
 
+.project-image {
+  min-height: 0;
+  align-items: stretch;
+  gap: 0;
+  padding: clamp(0.7rem, 1.4vw, 1.1rem);
+}
+
+.project-image-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--project-accent) 22%, rgba(243, 240, 230, 0.16));
+  object-fit: cover;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.35);
+}
+
+.project-image-caption {
+  margin-top: 0.9rem;
+  color: color-mix(in srgb, var(--color-ink) 58%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
 .photo-frame-tape {
   position: absolute;
   z-index: 2;

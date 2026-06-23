@@ -1,6 +1,6 @@
 ---
-title: Formula Electric CAN–LTE Telemetry System
-shortTitle: CAN–LTE Telemetry
+title: Formula Electric CAN-LTE Telemetry System
+shortTitle: CAN-LTE Telemetry
 summary: A custom STM32G4 telemetry system that streams live racecar CAN diagnostics through an EG25 LTE modem to a Grafana-based driver station.
 status: in-progress
 featured: true
@@ -14,7 +14,7 @@ technologies:
   - Quectel EG25 LTE
   - Embedded C
 role: PCB, firmware, and system validation
-timeframe: Aug 2025 – Present
+timeframe: Aug 2025 - Present
 accent: "#ef1824"
 accentSecondary: "#ff6b2c"
 themeSurface: "#16070b"
@@ -23,7 +23,7 @@ banner: connect
 metrics:
   - value: 3,200/s
     label: Telemetry packets
-  - value: 2–3 ms
+  - value: 2-3 ms
     label: End-to-end latency
   - value: 2 revs
     label: PCB iterations
@@ -66,12 +66,12 @@ The power tree converts unregulated vehicle power through buck and LDO stages to
 
 I developed the embedded firmware in C using STM32CubeIDE and STM32 HAL libraries. The firmware acquires CAN frames, extracts the required vehicle data, builds 8-byte telemetry payloads, and transfers them to the LTE modem.
 
-The system reached approximately **3,200 telemetry packets per second** with approximately **2–3 milliseconds of end-to-end latency**, providing live visibility into vehicle metrics during operation.
+The system reached approximately **3,200 telemetry packets per second** with approximately **2-3 milliseconds of end-to-end latency**, providing live visibility into vehicle metrics during operation.
 
 <div className="data-grid">
   <div><small>Firmware</small><b>C using STM32 HAL and STM32CubeIDE</b></div>
   <div><small>Throughput</small><b>Approximately 3,200 packets per second</b></div>
-  <div><small>Latency</small><b>Approximately 2–3 ms end to end</b></div>
+  <div><small>Latency</small><b>Approximately 2-3 ms end to end</b></div>
 </div>
 
 <ImagePlaceholder label="Grafana dashboard and live telemetry" note="Add dashboard captures, packet traces, latency evidence, and trackside setup" />
