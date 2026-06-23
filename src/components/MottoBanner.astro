@@ -15,7 +15,6 @@ const { image, alt, accent = "#ff6b2c", compact = false } = Astro.props;
   class:list={["motto-banner", compact && "motto-banner-compact"]}
   style={`--banner-accent:${accent}`}
 >
-  <span class="motto-banner-index technical-label" aria-hidden="true">Team motto</span>
   <img
     src={image.src}
     alt={alt}
