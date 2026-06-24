@@ -61,7 +61,7 @@ The power tree converts unregulated vehicle power through a protected input stag
 
 <ProjectImage image={r2FrontRender} alt="Roadlink R2 telemetry PCB front-side 3D render" caption="Roadlink R2 front side. STM32G4 control, LTE module connector, SIM interface, CAN interface, and Texas A&M Formula Electric board branding." />
 
-### Interfaces and implementation
+## Interfaces and implementation
 
 The board centers on an STM32G4 embedded controller that receives vehicle CAN data and communicates with the Quectel EG25 LTE modem over UART. The SIM section supports cellular connectivity, while the power section handles the backplane input, eFuse protection, buck regulation, LDO regulation, ferrite beads, and local filtering. R2 moves the design onto a four-layer PCB, giving the CAN and UART routes cleaner reference planes and improving signal integrity compared with the first revision.
 
@@ -71,7 +71,6 @@ The board centers on an STM32G4 embedded controller that receives vehicle CAN da
 </div>
 
 <a className="schematic-jump" href="#r2-schematic-detail-archive">
-  <span className="schematic-jump-ball" aria-hidden="true"></span>
   <span>
     <small>Want the full electrical view?</small>
     Jump to the R2 schematic archive
