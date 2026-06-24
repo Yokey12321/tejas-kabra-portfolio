@@ -29,13 +29,21 @@ metrics:
     label: PCB iterations
 ---
 
-import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import ProjectImage from "../../components/ProjectImage.astro";
+import r1Layout from "../../assets/projects/telemetry/r1-layout.webp";
+import r2FrontRender from "../../assets/projects/telemetry/r2-front-render.webp";
+import r2BackRender from "../../assets/projects/telemetry/r2-back-render.webp";
+import r2Layout from "../../assets/projects/telemetry/r2-layout.webp";
+import r2SchematicPage1 from "../../assets/projects/telemetry/r2-schematic-page-1.webp";
+import r2SchematicPage2 from "../../assets/projects/telemetry/r2-schematic-page-2.webp";
+import r2SchematicPage3 from "../../assets/projects/telemetry/r2-schematic-page-3.webp";
+import r2SchematicPage4 from "../../assets/projects/telemetry/r2-schematic-page-4.webp";
 
 ## Turning vehicle data into trackside decisions
 
-Texas A&M Formula Electric’s racecar distributes critical operating data over CAN. The telemetry system moves those diagnostics off the vehicle in real time so engineers can monitor behavior from a Grafana-based driver station rather than waiting for a post-run download.
+Texas A&M Formula Electric's racecar distributes critical operating data over CAN. The telemetry system moves those diagnostics off the vehicle in real time so engineers can monitor behavior from a Grafana-based driver station rather than waiting for a post-run download.
 
-I designed the four-layer telemetry PCB, developed its embedded firmware, and validated the integrated system before vehicle deployment. The board combines an STM32G4 microcontroller, CAN and UART interfaces, and a SIM-enabled Quectel EG25 LTE modem.
+I designed the telemetry PCB across two revisions, developed its embedded firmware, and validated the integrated system before vehicle deployment. The board combines an STM32G4 microcontroller, CAN and UART interfaces, protected vehicle-power input, and a SIM-enabled Quectel EG25 LTE modem.
 
 <div className="data-grid">
   <div><small>Acquire</small><b>Read live vehicle data from the CAN bus</b></div>
@@ -47,20 +55,54 @@ I designed the four-layer telemetry PCB, developed its embedded firmware, and va
 
 The board has to bridge two very different environments: a deterministic vehicle network and a cellular modem with demanding power and communication requirements. CAN traffic enters the STM32G4, selected data is packetized in firmware, and the EG25 sends it to the remote driver station over LTE.
 
-The power tree converts unregulated vehicle power through buck and LDO stages to support the microcontroller, modem, and digital circuitry. I completed schematic capture and layout across two board revisions, using each revision to improve integration and readiness for the competition vehicle.
+The power tree converts unregulated vehicle power through a protected input stage, buck regulation, and local filtering to support the microcontroller, LTE modem, SIM interface, CAN transceiver, and digital circuitry. Revision 2 is the vehicle-ready version: cleaner layout, more stable power architecture, better input protection, and a four-layer stackup for cleaner signal routing.
 
-> The design was successful only if cellular telemetry could be added without compromising the racecar’s existing CAN network.
+> The design was successful only if cellular telemetry could be added without compromising the racecar's existing CAN network.
 
-<ImagePlaceholder label="Four-layer telemetry PCB and architecture" note="Add schematic blocks, board render, assembled PCB, antenna, and vehicle connections" />
+<ProjectImage image={r2FrontRender} alt="Roadlink R2 telemetry PCB front-side 3D render" caption="Roadlink R2 front side. STM32G4 control, LTE module connector, SIM interface, CAN interface, protected power input, and Formula Electric board branding." />
 
 ### Interfaces and implementation
 
 - STM32G4 embedded controller
 - Vehicle CAN input and UART modem communication
 - Quectel EG25 LTE modem with SIM connectivity
-- Buck and LDO regulation from unregulated vehicle power
-- Four-layer PCB with two completed design revisions
+- eFuse input protection with undervoltage and overvoltage handling
+- Buck regulation and local filtering for a more stable power architecture
+- Four-layer PCB with signal-integrity improvements between UART and CAN routes
 - Grafana-based remote driver station
+
+<div className="project-image-row">
+  <ProjectImage image={r2BackRender} alt="Roadlink R2 telemetry PCB back-side 3D render" caption="R2 back side, showing cleaner connector placement, support passives, and routed signal groups." />
+  <ProjectImage image={r2Layout} alt="Roadlink R2 telemetry PCB layout screenshot" caption="R2 layout view. The four-layer board uses internal reference planes and more deliberate routing around CAN, UART, LTE, and power domains." />
+</div>
+
+## Revision story: R1 to R2
+
+R1 proved the basic system concept and helped me understand the mechanical constraints, connector placement, STM32 routing, LTE interface, SIM section, and CAN path. R2 is where the design became much more intentional. The layout is cleaner because I had more Altium experience, but the bigger change is that the electrical architecture became more defensible.
+
+<div className="revision-delta">
+  <div>
+    <small>R1</small>
+    <b>Bring-up and first integration pass</b>
+    <p>The first board established the core topology and packaging, but the buck stage was not as robust, the input path had no fuse, and the layout had less deliberate separation between power and communication routing.</p>
+  </div>
+  <div>
+    <small>R2</small>
+    <b>Vehicle-ready reliability revision</b>
+    <p>The second revision uses a better buck stage, adds the supporting filtering and noise-reduction components the first version was missing, and adds an eFuse for input protection.</p>
+  </div>
+</div>
+
+<div className="project-image-row">
+  <ProjectImage image={r1Layout} alt="Roadlink R1 telemetry PCB layout screenshot" caption="R1 layout reference. Useful as revision evidence, but not the main board shown to recruiters." />
+  <ProjectImage image={r2Layout} alt="Roadlink R2 telemetry PCB layout screenshot" caption="R2 layout reference. Cleaner placement, stronger power architecture, four-layer stackup, and improved signal routing." />
+</div>
+
+<div className="data-grid">
+  <div><small>Power</small><b>R2 replaces the weaker first buck approach with a more stable buck architecture and added support passives</b></div>
+  <div><small>Protection</small><b>R2 adds an eFuse so the input path handles fuse behavior, undervoltage, and overvoltage protection</b></div>
+  <div><small>Signal integrity</small><b>R2 moves to four layers with reference planes between UART and CAN signals for cleaner communication paths</b></div>
+</div>
 
 ## Firmware and data path
 
@@ -74,10 +116,19 @@ The system reached approximately **3,200 telemetry packets per second** with app
   <div><small>Latency</small><b>Approximately 2-3 ms end to end</b></div>
 </div>
 
-<ImagePlaceholder label="Grafana dashboard and live telemetry" note="Add dashboard captures, packet traces, latency evidence, and trackside setup" />
+## R2 schematic detail archive
+
+The R2 schematic is included here because the technical depth matters for this project. The top-level sheet shows the LTE module connector, SIM interface, reset, programming header, and cross-sheet design blocks. The remaining sheets document the STM32G4 controller, protected power architecture, and CAN interface.
+
+<div className="schematic-grid full">
+  <ProjectImage image={r2SchematicPage1} alt="Roadlink R2 schematic page 1 showing LTE interface and SIM circuitry" caption="R2 schematic page 1: LTE interface, SIM circuitry, reset switch, programming header, and top-level sheet blocks." />
+  <ProjectImage image={r2SchematicPage2} alt="Roadlink R2 schematic page 2 showing STM32G4 microcontroller circuitry" caption="R2 schematic page 2: STM32G4 controller, oscillator, reset, decoupling, boot/programming support, and signal breakout." />
+  <ProjectImage image={r2SchematicPage3} alt="Roadlink R2 schematic page 3 showing buck, eFuse, LDO, and power filtering" caption="R2 schematic page 3: protected power path, eFuse behavior, buck regulation, local filtering, and LTE power support circuitry." />
+  <ProjectImage image={r2SchematicPage4} alt="Roadlink R2 schematic page 4 showing CAN interface circuitry" caption="R2 schematic page 4: CAN transceiver, termination, protection, and connector interface to the vehicle network." />
+</div>
 
 ## Bring-up and validation
 
 I used oscilloscopes and digital multimeters to verify power rails, signal behavior, EMI performance, and subsystem integration. Validation progressed from individual power and communication blocks to full CAN-to-LTE operation before deployment on the racecar.
 
-The strongest additions to this page will be scope captures, revision comparisons, the final board installation, and synchronized vehicle-side versus Grafana data.
+The next strongest additions to this page will be scope captures, the final assembled board, and synchronized vehicle-side versus Grafana data. The revision comparison already shows the main engineering arc: R1 proved the board concept, and R2 made the design safer, cleaner, and more robust for a vehicle environment.

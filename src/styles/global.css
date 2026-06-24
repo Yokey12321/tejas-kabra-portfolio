@@ -1020,6 +1020,73 @@ a {
   text-transform: uppercase;
 }
 
+.case-study .project-image-row,
+.case-study .schematic-grid,
+.case-study .revision-delta {
+  max-width: 72rem;
+}
+
+.project-image-row,
+.schematic-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 2.5rem;
+}
+
+.project-image-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.schematic-grid {
+  grid-template-columns: 1fr;
+}
+
+.schematic-grid .project-image {
+  max-width: none;
+}
+
+.revision-delta {
+  display: grid;
+  margin-block: 2.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
+  border-left: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.revision-delta > div {
+  padding: clamp(1.1rem, 2.4vw, 1.8rem);
+  border-right: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
+  border-bottom: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--project-accent) 8%, transparent), transparent),
+    color-mix(in srgb, var(--project-surface) 70%, transparent);
+}
+
+.revision-delta small {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--project-accent);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.revision-delta b {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: var(--color-ink);
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.revision-delta p {
+  margin: 0;
+  color: color-mix(in srgb, var(--color-ink) 68%, transparent);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
 .photo-frame-tape {
   position: absolute;
   z-index: 2;
@@ -1100,6 +1167,11 @@ a {
   }
 
   .case-study .data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-image-row,
+  .revision-delta {
     grid-template-columns: 1fr;
   }
 
