@@ -25,7 +25,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background: var(--color-paper);
 }
 
@@ -121,8 +121,10 @@ a {
   border: 1px solid color-mix(in srgb, var(--banner-accent) 42%, rgba(243, 240, 230, 0.18));
   background: #050407;
   box-shadow:
-    0 1.5rem 4rem rgba(0, 0, 0, 0.36),
-    0 0 3rem color-mix(in srgb, var(--banner-accent) 8%, transparent);
+    0 1rem 2.25rem rgba(0, 0, 0, 0.28),
+    0 0 1.5rem color-mix(in srgb, var(--banner-accent) 6%, transparent);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 20rem;
 }
 
 .motto-banner img {
@@ -146,7 +148,7 @@ a {
   left: 0;
   bottom: -1px;
   background: var(--banner-accent);
-  box-shadow: 0 0 1rem color-mix(in srgb, var(--banner-accent) 55%, transparent);
+  box-shadow: 0 0 0.55rem color-mix(in srgb, var(--banner-accent) 38%, transparent);
 }
 
 .motto-banner-compact {
@@ -168,7 +170,7 @@ a {
   inset: 0;
   z-index: -1;
   content: "";
-  opacity: 0.7;
+  opacity: 0.56;
   background:
     radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--project-accent, #7c3aed) 25%, transparent), transparent 42%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 60%);
@@ -184,8 +186,8 @@ a {
   border: 1px solid color-mix(in srgb, var(--project-accent, #e5663a) 55%, transparent);
   border-radius: 50%;
   box-shadow:
-    0 0 0 2rem color-mix(in srgb, var(--project-accent, #e5663a) 8%, transparent),
-    0 0 0 5rem color-mix(in srgb, var(--project-accent, #e5663a) 5%, transparent);
+    0 0 0 1.5rem color-mix(in srgb, var(--project-accent, #e5663a) 6%, transparent),
+    0 0 0 3.4rem color-mix(in srgb, var(--project-accent, #e5663a) 4%, transparent);
 }
 
 .image-slot {
@@ -334,7 +336,9 @@ a {
 .scoreboard {
   border: 1px solid rgba(243, 240, 230, 0.18);
   background: linear-gradient(145deg, rgba(124, 58, 237, 0.08), transparent), #070609;
-  box-shadow: inset 0 0 3rem rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 0 1.4rem rgba(0, 0, 0, 0.34);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 12rem;
 }
 
 .score-digit {
@@ -345,11 +349,11 @@ a {
 
 .serve-transition {
   position: relative;
-  height: min(1000px, 110vh);
-  min-height: 44rem;
+  height: min(760px, 88vh);
+  min-height: 32rem;
   overflow: clip;
   background:
-    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent 34rem),
+    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.12), transparent 27rem),
     #050407;
   view-timeline-name: --serve-section;
   view-timeline-axis: block;
@@ -391,12 +395,11 @@ a {
   left: -10rem;
   top: 56%;
   z-index: 2;
-  width: clamp(4.5rem, 9vw, 8rem);
-  filter: drop-shadow(0 1.5rem 1.25rem rgba(0, 0, 0, 0.48));
-  will-change: transform, opacity;
+  width: clamp(3.8rem, 7vw, 6rem);
+  will-change: transform;
   animation: court-pass linear both;
   animation-timeline: --serve-section;
-  animation-range: entry 5% exit 95%;
+  animation-range: entry 10% exit 90%;
 }
 
 .serve-ball svg {
@@ -411,7 +414,7 @@ a {
   bottom: 16%;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255, 107, 44, 0.55), transparent);
-  box-shadow: 0 0 2rem rgba(255, 107, 44, 0.25);
+  box-shadow: 0 0 0.7rem rgba(255, 107, 44, 0.16);
 }
 
 @keyframes court-pass {
@@ -454,20 +457,20 @@ a {
   position: absolute;
   left: 7%;
   right: 7%;
-  bottom: 10%;
+  bottom: 12%;
   display: grid;
-  height: 31%;
+  height: 24%;
   grid-template-columns: 1fr 0.8rem 1fr;
   perspective: 600px;
   transform: rotateX(62deg);
   transform-origin: bottom;
-  opacity: 0.54;
+  opacity: 0.32;
 }
 
 .serve-side {
   position: relative;
-  border: 2px solid rgba(243, 240, 230, 0.32);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(255, 107, 44, 0.08));
+  border: 1px solid rgba(243, 240, 230, 0.24);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.13), rgba(255, 107, 44, 0.05));
 }
 
 .serve-side::after {
@@ -476,15 +479,15 @@ a {
   width: 1px;
   left: 38%;
   content: "";
-  background: rgba(243, 240, 230, 0.25);
+  background: rgba(243, 240, 230, 0.16);
 }
 
 .serve-net {
   background:
     linear-gradient(rgba(243, 240, 230, 0.28) 1px, transparent 1px),
     linear-gradient(90deg, rgba(243, 240, 230, 0.28) 1px, transparent 1px);
-  background-size: 100% 8px, 8px 100%;
-  border-inline: 2px solid rgba(243, 240, 230, 0.6);
+  background-size: 100% 12px, 12px 100%;
+  border-inline: 1px solid rgba(243, 240, 230, 0.42);
 }
 
 .serve-player {
@@ -494,12 +497,10 @@ a {
   border: 2px solid #f3f0e6;
   border-radius: 50%;
   background: #7c3aed;
-  box-shadow: 0 0 1rem rgba(124, 58, 237, 0.7);
 }
 
 .serve-side-right .serve-player {
   background: #ff6b2c;
-  box-shadow: 0 0 1rem rgba(255, 107, 44, 0.55);
 }
 
 .serve-player-a { left: 22%; top: 28%; }
@@ -642,7 +643,6 @@ a {
 .ball-shadow {
   border-radius: 50%;
   background: radial-gradient(ellipse, rgba(0, 0, 0, 0.45), transparent 68%);
-  filter: blur(5px);
 }
 
 .project-card {
@@ -653,7 +653,7 @@ a {
 
 .project-card:hover {
   transform: translateY(-1rem) rotate(-0.35deg);
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1.4rem 2.6rem rgba(0, 0, 0, 0.3);
 }
 
 .project-card:nth-child(even):hover {
@@ -666,10 +666,12 @@ a {
   overflow: hidden;
   border: 1px solid rgba(243, 240, 230, 0.16);
   background:
-    radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--team-accent) 24%, transparent), transparent 16rem),
-    radial-gradient(circle at 12% 86%, color-mix(in srgb, var(--team-accent-secondary) 12%, transparent), transparent 18rem),
+    radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--team-accent) 17%, transparent), transparent 14rem),
+    radial-gradient(circle at 12% 86%, color-mix(in srgb, var(--team-accent-secondary) 8%, transparent), transparent 16rem),
     linear-gradient(150deg, color-mix(in srgb, var(--team-accent) 9%, var(--team-surface)), var(--team-surface) 62%);
   isolation: isolate;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 32rem;
 }
 
 .project-panel::after {
@@ -750,8 +752,8 @@ a {
   font-size: 1.5rem;
   font-weight: 800;
   box-shadow:
-    inset 0 0 2rem color-mix(in srgb, var(--team-accent) 10%, transparent),
-    0 0 2rem color-mix(in srgb, var(--team-accent) 12%, transparent);
+    inset 0 0 1rem color-mix(in srgb, var(--team-accent) 8%, transparent),
+    0 0 1rem color-mix(in srgb, var(--team-accent) 8%, transparent);
 }
 
 .project-panel-court {
@@ -903,8 +905,8 @@ a {
 .project-case-hero .project-visual {
   border: 1px solid color-mix(in srgb, var(--project-accent) 35%, rgba(243, 240, 230, 0.12));
   box-shadow:
-    0 1.5rem 5rem rgba(0, 0, 0, 0.28),
-    0 0 4rem color-mix(in srgb, var(--project-accent) 7%, transparent);
+    0 1rem 2.6rem rgba(0, 0, 0, 0.24),
+    0 0 2rem color-mix(in srgb, var(--project-accent) 5%, transparent);
 }
 
 .project-case-hero .project-visual::after {
@@ -1007,7 +1009,7 @@ a {
   height: auto;
   border: 1px solid color-mix(in srgb, var(--project-accent) 22%, rgba(243, 240, 230, 0.16));
   object-fit: cover;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.28);
 }
 
 .project-image-caption {
@@ -1032,6 +1034,8 @@ a {
   display: grid;
   gap: 1.25rem;
   margin-block: 2.5rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 36rem;
 }
 
 .project-image-row {
@@ -1052,6 +1056,8 @@ a {
   border-top: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
   border-left: 1px solid color-mix(in srgb, var(--project-accent) 28%, rgba(243, 240, 230, 0.14));
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  content-visibility: auto;
+  contain-intrinsic-size: auto 18rem;
 }
 
 .revision-delta > div {
@@ -1102,7 +1108,7 @@ a {
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--project-accent) 16%, transparent), color-mix(in srgb, var(--project-accent-secondary) 8%, transparent)),
     color-mix(in srgb, var(--project-surface) 85%, var(--color-paper-deep));
-  box-shadow: 0 1rem 3rem color-mix(in srgb, var(--project-accent) 12%, transparent);
+  box-shadow: 0 0.7rem 1.6rem color-mix(in srgb, var(--project-accent) 9%, transparent);
   font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 700;
