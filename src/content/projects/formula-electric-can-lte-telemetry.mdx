@@ -39,7 +39,7 @@ import r2SchematicPage2 from "../../assets/projects/telemetry/r2-schematic-page-
 import r2SchematicPage3 from "../../assets/projects/telemetry/r2-schematic-page-3.webp";
 import r2SchematicPage4 from "../../assets/projects/telemetry/r2-schematic-page-4.webp";
 
-## Turning vehicle data into trackside decisions
+## System overview
 
 Texas A&M Formula Electric's racecar distributes critical operating data over CAN. The telemetry system moves those diagnostics off the vehicle in real time so engineers can monitor behavior from a Grafana-based driver station rather than waiting for a post-run download.
 
@@ -57,7 +57,7 @@ The board has to bridge two very different environments: a deterministic vehicle
 
 The power tree converts unregulated vehicle power through a protected input stage, buck regulation, and local filtering to support the microcontroller, LTE modem, SIM interface, CAN transceiver, and digital circuitry. Revision 2 is the vehicle-ready version: cleaner layout, more stable power architecture, better input protection, and a four-layer stackup for cleaner signal routing.
 
-> The design was successful only if cellular telemetry could be added without compromising the racecar's existing CAN network.
+> Main design constraint: add cellular telemetry without disrupting the racecar's existing CAN network.
 
 <ProjectImage image={r2FrontRender} alt="Roadlink R2 telemetry PCB front-side 3D render" caption="Roadlink R2 front side. STM32G4 control, LTE module connector, SIM interface, CAN interface, and Texas A&M Formula Electric board branding." />
 
@@ -77,7 +77,7 @@ The board centers on an STM32G4 embedded controller that receives vehicle CAN da
   </span>
 </a>
 
-## Revision story: R1 to R2
+## PCB revisions: R1 to R2
 
 R1 proved the basic system concept and helped me understand the mechanical constraints, connector placement, STM32 routing, LTE interface, SIM section, and CAN path. R2 is where the design became much more intentional. The layout is cleaner because I had more Altium experience, but the bigger change is that the electrical architecture became more defensible.
 
@@ -134,4 +134,4 @@ The R2 schematic is included here because the technical depth matters for this p
 
 I used oscilloscopes and digital multimeters to verify power rails, signal behavior, EMI performance, and subsystem integration. Validation progressed from individual power and communication blocks to full CAN-to-LTE operation before deployment on the racecar.
 
-The next strongest additions to this page will be scope captures, the final assembled board, and synchronized vehicle-side versus Grafana data. The revision comparison already shows the main engineering arc: R1 proved the board concept, and R2 made the design safer, cleaner, and more robust for a vehicle environment.
+Next additions: scope captures, final assembled board photos, and synchronized vehicle-side versus Grafana data. R1 proved the board concept. R2 updated the power architecture, protection, stackup, and signal routing for vehicle use.

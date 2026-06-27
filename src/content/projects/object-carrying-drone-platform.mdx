@@ -39,9 +39,9 @@ import cadModels from "../../assets/projects/drone/cad-models.webp";
 import materialsBom from "../../assets/projects/drone/materials-bom.webp";
 import flightRules from "../../assets/projects/drone/flight-rules.webp";
 
-## A drone built around payload delivery
+## System overview
 
-This project started as a Drone Challenge UAV build for Gulf Coast Texas. The goal was not just to assemble a quadcopter, but to turn a loose set of parts into a flyable platform with a camera link, radio-control path, tuned flight controller, documented wiring, CAD layout, and payload rules in mind.
+This project started as a Drone Challenge UAV build for Gulf Coast Texas. The work covered the airframe, camera link, radio-control path, Betaflight setup, wiring, CAD layout, and payload rules.
 
 The final prototype used a carbon-fiber drone base, brushless motor layout, Li-ion battery pack, camera, radio/controller hardware, an Arduino bridge, and a flight controller running Betaflight on an STM32F411 microcontroller.
 
@@ -51,13 +51,13 @@ The final prototype used a carbon-fiber drone base, brushless motor layout, Li-i
   <div><small>Command link</small><b>Arduino bridge between receiver, flight controller, camera, and radio path</b></div>
 </div>
 
-<ProjectImage image={assemblyLog} alt="Color project log showing drone assembly stages" caption="Assembly evidence from the color project deck, including parts layout, frame build, and completed base." />
+<ProjectImage image={assemblyLog} alt="Color project log showing drone assembly stages" caption="Assembly notes from the color project deck, including parts layout, frame build, and completed base." />
 
 ## Wiring, packaging, and integration
 
 The wiring work centered on making the flight controller, power distributor, radio hardware, camera, and Arduino physically fit inside the airframe while still remaining serviceable. The build log shows the process of organizing wire bundles, planning the layout, testing connections through the power distributor and flight controller, then zip-tying the final harness.
 
-A practical issue appeared during integration: one connection was difficult to solder cleanly in the available space, so the team changed the physical attachment approach and moved to a more workable connection method for the prototype. That kind of packaging problem is exactly why this page belongs in an engineering portfolio, because it shows the messy middle between a schematic idea and hardware that actually fits together.
+A practical issue appeared during integration: one connection was difficult to solder cleanly in the available space, so the team changed the physical attachment approach and moved to a more workable connection method for the prototype.
 
 <ProjectImage image={wiringLog} alt="Color project log showing organized wiring and finished drone harness" caption="Wiring and packaging process: organized leads, flight-controller connections, power-distribution testing, and final harness routing." />
 
@@ -69,7 +69,7 @@ The Arduino acted as a bridge between the physical controller and the flight con
 
 Camera integration added another embedded layer. The project used Arduino code with `Wire.h` for I2C communication, sending camera information through the Arduino and radio path to the driver's visual setup. The deck also documents a webcam-to-radio mounting process, including validating the camera on a computer before stripping and integrating wires into the drone.
 
-<ProjectImage image={programmingSteps} alt="Color project log showing Betaflight configuration and camera code" caption="Programming evidence: Betaflight motor setup, PID configuration notes, and Arduino camera code using I2C." />
+<ProjectImage image={programmingSteps} alt="Color project log showing Betaflight configuration and camera code" caption="Programming notes: Betaflight motor setup, PID configuration notes, and Arduino camera code using I2C." />
 
 ## CAD and mechanical layout
 
@@ -93,6 +93,6 @@ The competition framing emphasized payload delivery. The stated objective was to
 
 <ProjectImage image={flightRules} alt="Color project log showing general flight mission rules and regulations" caption="Mission constraints from the rules section, including payload limits, timing, safety, and field procedures." />
 
-## What this project shows
+## Project outcome
 
-This is an early but useful robotics project because it touches the full system: mechanical layout, electrical wiring, embedded communication, flight-controller setup, software configuration, cost control, and test-driven iteration. The strongest parts for the portfolio are the integration decisions, the CAD-to-hardware workflow, and the way the build captures real tradeoffs instead of pretending the drone was only a clean final product.
+This project covered mechanical layout, electrical wiring, embedded communication, flight-controller setup, software configuration, cost control, and test-driven iteration. It mainly shows integration work and the CAD-to-hardware workflow.

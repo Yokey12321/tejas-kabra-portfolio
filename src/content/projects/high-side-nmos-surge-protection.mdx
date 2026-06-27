@@ -38,11 +38,11 @@ import ltspiceSchematic from "../../assets/projects/surge-protection/ltspice-sch
 import ltspiceTransient from "../../assets/projects/surge-protection/ltspice-transient.webp";
 import altiumSchematic from "../../assets/projects/surge-protection/altium-schematic.webp";
 
-## Protecting a 12 V load from a 50 V pulse
+## System requirements
 
-This board was designed around a direct power-electronics challenge: protect a **12 V, 5 A load** when the input line jumps to **50 V for 50 ms**. The output could not simply follow the input. It had to stay near the desired load voltage while the pass devices, gate drive, and control electronics survived the short transient.
+This board protects a **12 V, 5 A load** when the input line jumps to **50 V for 50 ms**. The output cannot follow the input directly, and the pass devices, gate drive, and control electronics all have to survive the transient.
 
-I approached the circuit as a high-side linear protection stage. The main current path uses two back-to-back N-channel MOSFETs, while an op-amp feedback loop drives the MOSFET gates to regulate the protected output. The final LTspice simulation shows the key result: when Vin rises to 50 V, Vout only rises to about **13.8 V** before returning to 12 V after the pulse.
+The circuit is a high-side linear protection stage. The main current path uses two back-to-back N-channel MOSFETs, while an op-amp feedback loop drives the MOSFET gates to regulate the protected output. In LTspice, when Vin rises to 50 V, Vout rises to about **13.8 V** before returning to 12 V after the pulse.
 
 <div className="data-grid">
   <div><small>Input event</small><b>50 V applied for 50 ms after a 12 V starting condition</b></div>
@@ -52,13 +52,13 @@ I approached the circuit as a high-side linear protection stage. The main curren
 
 <ProjectImage image={pcbLayout} alt="Altium layout for transient suppression PCB" caption="Altium PCB layout for the transient suppression board. The large high-current path is separated from the lower-power control, gate-drive, MCU, and CAN support circuitry." />
 
-## Why the topology works
+## Topology
 
 The back-to-back MOSFET arrangement lets the board control the high-side current path while reducing conduction loss compared with a P-channel approach. I selected **IPB120N10S403ATMA1** MOSFETs and treated the 50 V pulse as a short-duration linear-region stress case instead of only checking the steady-state current rating.
 
 During the surge, the protected output sits near 14 V while the input is 50 V. That leaves about 36 V across the two series MOSFETs. Splitting that across the pair gives roughly **18 V per MOSFET**, and at 5 A that is approximately **90 W per MOSFET** for the 50 ms pulse. The design justification checked this against the MOSFET safe operating area and selected large devices with enough transient margin.
 
-> The important part was not just clamping Vout. The MOSFETs had to survive the pulse while the control loop still had enough gate voltage to regulate.
+> The MOSFETs have to survive the pulse while the control loop maintains enough gate voltage to regulate.
 
 <div className="data-grid">
   <div><small>Pass devices</small><b>Two IPB120N10S403ATMA1 N-channel MOSFETs in a back-to-back high-side path</b></div>
@@ -110,7 +110,7 @@ The simulation model simplified some IC internals so the transient behavior coul
 
 The PCB layout keeps the high-current path visually obvious, with large copper regions for the MOSFET path and sense network, and smaller control circuitry grouped around the op-amp, charge pump, zener rail, LDO, MCU, oscillator, and CAN transceiver support blocks. Dense via stitching helps tie reference copper together and gives the power stage a more controlled return environment.
 
-This project is valuable in the portfolio because it shows the full chain of power design reasoning: define the transient, choose a topology, estimate device stress, design the gate-drive supply, set the clamp point mathematically, simulate the pulse response, then turn the circuit into an actual routed board.
+This page documents the main design steps: define the transient, choose the topology, estimate device stress, design the gate-drive supply, set the clamp point, simulate the pulse response, and route the board.
 
 <span id="schematic-detail"></span>
 

@@ -23,16 +23,16 @@ const projects = (await getCollection("projects"))
       <div class="relative z-10 flex flex-col justify-center py-20 lg:py-28 lg:pr-16">
         <p class="eyebrow text-signal">Electrical Engineering // Texas A&amp;M</p>
         <h1 class="mt-7 max-w-4xl text-[clamp(4rem,8vw,8.5rem)] font-semibold leading-[0.82] tracking-[-0.075em]">
-          Hardware,
-          <span class="block text-ink/35">proven.</span>
+          Electrical
+          <span class="block text-ink/35">engineering.</span>
         </h1>
         <p class="mt-10 max-w-2xl text-lg leading-8 text-ink/65 md:text-xl">
-          I design embedded systems from schematic to field test: custom PCBs, vehicle telemetry,
-          power electronics, and electromechanical systems built to produce measurable results.
+          Embedded systems, custom PCBs, vehicle telemetry, power electronics, and robotics projects
+          from schematic through testing.
         </p>
         <div class="mt-10 flex flex-wrap gap-4">
           <a class="bg-signal px-6 py-4 technical-label text-panel transition-transform hover:-translate-y-1 hover:bg-[#ff824f]" href="#projects">
-            Explore the work <span class="ml-3 text-panel">↓</span>
+            View projects
           </a>
           <a class="border border-ink/20 px-6 py-4 technical-label transition-colors hover:border-ink" href="/about">
             About Tejas
@@ -61,11 +61,11 @@ const projects = (await getCollection("projects"))
   <section id="projects" class="court-section shell py-24 md:py-32">
     <div class="grid gap-8 border-b hairline pb-8 md:grid-cols-[1fr_auto] md:items-end">
       <div>
-        <p class="eyebrow text-signal">Selected case studies</p>
-        <h2 class="mt-5 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">Engineering in context.</h2>
+        <p class="eyebrow text-signal">Project work</p>
+        <h2 class="mt-5 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">Selected projects</h2>
       </div>
       <p class="max-w-sm text-sm leading-6 text-ink/55 md:text-right">
-        Each project documents the constraint, architecture, tradeoffs, validation, and what changed after testing.
+        Each page covers the requirements, architecture, implementation, testing, and current status.
       </p>
     </div>
 
@@ -108,17 +108,17 @@ const projects = (await getCollection("projects"))
     <div class="shell">
       <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
         <div>
-          <p class="eyebrow text-signal">How I work</p>
+          <p class="eyebrow text-signal">Design process</p>
           <h2 class="mt-6 text-4xl font-semibold leading-tight tracking-[-0.045em] md:text-6xl">
-            The bench is where assumptions go to get tested.
+            From requirements to test results
           </h2>
         </div>
         <ol class="grid border-l border-t border-ink/15 md:grid-cols-2">
           {[
-            ["01", "Define", "Translate the operating environment into electrical, timing, thermal, mechanical, and interface constraints."],
-            ["02", "Architect", "Partition each function across hardware, firmware, communications, and power."],
-            ["03", "Instrument", "Build in test points, logs, and observability before the first prototype."],
-            ["04", "Iterate", "Use failure evidence and measurements to improve the next revision."],
+            ["01", "Requirements", "Define electrical, timing, thermal, mechanical, and interface constraints."],
+            ["02", "Architecture", "Split the design across power, hardware, firmware, communications, and packaging."],
+            ["03", "Bring-up", "Use test points, logs, oscilloscope captures, and DMM measurements to verify each block."],
+            ["04", "Revision", "Use measurements and failure cases to update the next version."],
           ].map(([number, title, body]) => (
             <li class="min-h-56 border-b border-r border-ink/15 p-7">
               <span class="technical-label text-signal">{number}</span>
@@ -130,5 +130,4 @@ const projects = (await getCollection("projects"))
       </div>
     </div>
   </section>
-
 </BaseLayout>

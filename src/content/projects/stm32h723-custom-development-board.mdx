@@ -30,25 +30,25 @@ metrics:
 
 import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
-## A reusable controller for robot subsystems
+## System overview
 
-Texas A&M RoboMasters needed a compact embedded platform that could control robot subsystems without rebuilding the same power, communication, sensing, and programming circuitry for every prototype.
+Texas A&M RoboMasters needed a compact embedded platform for robot subsystems. The goal was to avoid rebuilding the same power, communication, sensing, and programming circuitry for each prototype.
 
-I designed a custom STM32H7-based development board that integrates those functions into one reusable controller. The board supports subsystem bring-up, hands-on debugging, and integration with the team’s mechanical and software systems.
+I designed a custom STM32H7-based development board that combines those functions into one controller. The board supports subsystem bring-up, debugging, and integration with the team's mechanical and software systems.
 
 <div className="data-grid">
   <div><small>Power</small><b>24 V input converted to 5 V and 3.3 V rails</b></div>
-  <div><small>Control</small><b>High-performance STM32H7 microcontroller</b></div>
+  <div><small>Control</small><b>STM32H7 microcontroller</b></div>
   <div><small>I/O</small><b>CAN, UART, SWD, sensors, and expanded GPIO</b></div>
 </div>
 
 ## Board architecture
 
-The power tree uses a 24 V-to-5 V buck stage followed by a 5 V-to-3.3 V LDO. This provides the rails required by the microcontroller, onboard sensing, and external interfaces while matching the robot’s available supply.
+The power tree uses a 24 V-to-5 V buck stage followed by a 5 V-to-3.3 V LDO. These rails support the microcontroller, onboard sensing, and external interfaces while matching the robot's available supply.
 
 The STM32H7 is supported by an external crystal oscillator, SWD programming and debugging access, CAN and UART connectivity, multifunction GPIO expansion, and an onboard LSM6DSO32R inertial measurement unit.
 
-> The board was designed as an integration tool: power, communications, sensing, and debug access all needed to remain usable once installed on a robot.
+> Design goal: keep power, communications, sensing, and debug access usable after the board is installed on a robot.
 
 <ImagePlaceholder label="Annotated STM32H7 schematic" note="Add power tree, MCU core, LSM6DSO32R, clock, CAN/UART, SWD, and GPIO sheets" />
 
@@ -64,11 +64,11 @@ The STM32H7 is supported by an external crystal oscillator, SWD programming and 
 
 ## Altium library and layout work
 
-I created custom Altium component footprints for parts not already available in the team library and laid out the board around electrical function and subsystem access. I also supported development of a CAN breakout board used elsewhere in the robot architecture.
+I created custom Altium component footprints for parts that were not already available in the team library and laid out the board around electrical function and subsystem access. I also supported development of a CAN breakout board used elsewhere in the robot architecture.
 
 <ImagePlaceholder label="PCB layout, 3D render, and assembled board" note="Add Altium views, custom footprints, bare PCB, soldering, and installed hardware" />
 
-## Bring-up and team integration
+## Bring-up and integration
 
 My work continued beyond schematic and layout. I performed wiring, soldering, electrical testing, STM32 programming, and subsystem integration while coordinating with mechanical and software team members.
 
@@ -78,6 +78,6 @@ My work continued beyond schematic and layout. I performed wiring, soldering, el
   <div><small>Integration</small><b>Robot subsystem testing across disciplines</b></div>
 </div>
 
-## Evidence to add
+## Images to add
 
-The next visual pass should include the schematic hierarchy, layer stack, custom footprint examples, assembled board, rail measurements, first successful SWD connection, CAN traffic, and any revision notes discovered during integration.
+Next additions: schematic hierarchy, layer stack, custom footprint examples, assembled board, rail measurements, first SWD connection, CAN traffic, and revision notes from integration.
