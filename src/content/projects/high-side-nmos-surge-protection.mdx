@@ -54,7 +54,7 @@ The circuit is a high-side linear protection stage. The main current path uses t
 
 ## Topology
 
-The back-to-back MOSFET arrangement lets the board control the high-side current path while reducing conduction loss compared with a P-channel approach. I selected **IPB120N10S403ATMA1** MOSFETs and treated the 50 V pulse as a short-duration linear-region stress case instead of only checking the steady-state current rating.
+The back-to-back MOSFET arrangement lets the board control the high-side current path while reducing conduction loss compared with a P-channel approach. The design uses **IPB120N10S403ATMA1** MOSFETs and treats the 50 V pulse as a short-duration linear-region stress case instead of only checking the steady-state current rating.
 
 During the surge, the protected output sits near 14 V while the input is 50 V. That leaves about 36 V across the two series MOSFETs. Splitting that across the pair gives roughly **18 V per MOSFET**, and at 5 A that is approximately **90 W per MOSFET** for the 50 ms pulse. The design justification checked this against the MOSFET safe operating area and selected large devices with enough transient margin.
 
@@ -73,7 +73,7 @@ During the surge, the protected output sits near 14 V while the input is 50 V. T
 
 ## Gate drive and control rails
 
-Because the MOSFETs sit on the high side, the source node rises near the protected output. That means the gate drive has to rise above the source instead of being driven from a normal 3.3 V or 5 V logic rail. I used a zener-limited 12 V control rail feeding an **LT1054 charge pump** so the op-amp could command a gate voltage in the roughly **18 V to 20 V** range under load.
+Because the MOSFETs sit on the high side, the source node rises near the protected output. That means the gate drive has to rise above the source instead of being driven from a normal 3.3 V or 5 V logic rail. A zener-limited 12 V control rail feeds an **LT1054 charge pump** so the op-amp can command a gate voltage in the roughly **18 V to 20 V** range under load.
 
 The 12 V rail is generated from the input through a **680 ohm** resistor and a 12 V zener diode. During the 50 V surge, the resistor sees about 38 V. At roughly 55 mA, that puts resistor dissipation near **2.1 W**, so the design calls for a 2 W or higher part. The zener dissipation estimate lands around **0.24 W to 0.48 W**, so a 1 W to 2 W zener provides reasonable margin.
 
@@ -88,7 +88,7 @@ The low-voltage electronics use an **LM1117-3.3** regulator from the 12 V rail. 
 
 ## Feedback divider and clamp point
 
-The op-amp compares the output sense voltage against the 3.3 V reference. I used a **32 k / 10 k** divider, which scales the output by:
+The op-amp compares the output sense voltage against the 3.3 V reference. A **32 k / 10 k** divider scales the output by:
 
 <div className="data-grid">
   <div><small>Divider ratio</small><b>10 / (32 + 10) = 0.238</b></div>

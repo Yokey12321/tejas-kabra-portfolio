@@ -34,7 +34,7 @@ import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 
 Texas A&M RoboMasters needed a compact embedded platform for robot subsystems. The goal was to avoid rebuilding the same power, communication, sensing, and programming circuitry for each prototype.
 
-I designed a custom STM32H7-based development board that combines those functions into one controller. The board supports subsystem bring-up, debugging, and integration with the team's mechanical and software systems.
+Designed a custom STM32H7-based development board that combines those functions into one controller. The board supports subsystem bring-up, debugging, and integration with the team's mechanical and software systems.
 
 <div className="data-grid">
   <div><small>Power</small><b>24 V input converted to 5 V and 3.3 V rails</b></div>
@@ -64,13 +64,13 @@ The STM32H7 is supported by an external crystal oscillator, SWD programming and 
 
 ## Altium library and layout work
 
-I created custom Altium component footprints for parts that were not already available in the team library and laid out the board around electrical function and subsystem access. I also supported development of a CAN breakout board used elsewhere in the robot architecture.
+Created custom Altium component footprints for parts that were not already available in the team library and laid out the board around electrical function and subsystem access. Also supported development of a CAN breakout board used elsewhere in the robot architecture.
 
 <ImagePlaceholder label="PCB layout, 3D render, and assembled board" note="Add Altium views, custom footprints, bare PCB, soldering, and installed hardware" />
 
 ## Bring-up and integration
 
-My work continued beyond schematic and layout. I performed wiring, soldering, electrical testing, STM32 programming, and subsystem integration while coordinating with mechanical and software team members.
+Work continued beyond schematic and layout, including wiring, soldering, electrical testing, STM32 programming, and subsystem integration with mechanical and software team members.
 
 <div className="data-grid">
   <div><small>Hardware</small><b>Assembly, wiring, soldering, and rail checks</b></div>

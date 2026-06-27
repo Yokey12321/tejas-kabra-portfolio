@@ -43,7 +43,7 @@ import r2SchematicPage4 from "../../assets/projects/telemetry/r2-schematic-page-
 
 Texas A&M Formula Electric's racecar distributes critical operating data over CAN. The telemetry system moves those diagnostics off the vehicle in real time so engineers can monitor behavior from a Grafana-based driver station rather than waiting for a post-run download.
 
-I designed the telemetry PCB across two revisions, developed its embedded firmware, and validated the integrated system before vehicle deployment. The board combines an STM32G4 microcontroller, CAN and UART interfaces, a backplane vehicle-power input, and a SIM-enabled Quectel EG25 LTE modem.
+Designed the telemetry PCB across two revisions, developed its embedded firmware, and validated the integrated system before vehicle deployment. The board combines an STM32G4 microcontroller, CAN and UART interfaces, a backplane vehicle-power input, and a SIM-enabled Quectel EG25 LTE modem.
 
 <div className="data-grid">
   <div><small>Acquire</small><b>Read live vehicle data from the CAN bus</b></div>
@@ -79,7 +79,7 @@ The board centers on an STM32G4 embedded controller that receives vehicle CAN da
 
 ## PCB revisions: R1 to R2
 
-R1 proved the basic system concept and helped me understand the mechanical constraints, connector placement, STM32 routing, LTE interface, SIM section, and CAN path. R2 is where the design became much more intentional. The layout is cleaner because I had more Altium experience, but the bigger change is that the electrical architecture became more defensible.
+R1 proved the basic system concept and clarified the mechanical constraints, connector placement, STM32 routing, LTE interface, SIM section, and CAN path. R2 is the more intentional revision, with a cleaner layout and a more defensible electrical architecture.
 
 <div className="revision-delta">
   <div>
@@ -107,7 +107,7 @@ R1 proved the basic system concept and helped me understand the mechanical const
 
 ## Firmware and data path
 
-I developed the embedded firmware in C using STM32CubeIDE and STM32 HAL libraries. The firmware acquires CAN frames, extracts the required vehicle data, builds 8-byte telemetry payloads, and transfers them to the LTE modem.
+Developed the embedded firmware in C using STM32CubeIDE and STM32 HAL libraries. The firmware acquires CAN frames, extracts the required vehicle data, builds 8-byte telemetry payloads, and transfers them to the LTE modem.
 
 The system reached approximately **3,200 telemetry packets per second** with approximately **2-3 milliseconds of end-to-end latency**, providing live visibility into vehicle metrics during operation.
 
@@ -132,6 +132,6 @@ The R2 schematic archive shows the LTE module connector, SIM interface, reset, p
 
 ## Bring-up and validation
 
-I used oscilloscopes and digital multimeters to verify power rails, signal behavior, EMI performance, and subsystem integration. Validation progressed from individual power and communication blocks to full CAN-to-LTE operation before deployment on the racecar.
+Used oscilloscopes and digital multimeters to verify power rails, signal behavior, EMI performance, and subsystem integration. Validation progressed from individual power and communication blocks to full CAN-to-LTE operation before deployment on the racecar.
 
 Next additions: scope captures, final assembled board photos, and synchronized vehicle-side versus Grafana data. R1 proved the board concept. R2 updated the power architecture, protection, stackup, and signal routing for vehicle use.
