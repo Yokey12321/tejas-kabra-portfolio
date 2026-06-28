@@ -51,6 +51,14 @@ Designed the telemetry PCB across two revisions, developed its embedded firmware
   <div><small>Transmit</small><b>Stream diagnostics over LTE to Grafana</b></div>
 </div>
 
+## Development process
+
+<div className="data-grid">
+  <div><small>R1</small><b>Route the first complete board around STM32, LTE, SIM, CAN, and connector constraints</b></div>
+  <div><small>R2</small><b>Improve power protection, buck regulation, stackup, filtering, and signal routing</b></div>
+  <div><small>Validation</small><b>Check rails, signal behavior, and CAN-to-LTE data flow before vehicle use</b></div>
+</div>
+
 ## Hardware architecture
 
 The board has to bridge two very different environments: a deterministic vehicle network and a cellular modem with demanding power and communication requirements. CAN traffic enters the STM32G4, selected data is packetized in firmware, and the EG25 sends it to the remote driver station over LTE.
