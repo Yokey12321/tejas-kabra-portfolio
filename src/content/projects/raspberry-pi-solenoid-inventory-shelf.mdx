@@ -78,3 +78,11 @@ Integrated and debugged GPIO and I2C communication, solenoid actuation, power de
 The completed prototype allowed Formula Electric members to authenticate, select parts through the touchscreen, and access organized components without manually searching inventory bins.
 
 The next additions should document the number of controlled locations, actuator voltage and current, driver topology, authentication hardware, interface screenshots, and any measured reliability or cycle-test results.
+
+## Future improvements
+
+A future revision would improve authentication by integrating NFC tags or a card-touch identification workflow. That would make team-member access faster and more repeatable than relying on a less integrated login path, while still keeping the checkout process tied to a specific user.
+
+The mechanical enclosure also needs to be redesigned. The current printed housing is functional, but it is thin and flexible enough that it does not feel like a permanent shop installation. A stronger enclosure with better wall thickness, mounting features, cable strain relief, and protected electronics would make the system more secure and easier to maintain.
+
+The largest electrical improvement would be replacing the purchased power-distribution board with a custom PDP designed around this exact shelf. The current system had to adapt around the bought board and use external buck converters to support the required rails. A custom board could combine distribution, regulation, connector placement, protection, and solenoid-driver support into a cleaner package. The goal is to compress the system, reduce wiring, remove unnecessary adapters, and make the electronics match the mechanical layout instead of forcing the layout around off-the-shelf power hardware.
