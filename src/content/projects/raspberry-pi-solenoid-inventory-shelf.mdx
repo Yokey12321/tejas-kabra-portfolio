@@ -42,14 +42,6 @@ The system uses a Raspberry Pi, a Python touchscreen application, card-based aut
   <div><small>Access</small><b>Actuate the corresponding inventory location</b></div>
 </div>
 
-## Implementation process
-
-<div className="data-grid">
-  <div><small>Workflow</small><b>Map card authentication and touchscreen selection to a controlled checkout state</b></div>
-  <div><small>Drivers</small><b>Send Raspberry Pi commands over I2C to the solenoid driver boards</b></div>
-  <div><small>Debugging</small><b>Test GPIO, I2C, power delivery, and actuator behavior as one system</b></div>
-</div>
-
 ## System architecture
 
 The Raspberry Pi owns the user interface, authentication, checkout state, and command logic. Python software maps each inventory selection to an output on the I2C-connected driver network. The driver boards then switch the solenoids that control physical access to the organized components.

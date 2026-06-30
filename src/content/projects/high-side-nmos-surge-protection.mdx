@@ -50,14 +50,6 @@ The circuit is a high-side linear protection stage. The main current path uses t
   <div><small>Simulation result</small><b>Output held around 13.8 V during the transient</b></div>
 </div>
 
-## Design process
-
-<div className="data-grid">
-  <div><small>Requirement</small><b>Keep the load near regulation during a short 50 V input pulse</b></div>
-  <div><small>Device stress</small><b>Estimate MOSFET voltage, pulse power, and safe operating area margin</b></div>
-  <div><small>Simulation</small><b>Use LTspice to check clamp behavior before routing the PCB</b></div>
-</div>
-
 <ProjectImage image={pcbLayout} alt="Altium layout for transient suppression PCB" caption="Altium PCB layout for the transient suppression board. The large high-current path is separated from the lower-power control, gate-drive, MCU, and CAN support circuitry." />
 
 ## Topology
@@ -119,6 +111,12 @@ The simulation model simplified some IC internals so the transient behavior coul
 The PCB layout keeps the high-current path visually obvious, with large copper regions for the MOSFET path and sense network, and smaller control circuitry grouped around the op-amp, charge pump, zener rail, LDO, MCU, oscillator, and CAN transceiver support blocks. Dense via stitching helps tie reference copper together and gives the power stage a more controlled return environment.
 
 This page documents the main design steps: define the transient, choose the topology, estimate device stress, design the gate-drive supply, set the clamp point, simulate the pulse response, and route the board.
+
+## Future improvements
+
+The main design correction is thermal load sharing. The original analysis assumed the two series MOSFETs would split the transient dissipation evenly. In practice, the first MOSFET in the high-side path can take most of the heat during the surge event, so the circuit can still regulate while creating a more dangerous localized thermal condition than the first estimate suggested.
+
+A future board revision would treat the leading MOSFET as the primary thermal bottleneck. The layout should use wider high-current traces, larger copper pours, and more copper connected to the MOSFET pads to spread heat away from the package. Dedicated heatsinking on the MOSFET pad area would also improve transient margin. The electrical topology can stay similar, but the next revision should be designed around measured and simulated junction-temperature rise, not only the idealized split-power calculation.
 
 <span id="schematic-detail"></span>
 

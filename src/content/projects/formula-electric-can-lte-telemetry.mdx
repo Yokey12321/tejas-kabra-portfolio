@@ -51,14 +51,6 @@ Designed the telemetry PCB across two revisions, developed its embedded firmware
   <div><small>Transmit</small><b>Stream diagnostics over LTE to Grafana</b></div>
 </div>
 
-## Development process
-
-<div className="data-grid">
-  <div><small>R1</small><b>Route the first complete board around STM32, LTE, SIM, CAN, and connector constraints</b></div>
-  <div><small>R2</small><b>Improve power protection, buck regulation, stackup, filtering, and signal routing</b></div>
-  <div><small>Validation</small><b>Check rails, signal behavior, and CAN-to-LTE data flow before vehicle use</b></div>
-</div>
-
 ## Hardware architecture
 
 The board has to bridge two very different environments: a deterministic vehicle network and a cellular modem with demanding power and communication requirements. CAN traffic enters the STM32G4, selected data is packetized in firmware, and the EG25 sends it to the remote driver station over LTE.
@@ -143,3 +135,9 @@ The R2 schematic archive shows the LTE module connector, SIM interface, reset, p
 Used oscilloscopes and digital multimeters to verify power rails, signal behavior, EMI performance, and subsystem integration. Validation progressed from individual power and communication blocks to full CAN-to-LTE operation before deployment on the racecar.
 
 Next additions: scope captures, final assembled board photos, and synchronized vehicle-side versus Grafana data. R1 proved the board concept. R2 updated the power architecture, protection, stackup, and signal routing for vehicle use.
+
+## Future improvements
+
+Testing at Michigan showed that the LTE path can be limited by carrier priority, not only by board or firmware performance. The SIM used for external embedded devices did not appear to receive the same network priority as a normal mobile-device SIM, which created reliability issues when trying to send live data from a crowded competition environment.
+
+The next communication revision would compare several backhaul options instead of assuming LTE is the final answer. A mobile-priority SIM or 5G modem could improve carrier treatment and available bandwidth. 3G would have been attractive because the band would be less crowded, but that is no longer realistic because U.S. 3G networks have been shut down. A separate radio link, closer to the driver-station radio architecture used in FRC with the RoboRIO, could also reduce dependence on public cellular traffic. Satellite backhaul, such as Starlink, is worth evaluating only if packaging, power draw, latency, rules, and track-side setup constraints make sense for the team.
