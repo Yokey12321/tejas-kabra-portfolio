@@ -31,7 +31,11 @@ metrics:
 ---
 
 import ProjectImage from "../../components/ProjectImage.astro";
-import shelfCadOverview from "../../assets/projects/inventory/shelf-cad-overview.webp";
+import shelfCadAssembly from "../../assets/projects/inventory/shelf-cad-assembly.webp";
+import shelfCadBracket from "../../assets/projects/inventory/shelf-cad-bracket.webp";
+import shelfBuiltOverview from "../../assets/projects/inventory/shelf-built-overview.webp";
+import shelfBuiltActuatorStack from "../../assets/projects/inventory/shelf-built-actuator-stack.webp";
+import shelfBuiltLockingTab from "../../assets/projects/inventory/shelf-built-locking-tab.webp";
 import shelfElectricalArchitecture from "../../assets/projects/inventory/shelf-electrical-architecture.webp";
 import shelfSoftwareScope from "../../assets/projects/inventory/shelf-software-scope.webp";
 import shelfElectronicsBom from "../../assets/projects/inventory/shelf-electronics-bom.webp";
@@ -48,7 +52,7 @@ The system architecture combines a Raspberry Pi controller, touchscreen interfac
   <div><small>Actuate</small><b>Open one controlled shelf location at a time through solenoid hardware</b></div>
 </div>
 
-<ProjectImage image={shelfCadOverview} alt="CAD view of the inventory shelf electronics enclosure mounted above the drawer stack" caption="CAD packaging view showing the upper electronics enclosure, screen placement, driver-board area, and wiring region above the drawer stack." variant="full" />
+<ProjectImage image={shelfBuiltOverview} alt="Built inventory shelf mounted to a red Craftsman toolbox with printed actuator housings" caption="Built shelf prototype installed on the Formula Electric toolbox. The printed side housings package the drawer locking hardware while the bench setup supports electronics bring-up." variant="full" />
 
 ## System architecture
 
@@ -83,6 +87,11 @@ The CAD work focused on fitting the electrical hardware into the top of the shel
 
 The mechanical review identified several constraints that affected the design: the drawer rail prevented simple side protrusions, the shelf side walls were hollow and only about **1/16 in to 1/8 in** thick, and the top-side shelf structure was a better fastening location. Locking rods were planned as aluminum pieces connected to the solenoids, while the solenoid sheath was planned as a printed part with high infill. The electrical housing also needed a wire pass-through, with a neoprene grommet considered for routing roughly **30 wires** out of the enclosure.
 
+<div className="project-image-row">
+  <ProjectImage image={shelfCadAssembly} alt="CAD crop showing the inventory shelf enclosure and drawer locking hardware layout" caption="CAD assembly crop showing the electronics enclosure, screen location, and repeated side-mounted locking modules without the surrounding presentation slide." />
+  <ProjectImage image={shelfCadBracket} alt="CAD crop of the shelf locking bracket and solenoid-linked actuator geometry" caption="CAD bracket crop for the drawer lock interface. The geometry was shaped around the toolbox side wall, screw access, and drawer-rail clearance." />
+</div>
+
 ## Integration and debugging
 
 Integrated and debugged GPIO and I2C communication, solenoid actuation, power delivery, and driver-board behavior. Repeated mechanical operation exposed issues that do not appear in software-only testing, so reliability depended on validating the complete electrical and mechanical chain.
@@ -91,6 +100,11 @@ Integrated and debugged GPIO and I2C communication, solenoid actuation, power de
   <div><small>Communication</small><b>Verify GPIO and I2C command behavior</b></div>
   <div><small>Power</small><b>Support repeatable solenoid actuation</b></div>
   <div><small>Mechanics</small><b>Confirm reliable access across repeated cycles</b></div>
+</div>
+
+<div className="project-image-row">
+  <ProjectImage image={shelfBuiltActuatorStack} alt="Built shelf actuator stack with printed housings, wiring, and metal locking hardware" caption="Built actuator stack during integration. The printed housings route wiring to each drawer module while the metal hardware links the solenoid motion to the locking interface." />
+  <ProjectImage image={shelfBuiltLockingTab} alt="Close-up of a white drawer locking tab being actuated beside the printed shelf housing" caption="Close-up of the drawer lock interface being checked by hand. This view shows the practical clearance constraint between the printed housing, toolbox face, and drawer slide." />
 </div>
 
 ## Project outcome
