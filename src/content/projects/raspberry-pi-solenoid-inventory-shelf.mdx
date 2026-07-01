@@ -1,7 +1,7 @@
 ---
 title: Automated Electronic Inventory System
 shortTitle: Solenoid Inventory Shelf
-summary: A Raspberry Pi inventory system combining card authentication, a touchscreen checkout workflow, I2C driver boards, and solenoid-actuated component access.
+summary: A Raspberry Pi inventory shelf combining card authentication, a touchscreen checkout workflow, MOSFET-driven solenoids, 12 V power distribution, and CAD packaging for Formula Electric components.
 status: complete
 featured: true
 order: 4
@@ -11,8 +11,10 @@ disciplines:
 technologies:
   - Raspberry Pi
   - Python
-  - I2C
-role: System design and implementation
+  - Electron
+  - Flask
+  - MOSFET Drivers
+role: System design, software workflow, power integration, and mechanical packaging
 timeframe: Aug 2025 - Dec 2025
 accent: "#fb923c"
 accentSecondary: "#f8b24c"
@@ -20,46 +22,66 @@ themeSurface: "#140d08"
 visual: robotics
 banner: memories
 metrics:
-  - value: Python
-    label: Application layer
-  - value: I2C
-    label: Driver network
-  - value: Card + touch
-    label: User interface
+  - value: "15"
+    label: Solenoid outputs
+  - value: 17.5 A
+    label: Estimated 12 V draw
+  - value: $442
+    label: Electronics BOM target
 ---
 
-import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import ProjectImage from "../../components/ProjectImage.astro";
+import shelfCadOverview from "../../assets/projects/inventory/shelf-cad-overview.webp";
+import shelfElectricalArchitecture from "../../assets/projects/inventory/shelf-electrical-architecture.webp";
+import shelfSoftwareScope from "../../assets/projects/inventory/shelf-software-scope.webp";
+import shelfElectronicsBom from "../../assets/projects/inventory/shelf-electronics-bom.webp";
 
 ## System overview
 
-Electrical components were organized physically, but team members still had to search bins manually and track access separately. Built an automated inventory system that connects authenticated digital checkout to electromechanical access at the shelf.
+Formula Electric electrical components were organized physically, but team members still had to search bins manually and track access separately. This project connects authenticated digital checkout to physical shelf access, so a user can identify themselves, select parts, and open the correct inventory location.
 
-The system uses a Raspberry Pi, a Python touchscreen application, card-based authentication, I2C-controlled solenoid driver boards, and mechanical actuators.
+The system architecture combines a Raspberry Pi controller, touchscreen interface, card reader, 12 V solenoids, MOSFET driver boards, fused power distribution, and a CAD-packaged electronics enclosure. The reviewed electrical plan sized the actuator side around **15 pull-type solenoids** and a nominal **17.5 A at 12 V** system load.
 
 <div className="data-grid">
-  <div><small>Authenticate</small><b>Identify the team member by card</b></div>
-  <div><small>Select</small><b>Choose a component through the touchscreen</b></div>
-  <div><small>Access</small><b>Actuate the corresponding inventory location</b></div>
+  <div><small>Authenticate</small><b>Identify the team member by card or UIN before checkout</b></div>
+  <div><small>Select</small><b>Choose part numbers, quantities, and withdraw or deposit mode</b></div>
+  <div><small>Actuate</small><b>Open one controlled shelf location at a time through solenoid hardware</b></div>
 </div>
+
+<ProjectImage image={shelfCadOverview} alt="CAD view of the inventory shelf electronics enclosure mounted above the drawer stack" caption="CAD packaging view showing the upper electronics enclosure, screen placement, driver-board area, and wiring region above the drawer stack." variant="full" />
 
 ## System architecture
 
-The Raspberry Pi owns the user interface, authentication, checkout state, and command logic. Python software maps each inventory selection to an output on the I2C-connected driver network. The driver boards then switch the solenoids that control physical access to the organized components.
+The Raspberry Pi owns the user interface, authentication, checkout state, and hardware command logic. The software design review used an Electron front end with a Flask backend communicating to the hardware layer through PySerial or a similar serial interface. That keeps the UI and inventory logic on the high-level computer while the output hardware handles the solenoid switching.
 
-This separation keeps the Pi on the logic side of the system while dedicated hardware handles the current and electromechanical behavior of the actuators.
+The checkout flow was scoped around swipe or UIN authentication, scoped admin permissions, item and quantity selection, withdraw and deposit modes, and drawer-by-drawer access so only one location opens at a time. The software plan also included an endpoint exposing current item counts for live tracking through the operations system or app, plus low-stock notifications as a later feature.
 
 > The system connects user authentication, component selection, and physical access control.
 
-<ImagePlaceholder label="Inventory system architecture" note="Add touchscreen, card reader, Raspberry Pi, I2C driver boards, power distribution, and solenoids" />
+<ProjectImage image={shelfSoftwareScope} alt="Software scope slide for Electron, Flask, authentication, checkout, and low-stock functionality" caption="Software design scope: Electron interface, Flask backend, serial hardware control, authentication, item selection, withdraw/deposit flows, live inventory endpoint, and low-stock notifications." variant="full" />
 
-### Implemented functions
+## Power and actuator architecture
 
-- Raspberry Pi system controller
-- Python touchscreen interface
-- Card-based team-member authentication
-- Controlled component checkout workflow
-- I2C-connected solenoid driver boards
-- Electromechanical inventory access
+The power system is organized around a 12 V actuator rail and a lower-voltage logic/UI rail. The review schematic used an 18-channel 12 V PDU, individual 2 A fused branches for solenoids, a 5 A protected branch for the buck stage, and two 8-channel N-MOSFET boards to switch the solenoid outputs. The Pi, touchscreen, and card reader are powered from the stepped-down rail.
+
+The current estimate treated the solenoids as the dominant load: **15 solenoids at about 1 A each**, plus about **2.3 A** for the buck converter feeding the Pi and screen, and about **0.2 A** for remaining logic and driver electronics. That puts the nominal system estimate near **17.5 A at 12 V**, or roughly **200 W**.
+
+<div className="data-grid">
+  <div><small>Actuators</small><b>15 pull-type solenoids switched through MOSFET driver boards</b></div>
+  <div><small>Protection</small><b>2 A solenoid fuses and a 5 A buck-converter branch</b></div>
+  <div><small>Power budget</small><b>Approximately 17.5 A at 12 V, around 200 W nominal</b></div>
+</div>
+
+<div className="project-image-row">
+  <ProjectImage image={shelfElectricalArchitecture} alt="Hand-drawn 12 V electrical architecture for the inventory shelf" caption="Electrical architecture sketch showing the 12 V PDU, 12 V to 5 V buck stage, Raspberry Pi, card reader, touchscreen, MOSFET boards, flyback diode notes, and 15 solenoid outputs." />
+  <ProjectImage image={shelfElectronicsBom} alt="Electronics BOM slide listing Pi, buck converter, screen, solenoids, MOSFET boards, fuses, PDU, card reader, and wall mount supply" caption="Electronics BOM review targeting about $442, including Pi, screen, solenoids, MOSFET boards, fuses, PDU reference, card reader, and 12 V wall supply." />
+</div>
+
+## Mechanical packaging
+
+The CAD work focused on fitting the electrical hardware into the top of the shelf while keeping the drawer actuation hardware serviceable. The enclosure has to hold the controller, display, power distribution, driver boards, wire routing, and access hardware without interfering with the drawer rails.
+
+The mechanical review identified several constraints that affected the design: the drawer rail prevented simple side protrusions, the shelf side walls were hollow and only about **1/16 in to 1/8 in** thick, and the top-side shelf structure was a better fastening location. Locking rods were planned as aluminum pieces connected to the solenoids, while the solenoid sheath was planned as a printed part with high infill. The electrical housing also needed a wire pass-through, with a neoprene grommet considered for routing roughly **30 wires** out of the enclosure.
 
 ## Integration and debugging
 
@@ -71,13 +93,11 @@ Integrated and debugged GPIO and I2C communication, solenoid actuation, power de
   <div><small>Mechanics</small><b>Confirm reliable access across repeated cycles</b></div>
 </div>
 
-<ImagePlaceholder label="Touchscreen workflow and installed shelf" note="Add login, selection, checkout screens, driver electronics, wiring, and actuated bins" />
-
 ## Project outcome
 
-The completed prototype allowed Formula Electric members to authenticate, select parts through the touchscreen, and access organized components without manually searching inventory bins.
+The completed prototype allowed Formula Electric members to authenticate, select parts through the touchscreen, and access organized components without manually searching inventory bins. The strongest design work sits at the interface between software, power electronics, and mechanical packaging: the system had to know who was checking out parts, track quantities, and actuate physical drawers reliably.
 
-The next additions should document the number of controlled locations, actuator voltage and current, driver topology, authentication hardware, interface screenshots, and any measured reliability or cycle-test results.
+The next additions should document the final installed hardware, touchscreen screenshots, measured solenoid current, driver-board behavior, checkout logs, and cycle-test results.
 
 ## Future improvements
 
