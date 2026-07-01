@@ -13,7 +13,7 @@ technologies:
   - Python
   - Electron
   - Flask
-  - MOSFET Drivers
+  - Adafruit N-MOSFET Drivers
 role: System design, software workflow, power integration, and mechanical packaging
 timeframe: Aug 2025 - Dec 2025
 accent: "#fb923c"
@@ -66,19 +66,19 @@ The checkout flow was scoped around swipe or UIN authentication, scoped admin pe
 
 ## Power and actuator architecture
 
-The power system is organized around a 12 V actuator rail and a lower-voltage logic/UI rail. The review schematic used an 18-channel 12 V PDU, individual 2 A fused branches for solenoids, a 5 A protected branch for the buck stage, and two 8-channel N-MOSFET boards to switch the solenoid outputs. The Pi, touchscreen, and card reader are powered from the stepped-down rail.
+The power system is organized around a 12 V actuator rail and a lower-voltage logic/UI rail. The review schematic used an 18-channel 12 V PDU, individual 2 A fused branches for solenoids, a 5 A protected branch for the buck stage, and two Adafruit 8-channel N-MOSFET driver boards with MCP-series I/O expansion to switch the solenoid outputs. The Pi, touchscreen, and card reader are powered from the stepped-down rail.
 
 The current estimate treated the solenoids as the dominant load: **15 solenoids at about 1 A each**, plus about **2.3 A** for the buck converter feeding the Pi and screen, and about **0.2 A** for remaining logic and driver electronics. That puts the nominal system estimate near **17.5 A at 12 V**, or roughly **200 W**.
 
 <div className="data-grid">
-  <div><small>Actuators</small><b>15 pull-type solenoids switched through MOSFET driver boards</b></div>
+  <div><small>Actuators</small><b>15 pull-type solenoids switched through Adafruit 8-channel N-MOSFET driver boards</b></div>
   <div><small>Protection</small><b>2 A solenoid fuses and a 5 A buck-converter branch</b></div>
   <div><small>Power budget</small><b>Approximately 17.5 A at 12 V, around 200 W nominal</b></div>
 </div>
 
 <div className="project-image-row">
-  <ProjectImage image={shelfElectricalArchitecture} alt="Hand-drawn 12 V electrical architecture for the inventory shelf" caption="Electrical architecture sketch showing the 12 V PDU, 12 V to 5 V buck stage, Raspberry Pi, card reader, touchscreen, MOSFET boards, flyback diode notes, and 15 solenoid outputs." />
-  <ProjectImage image={shelfElectronicsBom} alt="Electronics BOM slide listing Pi, buck converter, screen, solenoids, MOSFET boards, fuses, PDU, card reader, and wall mount supply" caption="Electronics BOM review targeting about $442, including Pi, screen, solenoids, MOSFET boards, fuses, PDU reference, card reader, and 12 V wall supply." />
+  <ProjectImage image={shelfElectricalArchitecture} alt="Hand-drawn 12 V electrical architecture for the inventory shelf" caption="Electrical architecture sketch showing the 12 V PDU, 12 V to 5 V buck stage, Raspberry Pi, card reader, touchscreen, Adafruit N-MOSFET driver boards, flyback diode notes, and 15 solenoid outputs." />
+  <ProjectImage image={shelfElectronicsBom} alt="Electronics BOM slide listing Pi, buck converter, screen, solenoids, MOSFET boards, fuses, PDU, card reader, and wall mount supply" caption="Electronics BOM review targeting about $442, including Pi, screen, solenoids, Adafruit 8-channel N-MOSFET driver boards, fuses, PDU reference, card reader, and 12 V wall supply." />
 </div>
 
 ## Mechanical packaging
