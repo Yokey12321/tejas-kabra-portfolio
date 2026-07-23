@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import "../styles/space-theme.css";
 
 interface Props {
   title: string;
@@ -17,7 +16,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#10091d" />
+    <meta name="theme-color" content="#0a080d" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -27,64 +26,59 @@ const currentPath = Astro.url.pathname;
   </head>
   <body>
     <!--
-      Background architecture note for future Codex edits:
-      `.site-space-canvas` is a page-relative background layer that spans the entire site frame.
-      It intentionally avoids `position: fixed` so the background belongs to the document instead of the viewport.
-      See `src/styles/space-theme.css` for the detailed design notes and reference links.
+      Background experiment reverted on 2026-07-23.
+      The temporary `space-theme.css`, `.site-frame`, and `.site-space-canvas` approach was removed because the user wants to rethink the visual direction with Codex later.
+      Keep the original global.css-driven theme as the active baseline unless a new direction is explicitly chosen.
     -->
-    <div class="site-frame">
-      <div class="site-space-canvas" aria-hidden="true"></div>
-
-      <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
-        Skip to content
-      </a>
-      <header class="relative z-40 border-b hairline bg-paper/95">
-        <nav class="shell flex h-20 items-center justify-between">
-          <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
-            <span class="grid h-8 w-8 place-items-center border border-ink/20 bg-panel font-mono text-xs font-bold text-signal">TK</span>
-            <span>
-              <strong class="block text-sm leading-none tracking-tight">Tejas Kabra</strong>
-              <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
-            </span>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
+      Skip to content
+    </a>
+    <header class="relative z-40 border-b hairline bg-paper/95">
+      <nav class="shell flex h-20 items-center justify-between">
+        <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
+          <span class="grid h-8 w-8 place-items-center border border-ink/20 bg-panel font-mono text-xs font-bold text-signal">TK</span>
+          <span>
+            <strong class="block text-sm leading-none tracking-tight">Tejas Kabra</strong>
+            <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
+          </span>
+        </a>
+        <div class="flex items-center gap-5 sm:gap-8">
+          <a class:list={["technical-label transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
+            Work
           </a>
-          <div class="flex items-center gap-5 sm:gap-8">
-            <a class:list={["technical-label transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
-              Work
-            </a>
-            <a class:list={["technical-label transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
-              About
-            </a>
-            <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
-              Contact
-            </a>
-          </div>
-        </nav>
-      </header>
-      <main id="main">
-        <slot />
-      </main>
-      <footer class="border-t border-ink/10 bg-panel text-ink">
-        <div class="shell grid gap-10 py-12 md:grid-cols-2 md:items-end">
-          <div>
-            <span class="eyebrow text-signal">Contact</span>
-            <p class="mt-5 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em]">
-              Available for Fall 2026 electrical engineering co-op opportunities.
-            </p>
-          </div>
-          <div class="md:text-right">
-            <a class="text-lg underline decoration-signal decoration-2 underline-offset-8" href="https://github.com/Yokey12321">
-              github.com/Yokey12321
-            </a>
-            <p class="technical-label mt-6 text-ink/40">Texas A&amp;M University // College Station, TX</p>
-          </div>
+          <a class:list={["technical-label transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
+            About
+          </a>
+          <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
+            Contact
+          </a>
         </div>
-        <div class="border-t border-ink/10">
-          <div class="shell flex flex-col gap-3 py-5 technical-label text-ink/40 sm:flex-row sm:justify-between">
-            <span>Electrical engineering portfolio.</span>
-            <span>© {new Date().getFullYear()} Tejas Kabra</span>
-          </div>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="border-t border-ink/10 bg-panel text-ink">
+      <div class="shell grid gap-10 py-12 md:grid-cols-2 md:items-end">
+        <div>
+          <span class="eyebrow text-signal">Contact</span>
+          <p class="mt-5 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em]">
+            Available for Fall 2026 electrical engineering co-op opportunities.
+          </p>
         </div>
-      </footer>
-    </div>
+        <div class="md:text-right">
+          <a class="text-lg underline decoration-signal decoration-2 underline-offset-8" href="https://github.com/Yokey12321">
+            github.com/Yokey12321
+          </a>
+          <p class="technical-label mt-6 text-ink/40">Texas A&amp;M University // College Station, TX</p>
+        </div>
+      </div>
+      <div class="border-t border-ink/10">
+        <div class="shell flex flex-col gap-3 py-5 technical-label text-ink/40 sm:flex-row sm:justify-between">
+          <span>Electrical engineering portfolio.</span>
+          <span>© {new Date().getFullYear()} Tejas Kabra</span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
