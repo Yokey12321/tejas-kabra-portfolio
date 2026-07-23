@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/mdx": "latest",
     "@astrojs/react": "latest",
+    "@astrojs/vercel": "^10.0.8",
     "@tailwindcss/vite": "4.2.1",
     "astro": "latest",
     "motion": "latest",
