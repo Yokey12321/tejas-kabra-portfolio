@@ -14,11 +14,11 @@ body {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 9% 6%, rgba(177, 118, 255, 0.28), transparent 20rem),
-    radial-gradient(circle at 18% 18%, rgba(86, 58, 214, 0.18), transparent 28rem),
-    radial-gradient(circle at 86% 12%, rgba(70, 123, 255, 0.12), transparent 30rem),
-    radial-gradient(circle at 78% 58%, rgba(255, 107, 44, 0.075), transparent 28rem),
-    linear-gradient(180deg, #170d2a 0%, #0f0a1a 44%, #150d24 100%);
+    radial-gradient(circle at 8% 4%, rgba(183, 122, 255, 0.34), transparent 22rem),
+    radial-gradient(circle at 24% 22%, rgba(86, 58, 214, 0.18), transparent 34rem),
+    radial-gradient(circle at 88% 10%, rgba(70, 123, 255, 0.13), transparent 34rem),
+    radial-gradient(circle at 76% 66%, rgba(255, 107, 44, 0.07), transparent 32rem),
+    linear-gradient(180deg, #170d2a 0%, #0f0a1a 42%, #150d24 100%);
 }
 
 body::before {
@@ -28,19 +28,30 @@ body::before {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(circle at 22% 22%, rgba(243, 240, 230, 0.34) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 66% 34%, rgba(243, 240, 230, 0.24) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 84% 72%, rgba(196, 155, 255, 0.28) 0 1px, transparent 1.8px),
-    linear-gradient(115deg, transparent 0 36%, rgba(196, 155, 255, 0.06) 46%, transparent 58%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.025), transparent 48%);
+    radial-gradient(circle at 22% 22%, rgba(243, 240, 230, 0.28) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 66% 34%, rgba(243, 240, 230, 0.2) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 84% 72%, rgba(196, 155, 255, 0.25) 0 1px, transparent 1.8px),
+    linear-gradient(115deg, transparent 0 36%, rgba(196, 155, 255, 0.055) 46%, transparent 58%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.02), transparent 48%);
   background-size: 34rem 34rem, 27rem 27rem, 41rem 41rem, auto, auto;
-  opacity: 0.62;
-  mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.72) 42%, rgba(0, 0, 0, 0.34));
+  opacity: 0.58;
+  mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.72) 46%, rgba(0, 0, 0, 0.36));
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(ellipse at 16% 8%, rgba(196, 155, 255, 0.24), transparent 34rem),
+    radial-gradient(ellipse at 72% 18%, rgba(68, 94, 204, 0.12), transparent 38rem),
+    radial-gradient(ellipse at 48% 88%, rgba(255, 107, 44, 0.045), transparent 42rem);
 }
 
 header.bg-paper\/95 {
-  background:
-    linear-gradient(180deg, rgba(18, 11, 33, 0.94), rgba(18, 11, 33, 0.78));
+  background: rgba(18, 11, 33, 0.72);
   backdrop-filter: blur(18px);
 }
 
@@ -51,62 +62,66 @@ header {
   z-index: 1;
 }
 
-.court-section {
-  background:
-    radial-gradient(circle at 10% 0%, rgba(177, 118, 255, 0.12), transparent 24rem),
-    linear-gradient(180deg, rgba(27, 18, 48, 0.42), rgba(18, 11, 33, 0.92));
+main,
+main > section,
+.court-section,
+.bg-paper-deep,
+.bg-panel\/45,
+.serve-transition,
+.net-divider {
+  background: transparent !important;
 }
 
-.bg-paper-deep {
-  background:
-    linear-gradient(135deg, rgba(27, 18, 48, 0.96), rgba(13, 8, 24, 0.86));
+.court-lines::before {
+  opacity: 0.45;
 }
 
-.bg-panel,
-.bg-panel\/45 {
-  background:
-    linear-gradient(145deg, rgba(24, 15, 42, 0.9), rgba(10, 7, 20, 0.88));
+.hairline {
+  border-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
+}
+
+.bg-panel {
+  background: rgba(13, 8, 24, 0.5);
+}
+
+.motto-banner,
+.scoreboard,
+.image-slot,
+.project-panel,
+.project-visual {
+  background-color: rgba(13, 8, 24, 0.72);
+  backdrop-filter: blur(12px);
 }
 
 .motto-banner {
   background:
-    radial-gradient(circle at 14% 14%, rgba(196, 155, 255, 0.18), transparent 22rem),
-    #0d0818;
+    radial-gradient(circle at 14% 14%, rgba(196, 155, 255, 0.16), transparent 22rem),
+    rgba(13, 8, 24, 0.74);
   box-shadow:
-    0 1rem 2.5rem rgba(0, 0, 0, 0.3),
-    0 0 2.25rem rgba(177, 118, 255, 0.12),
-    0 0 1.5rem color-mix(in srgb, var(--banner-accent) 9%, transparent);
+    0 1rem 2.5rem rgba(0, 0, 0, 0.28),
+    0 0 2.25rem rgba(177, 118, 255, 0.1),
+    0 0 1.5rem color-mix(in srgb, var(--banner-accent) 8%, transparent);
 }
 
 .scoreboard {
   background:
-    radial-gradient(circle at 0% 0%, rgba(196, 155, 255, 0.13), transparent 18rem),
-    linear-gradient(145deg, rgba(177, 118, 255, 0.09), rgba(13, 8, 24, 0.96));
+    radial-gradient(circle at 0% 0%, rgba(196, 155, 255, 0.11), transparent 18rem),
+    linear-gradient(145deg, rgba(177, 118, 255, 0.075), rgba(13, 8, 24, 0.78));
   box-shadow:
-    inset 0 0 1.4rem rgba(0, 0, 0, 0.26),
-    0 0 1.8rem rgba(177, 118, 255, 0.06);
-}
-
-.serve-transition {
-  background:
-    radial-gradient(circle at 50% 42%, rgba(177, 118, 255, 0.2), transparent 28rem),
-    radial-gradient(circle at 25% 74%, rgba(70, 123, 255, 0.1), transparent 24rem),
-    linear-gradient(180deg, #120b21, #0c0815);
+    inset 0 0 1.4rem rgba(0, 0, 0, 0.22),
+    0 0 1.8rem rgba(177, 118, 255, 0.055);
 }
 
 .hero-court {
   background:
-    radial-gradient(circle at 28% 20%, rgba(196, 155, 255, 0.24), transparent 20rem),
-    radial-gradient(circle at 70% 70%, rgba(255, 107, 44, 0.08), transparent 24rem),
-    linear-gradient(160deg, #18102a, #090614);
-}
-
-.net-divider {
-  background: rgba(18, 11, 33, 0.92);
+    radial-gradient(circle at 28% 20%, rgba(196, 155, 255, 0.2), transparent 20rem),
+    radial-gradient(circle at 70% 70%, rgba(255, 107, 44, 0.065), transparent 24rem),
+    rgba(9, 6, 20, 0.56);
+  backdrop-filter: blur(12px);
 }
 
 footer.bg-panel {
   background:
-    radial-gradient(circle at 14% 0%, rgba(177, 118, 255, 0.13), transparent 22rem),
-    linear-gradient(180deg, #10091d, #0a0612);
+    linear-gradient(180deg, rgba(16, 9, 29, 0.48), rgba(10, 6, 18, 0.78));
+  backdrop-filter: blur(14px);
 }
