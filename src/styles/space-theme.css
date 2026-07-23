@@ -1,24 +1,25 @@
 :root {
-  --color-paper: #120b21;
-  --color-paper-deep: #1b1230;
-  --color-panel: #0d0818;
+  --color-paper: #070814;
+  --color-paper-deep: #101225;
+  --color-panel: #090a18;
   --color-copper: #c49bff;
   --color-trace: #c7b7dc;
 }
 
 html {
-  background: #120b21;
+  background: #070814;
 }
 
 body {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 8% 4%, rgba(183, 122, 255, 0.34), transparent 22rem),
-    radial-gradient(circle at 24% 22%, rgba(86, 58, 214, 0.18), transparent 34rem),
-    radial-gradient(circle at 88% 10%, rgba(70, 123, 255, 0.13), transparent 34rem),
-    radial-gradient(circle at 76% 66%, rgba(255, 107, 44, 0.07), transparent 32rem),
-    linear-gradient(180deg, #170d2a 0%, #0f0a1a 42%, #150d24 100%);
+    radial-gradient(circle at 10% 7%, rgba(197, 142, 255, 0.32), transparent 20rem),
+    radial-gradient(circle at 23% 19%, rgba(98, 82, 255, 0.19), transparent 34rem),
+    radial-gradient(circle at 84% 12%, rgba(80, 127, 255, 0.17), transparent 36rem),
+    radial-gradient(circle at 74% 64%, rgba(255, 107, 44, 0.08), transparent 34rem),
+    linear-gradient(128deg, rgba(199, 155, 255, 0.08) 0 12%, transparent 34% 100%),
+    linear-gradient(180deg, #09091a 0%, #050712 42%, #0c0920 100%);
 }
 
 body::before {
@@ -28,14 +29,25 @@ body::before {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(circle at 22% 22%, rgba(243, 240, 230, 0.28) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 66% 34%, rgba(243, 240, 230, 0.2) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 84% 72%, rgba(196, 155, 255, 0.25) 0 1px, transparent 1.8px),
-    linear-gradient(115deg, transparent 0 36%, rgba(196, 155, 255, 0.055) 46%, transparent 58%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.02), transparent 48%);
-  background-size: 34rem 34rem, 27rem 27rem, 41rem 41rem, auto, auto;
-  opacity: 0.58;
-  mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.72) 46%, rgba(0, 0, 0, 0.36));
+    radial-gradient(circle at 7% 12%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 18% 66%, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.55px),
+    radial-gradient(circle at 37% 26%, rgba(196, 155, 255, 0.55) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 58% 72%, rgba(255, 255, 255, 0.48) 0 1px, transparent 1.55px),
+    radial-gradient(circle at 84% 31%, rgba(185, 209, 255, 0.58) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 93% 82%, rgba(255, 255, 255, 0.38) 0 1px, transparent 1.5px),
+    linear-gradient(118deg, transparent 0 33%, rgba(166, 116, 255, 0.085) 43%, rgba(94, 117, 255, 0.045) 52%, transparent 64%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.025), transparent 48%);
+  background-size:
+    19rem 19rem,
+    27rem 27rem,
+    33rem 33rem,
+    23rem 23rem,
+    31rem 31rem,
+    41rem 41rem,
+    auto,
+    auto;
+  opacity: 0.78;
+  mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.8) 54%, rgba(0, 0, 0, 0.46));
 }
 
 body::after {
@@ -45,13 +57,15 @@ body::after {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(ellipse at 16% 8%, rgba(196, 155, 255, 0.24), transparent 34rem),
-    radial-gradient(ellipse at 72% 18%, rgba(68, 94, 204, 0.12), transparent 38rem),
-    radial-gradient(ellipse at 48% 88%, rgba(255, 107, 44, 0.045), transparent 42rem);
+    radial-gradient(ellipse at 13% 7%, rgba(207, 164, 255, 0.28), transparent 32rem),
+    radial-gradient(ellipse at 72% 18%, rgba(69, 95, 214, 0.16), transparent 38rem),
+    radial-gradient(ellipse at 47% 88%, rgba(255, 107, 44, 0.055), transparent 44rem),
+    linear-gradient(105deg, transparent 0 22%, rgba(89, 80, 190, 0.12) 38%, rgba(194, 143, 255, 0.075) 46%, transparent 66%);
+  filter: saturate(1.12);
 }
 
 header.bg-paper\/95 {
-  background: rgba(18, 11, 33, 0.72);
+  background: rgba(7, 8, 20, 0.72);
   backdrop-filter: blur(18px);
 }
 
@@ -73,7 +87,7 @@ main > section,
 }
 
 .court-lines::before {
-  opacity: 0.45;
+  opacity: 0.38;
 }
 
 .hairline {
@@ -81,7 +95,7 @@ main > section,
 }
 
 .bg-panel {
-  background: rgba(13, 8, 24, 0.5);
+  background: rgba(9, 10, 24, 0.5);
 }
 
 .motto-banner,
@@ -89,39 +103,39 @@ main > section,
 .image-slot,
 .project-panel,
 .project-visual {
-  background-color: rgba(13, 8, 24, 0.72);
+  background-color: rgba(9, 10, 24, 0.7);
   backdrop-filter: blur(12px);
 }
 
 .motto-banner {
   background:
-    radial-gradient(circle at 14% 14%, rgba(196, 155, 255, 0.16), transparent 22rem),
-    rgba(13, 8, 24, 0.74);
+    radial-gradient(circle at 14% 14%, rgba(196, 155, 255, 0.18), transparent 22rem),
+    rgba(9, 10, 24, 0.74);
   box-shadow:
     0 1rem 2.5rem rgba(0, 0, 0, 0.28),
-    0 0 2.25rem rgba(177, 118, 255, 0.1),
+    0 0 2.5rem rgba(177, 118, 255, 0.12),
     0 0 1.5rem color-mix(in srgb, var(--banner-accent) 8%, transparent);
 }
 
 .scoreboard {
   background:
-    radial-gradient(circle at 0% 0%, rgba(196, 155, 255, 0.11), transparent 18rem),
-    linear-gradient(145deg, rgba(177, 118, 255, 0.075), rgba(13, 8, 24, 0.78));
+    radial-gradient(circle at 0% 0%, rgba(196, 155, 255, 0.12), transparent 18rem),
+    linear-gradient(145deg, rgba(177, 118, 255, 0.08), rgba(9, 10, 24, 0.78));
   box-shadow:
     inset 0 0 1.4rem rgba(0, 0, 0, 0.22),
-    0 0 1.8rem rgba(177, 118, 255, 0.055);
+    0 0 1.8rem rgba(177, 118, 255, 0.06);
 }
 
 .hero-court {
   background:
-    radial-gradient(circle at 28% 20%, rgba(196, 155, 255, 0.2), transparent 20rem),
-    radial-gradient(circle at 70% 70%, rgba(255, 107, 44, 0.065), transparent 24rem),
-    rgba(9, 6, 20, 0.56);
+    radial-gradient(circle at 28% 20%, rgba(196, 155, 255, 0.22), transparent 20rem),
+    radial-gradient(circle at 70% 70%, rgba(255, 107, 44, 0.07), transparent 24rem),
+    rgba(7, 8, 20, 0.58);
   backdrop-filter: blur(12px);
 }
 
 footer.bg-panel {
   background:
-    linear-gradient(180deg, rgba(16, 9, 29, 0.48), rgba(10, 6, 18, 0.78));
+    linear-gradient(180deg, rgba(9, 10, 24, 0.44), rgba(5, 7, 18, 0.78));
   backdrop-filter: blur(14px);
 }
