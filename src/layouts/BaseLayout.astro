@@ -25,11 +25,6 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body>
-    <!--
-      Background experiment reverted on 2026-07-23.
-      The temporary `space-theme.css`, `.site-frame`, and `.site-space-canvas` approach was removed because the user wants to rethink the visual direction with Codex later.
-      Keep the original global.css-driven theme as the active baseline unless a new direction is explicitly chosen.
-    -->
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
       Skip to content
     </a>
