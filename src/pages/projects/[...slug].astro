@@ -2,16 +2,14 @@
 import { getCollection, render } from "astro:content";
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
 
-export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((entry) => entry.id === slug);
 
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+if (!project) {
+  return Astro.redirect("/404");
 }
 
-const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 
