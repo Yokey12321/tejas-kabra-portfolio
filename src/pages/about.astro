@@ -4,18 +4,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout title="About | Tejas Kabra" description="About Tejas Kabra, an electrical engineering student at Texas A&M.">
   <section class="shell py-20 md:py-28">
-    <p class="eyebrow text-signal">About Tejas</p>
-    <div class="mt-8 grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-      <h1 class="text-6xl font-semibold leading-[0.92] tracking-[-0.065em] md:text-8xl">
-        Electrical engineering student at Texas A&amp;M.
-      </h1>
-      <div class="self-end">
-        <p class="text-xl leading-9 text-ink/65">
-          Electrical Engineering student at Texas A&amp;M focused on embedded systems, PCB design,
-          CAN, telemetry, power electronics, and robotics.
+    <p class="eyebrow text-signal">About</p>
+    <div class="mt-8 grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+      <div>
+        <h1 class="text-6xl font-semibold leading-[0.92] tracking-[-0.065em] md:text-8xl">
+          Tejas Kabra
+        </h1>
+        <p class="mt-7 max-w-xl text-2xl leading-9 text-ink/72">
+          Electrical Engineering student at Texas A&amp;M building embedded hardware, PCB systems,
+          telemetry, power electronics, and robotics projects.
         </p>
-        <p class="mt-6 leading-8 text-ink/60">
-          Project work sits between circuit design, embedded firmware, testing, and hardware bring-up.
+      </div>
+      <div class="border-l border-t p-7 hairline md:p-9">
+        <p class="technical-label text-signal">Summary</p>
+        <p class="mt-5 text-xl leading-9 text-ink/78">
+          I like engineering problems that are difficult for a real reason: the board has to power on,
+          the firmware has to talk to the hardware, the signals have to survive the environment, and
+          the system still has to be understandable when something breaks.
+        </p>
+        <p class="mt-5 leading-8 text-ink/62">
+          Long term, space is the goal that keeps me pointed forward. I want something I build to
+          operate beyond Earth someday, and that pushes me to get better at hardware design, firmware,
+          testing, and debugging with actual systems in front of me.
         </p>
       </div>
     </div>
@@ -24,9 +34,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <section class="scoreboard border-y hairline text-ink">
     <div class="shell grid md:grid-cols-3">
       {[
-        ["Current", "B.S. Electrical Engineering", "Texas A&M University"],
-        ["Seeking", "Fall 2026 Co-op", "Embedded / Hardware / Systems"],
-        ["Based", "College Station, Texas", "Open to relocation"],
+        ["Studying", "B.S. Electrical Engineering", "Texas A&M University"],
+        ["Building", "Vehicle telemetry and embedded boards", "CAN, LTE, STM32, PCB bring-up"],
+        ["Seeking", "Fall 2026 co-op", "Electrical, embedded, hardware, or systems"],
       ].map(([label, value, detail]) => (
         <div class="border-b border-ink/15 p-7 md:min-h-48 md:border-b-0 md:border-r md:last:border-r-0">
           <span class="technical-label text-signal">{label}</span>
@@ -37,18 +47,87 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <section class="shell grid gap-16 py-24 md:py-32 lg:grid-cols-2">
+  <section class="shell grid gap-14 py-24 md:py-32 lg:grid-cols-[0.8fr_1.2fr]">
     <div>
-      <p class="eyebrow text-signal">Technical interests</p>
-      <h2 class="mt-6 text-5xl font-semibold tracking-[-0.05em]">Focus areas</h2>
+      <p class="eyebrow text-signal">Profile</p>
+      <h2 class="mt-6 text-5xl font-semibold tracking-[-0.05em]">About me</h2>
     </div>
-    <div class="grid grid-cols-2 border-l border-t hairline">
-      {["Embedded C/C++", "STM32 / ARM", "CAN systems", "PCB design", "Power protection", "Telemetry", "Test equipment", "Embedded Linux"].map((item, index) => (
-        <div class="min-h-28 border-b border-r p-5 hairline">
-          <span class="font-mono text-xs text-signal">0{index + 1}</span>
-          <strong class="mt-5 block text-sm">{item}</strong>
+    <div class="space-y-6 text-lg leading-9 text-ink/68">
+      <p>
+        I am an Electrical Engineering student at Texas A&amp;M and a Craig and Galen Brown Engineering
+        Honors student. Most of my work sits at the boundary between PCB design, embedded firmware,
+        power architecture, and system integration.
+      </p>
+      <p>
+        The project that has shaped me most so far is the CAN-LTE telemetry system I designed with
+        Texas A&amp;M Formula Electric. I designed a 4-layer STM32G4-based PCB with CAN, UART, power
+        regulation, and a Quectel EG25 LTE modem, then carried it through two revisions, firmware
+        development, hardware testing, and vehicle integration.
+      </p>
+      <p>
+        That project taught me that a schematic working in theory is only the beginning. Power rails
+        have to behave correctly, interfaces have to communicate reliably, and the whole system has
+        to be organized well enough that the team can debug it under pressure.
+      </p>
+      <p>
+        I have also worked on electrical design for modular data center cooling infrastructure at
+        Southland Industries, an STM32H7 development board for Texas A&amp;M RoboMasters, a high-side
+        NMOS transient suppression board, and a Raspberry Pi based automated inventory shelf for
+        Formula Electric.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-panel/45 py-24 md:py-32">
+    <div class="shell grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <p class="eyebrow text-signal">Engineering style</p>
+        <h2 class="mt-6 text-5xl font-semibold tracking-[-0.05em]">How I work</h2>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        {[
+          ["Start with constraints", "Define the electrical, mechanical, timing, power, and interface requirements before choosing parts or routing boards."],
+          ["Build complete systems", "Think through power, firmware, connectors, mechanical access, testing, and serviceability as one design problem."],
+          ["Bring hardware up carefully", "Use DMMs, oscilloscopes, test points, logs, and small subsystem checks before trusting the full system."],
+          ["Revise from evidence", "Use failures, measurements, and layout issues to make the next revision cleaner and easier to debug."],
+        ].map(([title, body], index) => (
+          <article class="min-h-56 border p-6 hairline">
+            <span class="font-mono text-xs text-signal">0{index + 1}</span>
+            <h3 class="mt-8 text-2xl font-semibold tracking-[-0.035em]">{title}</h3>
+            <p class="mt-4 leading-7 text-ink/58">{body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="shell py-24 md:py-32">
+    <p class="eyebrow text-signal">Current direction</p>
+    <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-start">
+      <h2 class="text-5xl font-semibold leading-tight tracking-[-0.055em] md:text-7xl">
+        I want to become the kind of electrical engineer who can own the full path from idea to
+        working hardware.
+      </h2>
+      <div class="space-y-5 text-lg leading-8 text-ink/64">
+        <p>
+          Right now, that means getting better at schematic decisions, PCB layout, firmware bring-up,
+          board-level testing, and the practical debugging that happens when the real system does not
+          behave like the clean version in the design review.
+        </p>
+        <p>
+          I am looking for co-op work where I can contribute to hardware that has to perform outside
+          of a classroom environment, learn from experienced engineers, and keep building systems that
+          are measurable, testable, and useful.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-3">
+          <a class="border border-signal px-5 py-3 technical-label text-signal transition-colors hover:bg-signal hover:text-panel" href="/#projects">
+            View projects
+          </a>
+          <a class="border border-ink/20 px-5 py-3 technical-label transition-colors hover:border-ink" href="https://www.linkedin.com/in/tejas-kabra-0869aa291">
+            LinkedIn
+          </a>
         </div>
-      ))}
+      </div>
     </div>
   </section>
 </BaseLayout>
