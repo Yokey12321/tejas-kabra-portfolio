@@ -1,0 +1,91 @@
+body {
+  position: relative;
+  background: #0a080d;
+}
+
+.site-space-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(179, 109, 255, 0.2), transparent 24rem),
+    radial-gradient(circle at 84% 22%, rgba(255, 107, 44, 0.12), transparent 26rem),
+    radial-gradient(circle at 68% 76%, rgba(74, 144, 255, 0.08), transparent 28rem),
+    linear-gradient(180deg, #0a0611 0%, #07040b 44%, #0a080d 100%);
+}
+
+.site-space-bg::before,
+.site-space-bg::after {
+  position: absolute;
+  inset: -12%;
+  content: "";
+}
+
+.site-space-bg::before {
+  opacity: 0.54;
+  background-image:
+    radial-gradient(circle, rgba(243, 240, 230, 0.9) 0 1px, transparent 1.4px),
+    radial-gradient(circle, rgba(179, 109, 255, 0.72) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 107, 44, 0.55) 0 1px, transparent 1.6px);
+  background-position:
+    0 0,
+    4rem 5rem,
+    9rem 2rem;
+  background-size:
+    11rem 10rem,
+    17rem 15rem,
+    23rem 21rem;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.42) 72%, rgba(0, 0, 0, 0.16));
+}
+
+.site-space-bg::after {
+  opacity: 0.4;
+  background:
+    linear-gradient(116deg, transparent 0 42%, rgba(243, 240, 230, 0.08) 42.2%, transparent 42.55%),
+    linear-gradient(128deg, transparent 0 62%, rgba(255, 107, 44, 0.09) 62.15%, transparent 62.45%),
+    radial-gradient(ellipse at 72% 16%, transparent 0 36%, rgba(179, 109, 255, 0.11) 36.2% 36.45%, transparent 36.7%);
+  filter: blur(0.2px);
+}
+
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+body > header {
+  background: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+body > footer {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-panel) 88%, transparent), color-mix(in srgb, var(--color-paper) 96%, transparent));
+}
+
+.court-section {
+  background:
+    radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--section-accent) 8%, transparent), transparent 22rem),
+    color-mix(in srgb, var(--section-surface) 88%, transparent);
+}
+
+.scoreboard {
+  background:
+    linear-gradient(145deg, rgba(124, 58, 237, 0.08), transparent),
+    color-mix(in srgb, #070609 88%, transparent);
+}
+
+.bg-paper {
+  background-color: color-mix(in srgb, var(--color-paper) 90%, transparent);
+}
+
+.bg-paper-deep {
+  background-color: color-mix(in srgb, var(--color-paper-deep) 86%, transparent);
+}
+
+.bg-panel {
+  background-color: color-mix(in srgb, var(--color-panel) 88%, transparent);
+}
