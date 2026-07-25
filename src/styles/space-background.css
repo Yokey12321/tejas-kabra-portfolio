@@ -68,8 +68,20 @@ body > footer {
 
 .court-section {
   background:
+    radial-gradient(circle, rgba(243, 240, 230, 0.32) 0 0.8px, transparent 1.2px),
+    radial-gradient(circle, rgba(179, 109, 255, 0.26) 0 0.9px, transparent 1.35px),
     radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--section-accent) 8%, transparent), transparent 22rem),
-    color-mix(in srgb, var(--section-surface) 88%, transparent);
+    color-mix(in srgb, var(--section-surface) 76%, transparent);
+  background-position:
+    1rem 2rem,
+    7rem 5rem,
+    0 0,
+    0 0;
+  background-size:
+    13rem 11rem,
+    19rem 17rem,
+    auto,
+    auto;
 }
 
 .scoreboard {
