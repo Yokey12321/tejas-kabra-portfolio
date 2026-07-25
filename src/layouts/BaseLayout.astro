@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/space-background.css";
 
 interface Props {
   title: string;
@@ -25,6 +26,7 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body>
+    <div class="site-space-bg" aria-hidden="true"></div>
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
       Skip to content
     </a>
