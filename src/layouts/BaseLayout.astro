@@ -9,6 +9,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const currentPath = Astro.url.pathname;
+const resumeHref = "/assets/tejas-kabra-engineering-portfolio-spacex.pdf";
 ---
 
 <!doctype html>
@@ -31,22 +32,25 @@ const currentPath = Astro.url.pathname;
       Skip to content
     </a>
     <header class="relative z-40 border-b hairline bg-paper/95">
-      <nav class="shell flex h-20 items-center justify-between">
+      <nav class="shell flex h-24 items-center justify-between">
         <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
-          <span class="grid h-8 w-8 place-items-center border border-ink/20 bg-panel font-mono text-xs font-bold text-signal">TK</span>
+          <span class="grid h-9 w-9 place-items-center border border-ink/20 bg-panel font-mono text-sm font-bold text-signal">TK</span>
           <span>
-            <strong class="block text-sm leading-none tracking-tight">Tejas Kabra</strong>
+            <strong class="block text-base leading-none tracking-tight">Tejas Kabra</strong>
             <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
           </span>
         </a>
-        <div class="flex items-center gap-5 sm:gap-8">
-          <a class:list={["technical-label transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a class:list={["nav-link transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
             Work
           </a>
-          <a class:list={["technical-label transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
+          <a class:list={["nav-link transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
             About
           </a>
-          <a class="hidden border border-ink/20 px-4 py-2 technical-label transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
+          <a class="nav-link hidden transition-colors hover:text-signal sm:block" href={resumeHref}>
+            Resume
+          </a>
+          <a class="hidden border border-ink/20 px-5 py-2.5 nav-link transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
             Contact
           </a>
         </div>
