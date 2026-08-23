@@ -1,0 +1,16 @@
+<!--
+  Disabled volleyball serve transition prototype.
+
+  The first CSS-only version read too much like a yo-yo, so it is intentionally
+  not imported anywhere. The exact working prototype is preserved in Git history
+  at commit 1be089b322d3e0142390cb0ab44027d0fd3165e2 if we want to rebuild it
+  later with real volleyball/player assets.
+
+  Rebuild direction:
+  - Use this as a page-transition overlay, not a persistent animation.
+  - Trigger only from project links.
+  - Keep duration around 450-700ms.
+  - Prefer real ball/player assets or a cleaner SVG path instead of the old
+    CSS-only conic-gradient ball.
+  - Respect prefers-reduced-motion.
+-->
