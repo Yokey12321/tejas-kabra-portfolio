@@ -107,7 +107,7 @@ const projects = (await getCollection("projects"))
                     </div>
                   </div>
                 ) : (
-                  <a class="block" href={`/projects/${id}/`}>
+                  <a class="block" href={`/projects/${id}/`} data-volley-transition>
                     <ProjectPanel
                       title={data.shortTitle}
                       category={data.disciplines[0]}
