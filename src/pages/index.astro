@@ -8,6 +8,35 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import flyBanner from "../assets/banners/fly.webp";
 
 const inProgressTileId = "stm32h723-custom-development-board";
+const pcbProjectIds = new Set([
+  "formula-electric-can-lte-telemetry",
+  "high-side-nmos-surge-protection",
+  "stm32h723-custom-development-board",
+]);
+const roboticsProjectIds = new Set([
+  "object-carrying-drone-platform",
+  "raspberry-pi-solenoid-inventory-shelf",
+]);
+
+const getProjectFilterTags = (id: string, disciplines: string[]) => {
+  const disciplineText = disciplines.join(" ").toLowerCase();
+  const tags = [];
+
+  if (pcbProjectIds.has(id) || disciplineText.includes("pcb")) {
+    tags.push("pcb");
+  }
+
+  if (
+    roboticsProjectIds.has(id) ||
+    disciplineText.includes("robot") ||
+    disciplineText.includes("mechatronics") ||
+    disciplineText.includes("electromechanical")
+  ) {
+    tags.push("robotics")
+  }
+
+  return tags.join(" ");
+};
 
 const projects = (await getCollection("projects"))
   .filter(({ data }) => data.featured)
@@ -18,6 +47,19 @@ const projects = (await getCollection("projects"))
   title="Tejas Kabra | Electrical Engineering"
   description="Electrical engineering portfolio focused on embedded systems, PCB design, CAN, telemetry, power electronics, and robotics."
 >
+  <style is:global>
+    .project-filter-button[aria-pressed="true"] {
+      border-color: var(--color-signal);
+      color: var(--color-paper);
+      background: var(--color-signal);
+      box-shadow: 0 0.9rem 1.8rem rgba(255, 107, 44, 0.16);
+    }
+
+    [data-project-card][hidden] {
+      display: none;
+    }
+  </style>
+
   <MottoBanner image={flyBanner} alt="Haikyuu Fly banner" />
 
   <section class="court-section court-lines relative overflow-hidden border-b hairline">
@@ -73,15 +115,33 @@ const projects = (await getCollection("projects"))
         </p>
       </div>
 
+      <div class="flex flex-wrap gap-3 pb-8" data-project-filters aria-label="Project filters">
+        <button class="project-filter-button border border-ink/20 px-4 py-3 technical-label text-ink/65 transition-colors hover:border-signal hover:text-signal" type="button" data-project-filter="all" aria-pressed="true">
+          All
+        </button>
+        <button class="project-filter-button border border-ink/20 px-4 py-3 technical-label text-ink/65 transition-colors hover:border-signal hover:text-signal" type="button" data-project-filter="pcb" aria-pressed="false">
+          PCB
+        </button>
+        <button class="project-filter-button border border-ink/20 px-4 py-3 technical-label text-ink/65 transition-colors hover:border-signal hover:text-signal" type="button" data-project-filter="robotics" aria-pressed="false">
+          Robotics / Mechatronics
+        </button>
+      </div>
+
       <div class="h-px bg-gradient-to-r from-signal/45 via-ink/12 to-transparent"></div>
 
-      <div class="mt-16 grid gap-x-8 gap-y-20 md:grid-cols-2 lg:gap-x-10">
+      <div class="mt-16 grid gap-x-8 gap-y-20 md:grid-cols-2 lg:gap-x-10" data-project-grid>
         {
           projects.map(({ id, data }, index) => {
             const isInProgressTile = id === inProgressTileId;
+            const filterTags = getProjectFilterTags(id, data.disciplines);
 
             return (
-              <article class:list={[isInProgressTile ? "group" : "project-card group", index % 2 === 1 && "md:mt-20"]} style={`--section-accent:${data.accent}`}>
+              <article
+                class:list={[isInProgressTile ? "group" : "project-card group", index % 2 === 1 && "md:mt-20"]}
+                style={`--section-accent:${data.accent}`}
+                data-project-card
+                data-project-tags={filterTags}
+              >
                 {isInProgressTile ? (
                   <div class="block" aria-disabled="true">
                     <ProjectPanel
@@ -107,7 +167,7 @@ const projects = (await getCollection("projects"))
                     </div>
                   </div>
                 ) : (
-                  <a class="block" href={`/projects/${id}/`} data-volley-transition>
+                  <a class="block" href={`/projects/${id}/`}>
                     <ProjectPanel
                       title={data.shortTitle}
                       category={data.disciplines[0]}
@@ -141,4 +201,31 @@ const projects = (await getCollection("projects"))
     </div>
   </section>
 
+  <script is:inline>
+    (() => {
+      const filterWrap = document.querySelector("[data-project-filters]");
+      const cards = Array.from(document.querySelectorAll("[data-project-card]"));
+      if (!filterWrap || cards.length === 0) return;
+
+      const buttons = Array.from(filterWrap.querySelectorAll("[data-project-filter]"));
+
+      const setFilter = (filter) => {
+        buttons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.projectFilter === filter));
+        });
+
+        cards.forEach((card) => {
+          const tags = (card.dataset.projectTags || "").split(" ").filter(Boolean);
+          card.hidden = filter !== "all" && !tags.includes(filter);
+        });
+      };
+
+      filterWrap.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const button = target?.closest("[data-project-filter]");
+        if (!button) return;
+        setFilter(button.dataset.projectFilter || "all");
+      });
+    })();
+  </script>
 </BaseLayout>
