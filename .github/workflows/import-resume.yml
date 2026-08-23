@@ -1,0 +1,30 @@
+name: Import resume asset
+
+on:
+  push:
+    paths:
+      - .github/workflows/import-resume.yml
+
+permissions:
+  contents: write
+
+jobs:
+  import-resume:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download resume PDF
+        run: |
+          mkdir -p public/assets
+          curl -L --fail "https://sdmntprwestus3.oaiusercontent.com/files/00000000-c06c-81fd-956d-249bad7b8fbe/raw?se=2026-08-23T18%3A51%3A26Z&sp=r&sv=2026-02-06&sr=b&scid=2d9b707a-beec-4336-bca3-9f21b11e7e39&skoid=b869bb08-96ac-4184-ab38-9c45e2890c4c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-23T16%3A26%3A42Z&ske=2026-08-24T16%3A26%3A42Z&sks=b&skv=2026-02-06&sig=J1VFzqs3yW7vk1voXL%2BscMJ5puoPtsM2PfgFWdeDNgw%3D" -o public/assets/tejas-kabra-resume.pdf
+          test -s public/assets/tejas-kabra-resume.pdf
+
+      - name: Commit resume PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/tejas-kabra-resume.pdf
+          git commit -m "Add updated resume PDF" || exit 0
+          git push
