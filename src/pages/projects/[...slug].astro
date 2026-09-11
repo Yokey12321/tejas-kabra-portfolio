@@ -1,18 +1,26 @@
 ---
 import { getCollection, render } from "astro:content";
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
-
-const { slug } = Astro.params;
-const projects = await getCollection("projects");
-const project = projects.find((entry) => entry.id === slug);
-
-if (!project) {
-  return Astro.redirect("/404");
+export const prerender = true;
+export async function getStaticPaths() {
+  const projects = (await getCollection("projects")).sort(
+    (a, b) => a.data.order - b.data.order,
+  );
+  const ready = projects.filter((p) => p.data.caseStudyReady);
+  return projects.map((project) => {
+    const index = ready.findIndex((p) => p.id === project.id);
+    const nextProject = ready[(index + 1) % ready.length];
+    return { params: { slug: project.id }, props: { project, nextProject } };
+  });
 }
-
-const { Content } = await render(project);
+const { project, nextProject } = Astro.props;
+const { Content, headings } = await render(project);
 ---
 
-<ProjectLayout frontmatter={project.data}>
+<ProjectLayout
+  frontmatter={project.data}
+  headings={headings}
+  nextProject={nextProject}
+>
   <Content />
 </ProjectLayout>

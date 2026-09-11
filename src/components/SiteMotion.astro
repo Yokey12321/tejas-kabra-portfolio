@@ -1,0 +1,122 @@
+<script>
+  const motionPreference = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  );
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const activeAnimations = new Set<Animation>();
+  const observers: IntersectionObserver[] = [];
+
+  const play = (
+    element: Element,
+    keyframes: Keyframe[],
+    options: KeyframeAnimationOptions,
+  ) => {
+    if (motionPreference.matches) return;
+    const animation = element.animate(keyframes, options);
+    activeAnimations.add(animation);
+    animation.finished
+      .catch(() => {})
+      .finally(() => activeAnimations.delete(animation));
+    return animation;
+  };
+
+  const hero = document.querySelector<HTMLElement>(".home-hero");
+  const artwork = document.querySelector<HTMLElement>(".hero-motto");
+  let pointerFrame = 0;
+  let pointerX = 0;
+  let pointerY = 0;
+  if (hero && artwork) {
+    hero.addEventListener(
+      "pointermove",
+      (event) => {
+        if (motionPreference.matches || !finePointer.matches) return;
+        const rect = hero.getBoundingClientRect();
+        pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
+        pointerY = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+        if (pointerFrame) return;
+        pointerFrame = requestAnimationFrame(() => {
+          artwork.style.setProperty("--art-x", `${pointerX}px`);
+          artwork.style.setProperty("--art-y", `${pointerY}px`);
+          pointerFrame = 0;
+        });
+      },
+      { passive: true },
+    );
+    hero.addEventListener("pointerleave", () => {
+      cancelAnimationFrame(pointerFrame);
+      pointerFrame = 0;
+      artwork.style.setProperty("--art-x", "0px");
+      artwork.style.setProperty("--art-y", "0px");
+    });
+  }
+
+  if (!motionPreference.matches) {
+    const reveal = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          play(
+            entry.target,
+            [
+              { opacity: 0, transform: "translateY(18px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            { duration: 620, easing: "cubic-bezier(.2,.7,.2,1)" },
+          );
+          reveal.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.08 },
+    );
+    document
+      .querySelectorAll(
+        ".work-card, .experience-row, .about-section, .case-study > h2",
+      )
+      .forEach((element) => reveal.observe(element));
+    observers.push(reveal);
+
+    const court = document.querySelector<HTMLElement>(".serve-transition");
+    const ball = court?.querySelector<HTMLElement>(".serve-ball");
+    if (court && ball) {
+      const rally = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          const distance = Math.min(court.clientWidth * 0.2, 230);
+          play(
+            ball,
+            [
+              {
+                transform: `translate(${-distance}px, 16px) rotate(-100deg)`,
+                offset: 0,
+              },
+              { transform: "translate(0, -18px) rotate(80deg)", offset: 0.42 },
+              {
+                transform: `translate(${distance}px, 24px) rotate(220deg)`,
+                offset: 0.72,
+              },
+              {
+                transform: `translate(${distance * 0.6}px, -8px) rotate(280deg)`,
+                offset: 0.88,
+              },
+              { transform: "translate(0, 0) rotate(360deg)", offset: 1 },
+            ],
+            { duration: 2100, easing: "ease-in-out" },
+          );
+          rally.unobserve(court);
+        },
+        { threshold: 0.55 },
+      );
+      rally.observe(court);
+      observers.push(rally);
+    }
+  }
+
+  motionPreference.addEventListener("change", () => {
+    if (!motionPreference.matches) return;
+    observers.forEach((observer) => observer.disconnect());
+    activeAnimations.forEach((animation) => animation.cancel());
+    cancelAnimationFrame(pointerFrame);
+    artwork?.style.setProperty("--art-x", "0px");
+    artwork?.style.setProperty("--art-y", "0px");
+  });
+</script>

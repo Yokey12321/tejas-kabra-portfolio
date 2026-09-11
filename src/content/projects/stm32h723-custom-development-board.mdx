@@ -1,17 +1,14 @@
 ---
 title: STM32H723 Custom Development Board
 shortTitle: STM32H723 Dev Board
-summary: A custom STM32H7-based control board for RoboMasters subsystems with onboard regulation, sensing, communications, programming access, and expanded GPIO.
+summary: A custom RoboMasters controller with 24 V input regulation, an onboard IMU, CAN and UART, and accessible programming and debug connections.
+category: electronics
+caseStudyReady: false
 status: in-progress
 featured: true
 order: 2
-disciplines:
-  - PCB Design
-  - Embedded Systems
-technologies:
-  - STM32H723
-  - Altium
-  - ARM Cortex-M7
+disciplines: [PCB Design, Embedded Systems]
+technologies: [STM32H723, Altium, ARM Cortex-M7]
 role: Electrical design and subsystem integration
 timeframe: Aug 2025 - Present
 accent: "#e99b2f"
@@ -20,64 +17,24 @@ themeSurface: "#171006"
 visual: pcb
 banner: simplicity-fortitude
 metrics:
-  - value: 24 to 5 to 3.3 V
-    label: Power tree
-  - value: CAN/UART
+  - value: 24 V
+    label: Input supply
+  - value: CAN / UART
     label: Communications
   - value: LSM6DSO32R
     label: Onboard IMU
 ---
 
-import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+## The board
 
-## System overview
+Texas A&M RoboMasters needed an embedded platform for robot subsystems without rebuilding the same power, sensing, communication, and programming circuitry for each prototype. I worked on a custom STM32H723 board to bring those functions together.
 
-Texas A&M RoboMasters needed a compact embedded platform for robot subsystems. The goal was to avoid rebuilding the same power, communication, sensing, and programming circuitry for each prototype.
+## Design scope
 
-Designed a custom STM32H7-based development board that combines those functions into one controller. The board supports subsystem bring-up, debugging, and integration with the team's mechanical and software systems.
+The board combines a 24 V-to-5 V buck stage, a 5 V-to-3.3 V LDO, an STM32H7 core, an external crystal, an LSM6DSO32R IMU, CAN and UART interfaces, SWD programming, and expanded GPIO.
 
-<div className="data-grid">
-  <div><small>Power</small><b>24 V input converted to 5 V and 3.3 V rails</b></div>
-  <div><small>Control</small><b>STM32H7 microcontroller</b></div>
-  <div><small>I/O</small><b>CAN, UART, SWD, sensors, and expanded GPIO</b></div>
-</div>
+I created Altium footprints for parts missing from the team library and worked on layout, wiring, soldering, STM32 programming, and integration with the mechanical and software teams. I also supported a CAN breakout board used elsewhere in the robot.
 
-## Board architecture
+## Documentation in progress
 
-The power tree uses a 24 V-to-5 V buck stage followed by a 5 V-to-3.3 V LDO. These rails support the microcontroller, onboard sensing, and external interfaces while matching the robot's available supply.
-
-The STM32H7 is supported by an external crystal oscillator, SWD programming and debugging access, CAN and UART connectivity, multifunction GPIO expansion, and an onboard LSM6DSO32R inertial measurement unit.
-
-> Design goal: keep power, communications, sensing, and debug access usable after the board is installed on a robot.
-
-<ImagePlaceholder label="Annotated STM32H7 schematic" note="Add power tree, MCU core, LSM6DSO32R, clock, CAN/UART, SWD, and GPIO sheets" />
-
-### Design scope
-
-- 24 V-to-5 V buck regulation
-- 5 V-to-3.3 V LDO regulation
-- STM32H7 core, decoupling, reset, and crystal oscillator
-- LSM6DSO32R six-axis IMU
-- CAN and UART communication
-- SWD programming and external debug access
-- Multifunction GPIO expansion
-
-## Altium library and layout work
-
-Created custom Altium component footprints for parts that were not already available in the team library and laid out the board around electrical function and subsystem access. Also supported development of a CAN breakout board used elsewhere in the robot architecture.
-
-<ImagePlaceholder label="PCB layout, 3D render, and assembled board" note="Add Altium views, custom footprints, bare PCB, soldering, and installed hardware" />
-
-## Bring-up and integration
-
-Work continued beyond schematic and layout, including wiring, soldering, electrical testing, STM32 programming, and subsystem integration with mechanical and software team members.
-
-<div className="data-grid">
-  <div><small>Hardware</small><b>Assembly, wiring, soldering, and rail checks</b></div>
-  <div><small>Firmware</small><b>STM32 programming and interface bring-up</b></div>
-  <div><small>Integration</small><b>Robot subsystem testing across disciplines</b></div>
-</div>
-
-## Images to add
-
-Next additions: schematic hierarchy, layer stack, custom footprint examples, assembled board, rail measurements, first SWD connection, CAN traffic, and revision notes from integration.
+This case study is still being assembled. Schematics, layout views, bring-up measurements, and integration notes will be added as the documentation is ready.

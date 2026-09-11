@@ -1,20 +1,17 @@
 ---
 title: Automated Electronic Inventory System
-shortTitle: Solenoid Inventory Shelf
-summary: A Raspberry Pi inventory shelf combining card authentication, a touchscreen checkout workflow, MOSFET-driven solenoids, 12 V power distribution, and CAD packaging for Formula Electric components.
+shortTitle: Electronic Inventory System
+summary: A Raspberry Pi checkout system that connects member authentication to physical drawer access. Built for the Formula Electric team's component storage.
+category: robotics
+heroImage: ../../assets/projects/inventory/shelf-built-overview.webp
+heroImageAlt: Built inventory shelf with printed drawer-lock housings on the Formula Electric toolbox
+outcome: A working prototype connecting member authentication, touchscreen checkout, and solenoid-controlled drawer access.
 status: complete
 featured: true
 order: 4
-disciplines:
-  - Robotics
-  - Embedded Linux
-technologies:
-  - Raspberry Pi
-  - Python
-  - Electron
-  - Flask
-  - Adafruit N-MOSFET Drivers
-role: System design, software workflow, power integration, and mechanical packaging
+disciplines: [Mechatronics, Embedded Systems]
+technologies: [Raspberry Pi, Python, Electron, Flask, Adafruit N-MOSFET Drivers]
+role: System design, software workflow, power integration, and packaging
 timeframe: Aug 2025 - Dec 2025
 accent: "#fb923c"
 accentSecondary: "#f8b24c"
@@ -25,98 +22,122 @@ metrics:
   - value: "15"
     label: Solenoid outputs
   - value: 17.5 A
-    label: Estimated 12 V draw
+    label: Estimated full-load draw
   - value: $442
     label: Electronics BOM target
 ---
 
 import ProjectImage from "../../components/ProjectImage.astro";
-import shelfCadAssembly from "../../assets/projects/inventory/shelf-cad-assembly.webp";
-import shelfCadBracket from "../../assets/projects/inventory/shelf-cad-bracket.webp";
-import shelfBuiltOverview from "../../assets/projects/inventory/shelf-built-overview.webp";
-import shelfBuiltActuatorStack from "../../assets/projects/inventory/shelf-built-actuator-stack.webp";
-import shelfBuiltLockingTab from "../../assets/projects/inventory/shelf-built-locking-tab.webp";
-import shelfElectricalArchitecture from "../../assets/projects/inventory/shelf-electrical-architecture.webp";
-import shelfSoftwareScope from "../../assets/projects/inventory/shelf-software-scope.webp";
-import shelfElectronicsBom from "../../assets/projects/inventory/shelf-electronics-bom.webp";
+import cadAssembly from "../../assets/projects/inventory/shelf-cad-assembly.webp";
+import cadBracket from "../../assets/projects/inventory/shelf-cad-bracket.webp";
+import builtOverview from "../../assets/projects/inventory/shelf-built-overview.webp";
+import actuatorStack from "../../assets/projects/inventory/shelf-built-actuator-stack.webp";
+import lockingTab from "../../assets/projects/inventory/shelf-built-locking-tab.webp";
+import electrical from "../../assets/projects/inventory/shelf-electrical-architecture.webp";
+import software from "../../assets/projects/inventory/shelf-software-scope.webp";
+import bom from "../../assets/projects/inventory/shelf-electronics-bom.webp";
 
-## System overview
+## The problem
 
-Formula Electric electrical components were organized physically, but team members still had to search bins manually and track access separately. This project connects authenticated digital checkout to physical shelf access, so a user can identify themselves, select parts, and open the correct inventory location.
+Formula Electric had physical storage for electrical components, but finding parts and tracking access were separate tasks. We wanted a member to identify themselves, select a component on a touchscreen, and open the right drawer.
 
-The system architecture combines a Raspberry Pi controller, touchscreen interface, card reader, 12 V solenoids, MOSFET driver boards, fused power distribution, and a CAD-packaged electronics enclosure. The reviewed electrical plan sized the actuator side around **15 pull-type solenoids** and a nominal **17.5 A at 12 V** system load.
+I worked on the system design, software workflow, power integration, and mechanical packaging. The prototype combines a Raspberry Pi, touchscreen, card reader, 12 V solenoids, MOSFET drivers, and printed drawer-lock housings.
 
-<div className="data-grid">
-  <div><small>Authenticate</small><b>Identify the team member by card or UIN before checkout</b></div>
-  <div><small>Select</small><b>Choose part numbers, quantities, and withdraw or deposit mode</b></div>
-  <div><small>Actuate</small><b>Open one controlled shelf location at a time through solenoid hardware</b></div>
-</div>
+<ProjectImage
+  image={builtOverview}
+  alt="Inventory prototype installed on the Formula Electric toolbox"
+  caption="The built prototype, with printed actuator housings mounted beside the toolbox drawers."
+  variant="full"
+/>
 
-<ProjectImage image={shelfBuiltOverview} alt="Built inventory shelf mounted to a red Craftsman toolbox with printed actuator housings" caption="Built shelf prototype installed on the Formula Electric toolbox. The printed side housings package the drawer locking hardware while the bench setup supports electronics bring-up." variant="full" />
+## From checkout to drawer access
 
-## System architecture
+The Raspberry Pi handles the interface, authentication, and checkout state. The software plan uses an Electron front end and Flask backend, with a serial connection to the hardware-control layer.
 
-The Raspberry Pi owns the user interface, authentication, checkout state, and hardware command logic. The software design review used an Electron front end with a Flask backend communicating to the hardware layer through PySerial or a similar serial interface. That keeps the UI and inventory logic on the high-level computer while the output hardware handles the solenoid switching.
-
-The checkout flow was scoped around swipe or UIN authentication, scoped admin permissions, item and quantity selection, withdraw and deposit modes, and drawer-by-drawer access so only one location opens at a time. The software plan also included an endpoint exposing current item counts for live tracking through the operations system or app, plus low-stock notifications as a later feature.
-
-> The system connects user authentication, component selection, and physical access control.
-
-<ProjectImage image={shelfSoftwareScope} alt="Software scope slide for Electron, Flask, authentication, checkout, and low-stock functionality" caption="Software design scope: Electron interface, Flask backend, serial hardware control, authentication, item selection, withdraw/deposit flows, live inventory endpoint, and low-stock notifications." variant="full" />
-
-## Power and actuator architecture
-
-The power system is organized around a 12 V actuator rail and a lower-voltage logic/UI rail. The review schematic used an 18-channel 12 V PDU, individual 2 A fused branches for solenoids, a 5 A protected branch for the buck stage, and two Adafruit 8-channel N-MOSFET driver boards with MCP-series I/O expansion to switch the solenoid outputs. The Pi, touchscreen, and card reader are powered from the stepped-down rail.
-
-The current estimate treated the solenoids as the dominant load: **15 solenoids at about 1 A each**, plus about **2.3 A** for the buck converter feeding the Pi and screen, and about **0.2 A** for remaining logic and driver electronics. That puts the nominal system estimate near **17.5 A at 12 V**, or roughly **200 W**.
+The workflow identifies a member by card or UIN, records the selected parts and quantities, and allows one drawer to open at a time. We also scoped administrator permissions, deposits and withdrawals, an inventory-count endpoint, and later low-stock notifications.
 
 <div className="data-grid">
-  <div><small>Actuators</small><b>15 pull-type solenoids switched through Adafruit 8-channel N-MOSFET driver boards</b></div>
-  <div><small>Protection</small><b>2 A solenoid fuses and a 5 A buck-converter branch</b></div>
-  <div><small>Power budget</small><b>Approximately 17.5 A at 12 V, around 200 W nominal</b></div>
+  <div>
+    <small>01 / Identify</small>
+    <b>Member authentication</b>
+  </div>
+  <div>
+    <small>02 / Select</small>
+    <b>Part, quantity, and checkout mode</b>
+  </div>
+  <div>
+    <small>03 / Open</small>
+    <b>Solenoid-controlled access to one drawer</b>
+  </div>
 </div>
+
+<ProjectImage
+  image={software}
+  alt="Software scope for Electron, Flask, authentication, and inventory tracking"
+  caption="The software design scope, including the checkout flow and planned inventory features."
+/>
+
+## Power and actuators
+
+The design uses a 12 V actuator rail and a stepped-down rail for the Pi, display, and card reader. The electrical plan includes an 18-channel distribution board, **2 A fused solenoid branches**, a **5 A buck-converter branch**, and two Adafruit 8-channel N-MOSFET driver boards.
+
+The full-load budget assumed **15 solenoids at roughly 1 A each**, approximately 2.3 A for the buck stage, and 0.2 A for the remaining electronics. That gives **17.5 A at 12 V**, or about **210 W**. This is a sizing estimate with all actuator loads counted, not a measurement of normal one-drawer-at-a-time operation.
 
 <div className="project-image-row">
-  <ProjectImage image={shelfElectricalArchitecture} alt="Hand-drawn 12 V electrical architecture for the inventory shelf" caption="Electrical architecture sketch showing the 12 V PDU, 12 V to 5 V buck stage, Raspberry Pi, card reader, touchscreen, Adafruit N-MOSFET driver boards, flyback diode notes, and 15 solenoid outputs." />
-  <ProjectImage image={shelfElectronicsBom} alt="Electronics BOM slide listing Pi, buck converter, screen, solenoids, MOSFET boards, fuses, PDU, card reader, and wall mount supply" caption="Electronics BOM review targeting about $442, including Pi, screen, solenoids, Adafruit 8-channel N-MOSFET driver boards, fuses, PDU reference, card reader, and 12 V wall supply." />
+  <ProjectImage
+    image={electrical}
+    alt="Inventory shelf 12 V electrical architecture sketch"
+    caption="The power distribution, logic rail, drivers, and actuator connections."
+  />
+  <ProjectImage
+    image={bom}
+    alt="Inventory shelf electronics bill of materials"
+    caption="Electronics BOM target: approximately $442."
+  />
 </div>
 
-## Mechanical packaging
+## Packaging around the toolbox
 
-The CAD work focused on fitting the electrical hardware into the top of the shelf while keeping the drawer actuation hardware serviceable. The enclosure has to hold the controller, display, power distribution, driver boards, wire routing, and access hardware without interfering with the drawer rails.
+The drawer rails and thin, hollow side walls limited where we could fasten the locking hardware. The top structure offered a better mounting location. I worked through the enclosure and bracket layout with those constraints in mind.
 
-The mechanical review identified several constraints that affected the design: the drawer rail prevented simple side protrusions, the shelf side walls were hollow and only about **1/16 in to 1/8 in** thick, and the top-side shelf structure was a better fastening location. Locking rods were planned as aluminum pieces connected to the solenoids, while the solenoid sheath was planned as a printed part with high infill. The electrical housing also needed a wire pass-through, with a neoprene grommet considered for routing roughly **30 wires** out of the enclosure.
+The enclosure had to fit the controller, touchscreen, distribution hardware, and drivers, while routing the actuator wiring clear of the drawers. The design considered a grommet for a pass-through carrying roughly 30 wires.
 
 <div className="project-image-row">
-  <ProjectImage image={shelfCadAssembly} alt="CAD crop showing the inventory shelf enclosure and drawer locking hardware layout" caption="CAD assembly crop showing the electronics enclosure, screen location, and repeated side-mounted locking modules without the surrounding presentation slide." />
-  <ProjectImage image={shelfCadBracket} alt="CAD crop of the shelf locking bracket and solenoid-linked actuator geometry" caption="CAD bracket crop for the drawer lock interface. The geometry was shaped around the toolbox side wall, screw access, and drawer-rail clearance." />
+  <ProjectImage
+    image={cadAssembly}
+    alt="Inventory shelf CAD assembly with electronics enclosure and repeated locking modules"
+    caption="Enclosure and locking-module placement."
+  />
+  <ProjectImage
+    image={cadBracket}
+    alt="CAD detail of the solenoid-linked drawer-lock bracket"
+    caption="Bracket geometry shaped around rail clearance and fastener access."
+  />
 </div>
 
-## Integration and debugging
+## Integration and the result
 
-Integrated and debugged GPIO and I2C communication, solenoid actuation, power delivery, and driver-board behavior. Repeated mechanical operation exposed issues that do not appear in software-only testing, so reliability depended on validating the complete electrical and mechanical chain.
+I worked on GPIO and I2C debugging, power delivery, solenoid switching, and driver-board behavior. Mechanical fit mattered as much as the software command: a successful electrical actuation still had to move the lock cleanly.
 
-<div className="data-grid">
-  <div><small>Communication</small><b>Verify GPIO and I2C command behavior</b></div>
-  <div><small>Power</small><b>Support repeatable solenoid actuation</b></div>
-  <div><small>Mechanics</small><b>Confirm reliable access across repeated cycles</b></div>
-</div>
+The completed prototype let members authenticate, select parts through the touchscreen, and access the corresponding storage. The installed hardware also made the next set of problems visible, especially the flexibility of the printed enclosure and the amount of wiring around the purchased distribution board.
 
 <div className="project-image-row">
-  <ProjectImage image={shelfBuiltActuatorStack} alt="Built shelf actuator stack with printed housings, wiring, and metal locking hardware" caption="Built actuator stack during integration. The printed housings route wiring to each drawer module while the metal hardware links the solenoid motion to the locking interface." />
-  <ProjectImage image={shelfBuiltLockingTab} alt="Close-up of a white drawer locking tab being actuated beside the printed shelf housing" caption="Close-up of the drawer lock interface being checked by hand. This view shows the practical clearance constraint between the printed housing, toolbox face, and drawer slide." />
+  <ProjectImage
+    image={actuatorStack}
+    alt="Assembled drawer actuator stack with printed housings and wiring"
+    caption="The actuator stack during integration."
+  />
+  <ProjectImage
+    image={lockingTab}
+    alt="Close-up of the drawer locking tab beside the printed actuator housing"
+    caption="Checking the lock interface and clearance by hand."
+  />
 </div>
 
-## Project outcome
+## What I would change
 
-The completed prototype allowed Formula Electric members to authenticate, select parts through the touchscreen, and access organized components without manually searching inventory bins. The strongest design work sits at the interface between software, power electronics, and mechanical packaging: the system had to know who was checking out parts, track quantities, and actuate physical drawers reliably.
+I would strengthen the enclosure, improve its mounting points and strain relief, and make the electronics less accessible from outside. The existing housing works as a prototype, but it flexes more than I would want in a permanent shop installation.
 
-The next additions should document the final installed hardware, touchscreen screenshots, measured solenoid current, driver-board behavior, checkout logs, and cycle-test results.
+The biggest electrical change would be a custom power-distribution board that combines regulation, protection, and connectors around this shelf's geometry. That would reduce the external buck converters, adapters, and wiring. NFC-based identification is another useful next step for the checkout workflow.
 
-## Future improvements
-
-A future revision would improve authentication by integrating NFC tags or a card-touch identification workflow. That would make team-member access faster and more repeatable than relying on a less integrated login path, while still keeping the checkout process tied to a specific user.
-
-The mechanical enclosure also needs to be redesigned. The current printed housing is functional, but it is thin and flexible enough that it does not feel like a permanent shop installation. A stronger enclosure with better wall thickness, mounting features, cable strain relief, and protected electronics would make the system more secure and easier to maintain.
-
-The largest electrical improvement would be replacing the purchased power-distribution board with a custom PDP designed around this exact shelf. The current system had to adapt around the bought board and use external buck converters to support the required rails. A custom board could combine distribution, regulation, connector placement, protection, and solenoid-driver support into a cleaner package. The goal is to compress the system, reduce wiring, remove unnecessary adapters, and make the electronics match the mechanical layout instead of forcing the layout around off-the-shelf power hardware.
+Before that revision, I would record actual solenoid current and repeatability over many drawer cycles. Those measurements would give the next design a firmer basis than the original power estimate.

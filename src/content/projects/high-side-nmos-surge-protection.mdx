@@ -1,20 +1,17 @@
 ---
-title: High-Side NMOS Transient Suppression and Linear Regulator
+title: High-Side NMOS Transient Suppression
 shortTitle: Transient Suppression Board
-summary: A high-side NMOS protection and regulation circuit designed to hold a 12 V load near regulation during a 50 V, 50 ms input transient.
+summary: A high-side NMOS circuit designed for a 12 V load facing a 50 V input surge. Circuit analysis, LTspice simulation, and Altium layout.
+category: electronics
+heroImage: ../../assets/projects/surge-protection/pcb-front-render.webp
+heroImageAlt: Front-side Altium render of the transient suppression PCB
+outcome: The LTspice model clamps a 50 V, 50 ms input pulse near 13.8 V. MOSFET thermal validation remains a next step.
 status: complete
 featured: true
 order: 3
-disciplines:
-  - Power Electronics
-  - Analog Design
-technologies:
-  - Altium
-  - LTspice
-  - High-side NMOS
-  - LT1054
-  - OPA197
-role: Circuit design, PCB layout, simulation, and component justification
+disciplines: [Power Electronics, Analog Design]
+technologies: [Altium, LTspice, High-side NMOS, LT1054, OPA197]
+role: Circuit design, PCB layout, simulation, and component selection
 timeframe: Dec 2025 - Feb 2026
 accent: "#f1c84b"
 accentSecondary: "#f4efe0"
@@ -23,7 +20,7 @@ visual: power
 banner: one-ball-heart-soul
 metrics:
   - value: 12 V / 5 A
-    label: Nominal load
+    label: Design load
   - value: 50 V
     label: Surge input
   - value: 13.8 V
@@ -32,96 +29,100 @@ metrics:
 
 import ProjectImage from "../../components/ProjectImage.astro";
 import pcbLayout from "../../assets/projects/surge-protection/pcb-layout.webp";
-import pcbFrontRender from "../../assets/projects/surge-protection/pcb-front-render.webp";
-import pcbBackRender from "../../assets/projects/surge-protection/pcb-back-render.webp";
-import ltspiceSchematic from "../../assets/projects/surge-protection/ltspice-schematic.webp";
-import ltspiceTransient from "../../assets/projects/surge-protection/ltspice-transient.webp";
-import altiumSchematic from "../../assets/projects/surge-protection/altium-schematic.webp";
+import pcbFront from "../../assets/projects/surge-protection/pcb-front-render.webp";
+import pcbBack from "../../assets/projects/surge-protection/pcb-back-render.webp";
+import spiceSchematic from "../../assets/projects/surge-protection/ltspice-schematic.webp";
+import transient from "../../assets/projects/surge-protection/ltspice-transient.webp";
+import schematic from "../../assets/projects/surge-protection/altium-schematic.webp";
 
-## System requirements
+## The design target
 
-This board protects a **12 V, 5 A load** when the input line jumps to **50 V for 50 ms**. The output cannot follow the input directly, and the pass devices, gate drive, and control electronics all have to survive the transient.
+The input starts at 12 V, then jumps to **50 V for 50 ms**. The design target is a protected **12 V, 5 A load**. I designed a high-side linear protection stage, simulated its response in LTspice, and laid out the board in Altium.
 
-The circuit is a high-side linear protection stage. The main current path uses two back-to-back N-channel MOSFETs, while an op-amp feedback loop drives the MOSFET gates to regulate the protected output. In LTspice, when Vin rises to 50 V, Vout rises to about **13.8 V** before returning to 12 V after the pulse.
+The model holds the output near **13.8 V** during the pulse before returning to 12 V. This is a simulation result. The work shown here does not establish bench-tested surge survival or thermal margin.
 
-<div className="data-grid">
-  <div><small>Input event</small><b>50 V applied for 50 ms after a 12 V starting condition</b></div>
-  <div><small>Load target</small><b>12 V load at up to 5 A</b></div>
-  <div><small>Simulation result</small><b>Output held around 13.8 V during the transient</b></div>
-</div>
+<ProjectImage
+  image={pcbFront}
+  alt="Transient suppression PCB front-side Altium render"
+  caption="Front-side PCB render: gate drive, control supply, feedback, and support circuitry."
+/>
 
-<ProjectImage image={pcbLayout} alt="Altium layout for transient suppression PCB" caption="Altium PCB layout for the transient suppression board. The large high-current path is separated from the lower-power control, gate-drive, MCU, and CAN support circuitry." />
+## Topology and the thermal lesson
 
-## Topology
+The high-side path uses two back-to-back **IPB120N10S403ATMA1 N-channel MOSFETs**. An **OPA197** feedback loop controls the gate drive to regulate the output. I chose an N-channel approach for the current path and built a separate supply to drive the gates above the source voltage.
 
-The back-to-back MOSFET arrangement lets the board control the high-side current path while reducing conduction loss compared with a P-channel approach. The design uses **IPB120N10S403ATMA1** MOSFETs and treats the 50 V pulse as a short-duration linear-region stress case instead of only checking the steady-state current rating.
+My original stress estimate assumed the two series MOSFETs would share the voltage drop equally. At 50 V in, about 14 V out, and 5 A, that estimate assigned roughly **18 V and 90 W to each device**.
 
-During the surge, the protected output sits near 14 V while the input is 50 V. That leaves about 36 V across the two series MOSFETs. Splitting that across the pair gives roughly **18 V per MOSFET**, and at 5 A that is approximately **90 W per MOSFET** for the 50 ms pulse. The design justification checked this against the MOSFET safe operating area and selected large devices with enough transient margin.
+That assumption was the flaw in the analysis: placing two devices in series does not guarantee equal dissipation. One device can take most of the roughly **180 W total instantaneous pass-stage dissipation**. The next revision needs to check each device's operating point and transient safe operating area, then validate the thermal behavior.
 
-> The MOSFETs have to survive the pulse while the control loop maintains enough gate voltage to regulate.
+> A plausible output waveform does not prove the pass devices will survive the event.
 
-<div className="data-grid">
-  <div><small>Pass devices</small><b>Two IPB120N10S403ATMA1 N-channel MOSFETs in a back-to-back high-side path</b></div>
-  <div><small>Transient stress</small><b>About 18 V and 90 W per MOSFET during the 50 ms event</b></div>
-  <div><small>Control method</small><b>OPA197 feedback loop modulates gate drive to hold the output near regulation</b></div>
-</div>
+<ProjectImage
+  image={pcbBack}
+  alt="Transient suppression PCB back-side Altium render"
+  caption="Back-side render showing the MOSFET area, high-current connections, and via stitching."
+/>
 
-<div className="project-image-row">
-  <ProjectImage image={pcbFrontRender} alt="Front-side 3D render of transient suppression board" caption="Front-side 3D render. The power-control circuitry, charge-pump support, LDO regulation, and lower-power support electronics are packaged onto one PCB." />
-  <ProjectImage image={pcbBackRender} alt="Back-side 3D render of transient suppression board" caption="Back-side 3D render showing the high-current MOSFET footprint area, sense network, connector placement, and dense via stitching around the power path." />
-</div>
+## Gate drive and feedback
 
-## Gate drive and control rails
+The MOSFET gates need a voltage above the high-side source node. A zener-limited 12 V rail supplies an **LT1054 charge pump**, which supports gate-drive commands in the roughly **18-20 V** range. The low-voltage electronics use an **LM1117-3.3** regulator.
 
-Because the MOSFETs sit on the high side, the source node rises near the protected output. That means the gate drive has to rise above the source instead of being driven from a normal 3.3 V or 5 V logic rail. A zener-limited 12 V control rail feeds an **LT1054 charge pump** so the op-amp can command a gate voltage in the roughly **18 V to 20 V** range under load.
-
-The 12 V rail is generated from the input through a **680 ohm** resistor and a 12 V zener diode. During the 50 V surge, the resistor sees about 38 V. At roughly 55 mA, that puts resistor dissipation near **2.1 W**, so the design calls for a 2 W or higher part. The zener dissipation estimate lands around **0.24 W to 0.48 W**, so a 1 W to 2 W zener provides reasonable margin.
-
-The low-voltage electronics use an **LM1117-3.3** regulator from the 12 V rail. At about 50 mA, the LDO dissipates roughly **0.435 W**, which is acceptable for the selected part and operating window.
-
-<a className="schematic-jump" href="#schematic-detail">
-  <span>
-    <small>Want the electrical view?</small>
-    Jump to the schematic detail
-  </span>
-</a>
-
-## Feedback divider and clamp point
-
-The op-amp compares the output sense voltage against the 3.3 V reference. A **32 k / 10 k** divider scales the output by:
+The feedback network compares the divided output against 3.3 V. With a **32 kΩ / 10 kΩ** divider:
 
 <div className="data-grid">
-  <div><small>Divider ratio</small><b>10 / (32 + 10) = 0.238</b></div>
-  <div><small>Reference</small><b>3.3 V at the op-amp input</b></div>
-  <div><small>Clamp target</small><b>3.3 / 0.238 = about 13.9 V</b></div>
+  <div>
+    <small>Divider ratio</small>
+    <b>10 / (32 + 10) = 0.238</b>
+  </div>
+  <div>
+    <small>Reference</small>
+    <b>3.3 V</b>
+  </div>
+  <div>
+    <small>Calculated clamp</small>
+    <b>3.3 / 0.238 ≈ 13.9 V</b>
+  </div>
 </div>
 
-That target explains the LTspice result. The output does not stay exactly at 12 V during the transient, but it clamps near the calculated regulation point, which keeps the load inside the intended operating range instead of exposing it to the full 50 V pulse.
+That is consistent with the approximately 13.8 V simulated output. It is a clamp above the nominal supply, so load tolerance still needs to be checked against that voltage.
 
-## LTspice validation
+The 680 Ω resistor feeding the 12 V zener rail sees about 38 V during the surge, or roughly **2.1 W instantaneous dissipation**. Its pulse rating and derating need to support the event. Similarly, the LDO estimate of roughly **0.435 W at 50 mA** needs a thermal check for the actual package and board.
 
-The simulation model simplified some IC internals so the transient behavior could be tested quickly, but it preserved the important control relationship: Vin steps from 12 V to 50 V, the gate loop responds, and Vout remains near the clamp point.
+## LTspice result
 
-<ProjectImage image={ltspiceSchematic} alt="Simplified LTspice schematic for high-side transient suppression circuit" caption="Simplified LTspice model used to validate the high-side MOSFET regulation behavior. The model focuses on the pass FETs, op-amp gate control, divider feedback, and transient input source." variant="full" />
+The model simplifies some IC behavior to focus on the pass devices, gate-control loop, feedback divider, and input transient. The input pulse runs from 10 ms to 60 ms; the output remains near the calculated clamp point.
 
-<ProjectImage image={ltspiceTransient} alt="LTspice transient plot with green Vin and blue Vout" caption="LTspice transient result. Green is Vin and blue is Vout. Vin rises from 12 V to 50 V from 10 ms to 60 ms, while Vout stays near 13.8 V and returns to 12 V after the pulse." variant="full" />
+<ProjectImage
+  image={transient}
+  alt="LTspice plot: 50 V input pulse in green and approximately 13.8 V output in blue"
+  caption="Simulated transient response. Vin rises to 50 V for 50 ms; Vout stays near 13.8 V."
+  variant="full"
+/>
 
-## PCB implementation
+<ProjectImage
+  image={spiceSchematic}
+  alt="LTspice model of the high-side NMOS regulation circuit"
+  caption="The simplified model used to examine the feedback and pulse response."
+  variant="full"
+/>
 
-The PCB layout keeps the high-current path visually obvious, with large copper regions for the MOSFET path and sense network, and smaller control circuitry grouped around the op-amp, charge pump, zener rail, LDO, MCU, oscillator, and CAN transceiver support blocks. Dense via stitching helps tie reference copper together and gives the power stage a more controlled return environment.
+## PCB layout and next steps
 
-This page documents the main design steps: define the transient, choose the topology, estimate device stress, design the gate-drive supply, set the clamp point, simulate the pulse response, and route the board.
+The layout groups the lower-power feedback and gate-drive circuitry separately from the MOSFET current path. The board also includes MCU and CAN support circuitry.
 
-## Future improvements
+<ProjectImage
+  image={pcbLayout}
+  alt="Altium layout of the transient suppression board"
+  caption="Altium layout showing the high-current path, control circuitry, and reference copper."
+/>
 
-The main design correction is thermal load sharing. The original analysis assumed the two series MOSFETs would split the transient dissipation evenly. In practice, the first MOSFET in the high-side path can take most of the heat during the surge event, so the circuit can still regulate while creating a more dangerous localized thermal condition than the first estimate suggested.
+The next revision would focus on the stressed MOSFET: more copper around the pads, a better thermal path, and a review of trace width and heatsinking. I would verify the gate-drive headroom and individual device stress in simulation, then test the pulse response and temperature rise on the bench.
 
-A future board revision would treat the leading MOSFET as the primary thermal bottleneck. The layout should use wider high-current traces, larger copper pours, and more copper connected to the MOSFET pads to spread heat away from the package. Dedicated heatsinking on the MOSFET pad area would also improve transient margin. The electrical topology can stay similar, but the next revision should be designed around measured and simulated junction-temperature rise, not only the idealized split-power calculation.
+## Full schematic
 
-<span id="schematic-detail"></span>
-
-## Schematic detail
-
-The Altium schematic includes the high-side MOSFET path, LT1054 charge pump, OPA197 feedback control, zener-limited 12 V rail, LM1117 3.3 V rail, output divider, current-sense shunt, and support circuitry for MCU/CAN integration.
-
-<ProjectImage image={altiumSchematic} alt="Altium schematic for transient suppression board" caption="Full Altium schematic for the transient suppression board. The left side contains the high-side protection and regulation path, while the right side captures MCU, oscillator, decoupling, CAN transceiver, termination, and connector support." variant="full" />
+<ProjectImage
+  image={schematic}
+  alt="Altium schematic with high-side MOSFETs, LT1054, OPA197, and MCU/CAN support"
+  caption="The full electrical design, including protection, regulation, feedback, and MCU/CAN support."
+  variant="full"
+/>

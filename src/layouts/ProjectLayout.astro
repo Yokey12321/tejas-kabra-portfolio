@@ -1,116 +1,166 @@
 ---
-import ProjectVisual from "../components/ProjectVisual.astro";
-import ProjectBall from "../components/ProjectBall.astro";
+import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "@lucide/astro";
 import MottoBanner from "../components/MottoBanner.astro";
+import ImageViewer from "../components/ImageViewer.astro";
 import BaseLayout from "./BaseLayout.astro";
 import connectBanner from "../assets/banners/connect.webp";
 import habitBanner from "../assets/banners/habit-second-nature.webp";
 import memoriesBanner from "../assets/banners/memories.webp";
 import oneBallBanner from "../assets/banners/one-ball-heart-soul.webp";
 import simplicityBanner from "../assets/banners/simplicity-fortitude.webp";
-
-interface Metric {
-  value: string;
-  label: string;
+interface Props {
+  frontmatter: CollectionEntry<"projects">["data"];
+  headings: MarkdownHeading[];
+  nextProject?: CollectionEntry<"projects">;
 }
-
-interface Frontmatter {
-  title: string;
-  summary: string;
-  disciplines: string[];
-  role: string;
-  timeframe: string;
-  status: string;
-  technologies: string[];
-  accent: string;
-  accentSecondary: string;
-  themeSurface: string;
-  visual: "telemetry" | "pcb" | "power" | "robotics" | "drone";
-  banner: "connect" | "simplicity-fortitude" | "one-ball-heart-soul" | "memories" | "habit-second-nature";
-  metrics: Metric[];
-}
-
-const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
-const bannerImages = {
+const { frontmatter: data, headings, nextProject } = Astro.props;
+const banners = {
   connect: connectBanner,
   "habit-second-nature": habitBanner,
   "simplicity-fortitude": simplicityBanner,
   "one-ball-heart-soul": oneBallBanner,
   memories: memoriesBanner,
 };
-const bannerAlts = {
-  connect: "Haikyuu Connect banner",
-  "habit-second-nature": "Haikyuu Habit Is Second Nature banner",
-  "simplicity-fortitude": "Haikyuu Simplicity and Fortitude banner",
-  "one-ball-heart-soul": "Haikyuu One Ball Heart and Soul banner",
-  memories: "Haikyuu We Don't Need Memories banner",
+const bannerNames = {
+  connect: "Connect",
+  "habit-second-nature": "Habit is second nature",
+  "simplicity-fortitude": "Simplicity and fortitude",
+  "one-ball-heart-soul": "One ball, heart and soul",
+  memories: "We don't need memories",
 };
 ---
 
-<BaseLayout title={`${frontmatter.title} | Tejas Kabra`} description={frontmatter.summary}>
+<BaseLayout
+  title={`${data.title} | Tejas Kabra`}
+  description={data.summary}
+  image={data.heroImage?.src}
+>
   <article
     class="project-case"
-    style={`--project-accent:${frontmatter.accent};--project-accent-secondary:${frontmatter.accentSecondary};--project-surface:${frontmatter.themeSurface}`}
+    style={`--project-accent:${data.accent};--project-accent-secondary:${data.accentSecondary};--project-surface:${data.themeSurface}`}
   >
-    <MottoBanner
-      image={bannerImages[frontmatter.banner]}
-      alt={bannerAlts[frontmatter.banner]}
-      accent={frontmatter.accent}
-      compact
-    />
-    <header class="project-case-hero border-b hairline">
-      <div class="project-jersey-stripes" aria-hidden="true"></div>
-      <ProjectBall accent={frontmatter.accent} />
-      <div class="shell py-6">
-        <a class="technical-label text-ink/45 transition-colors hover:text-signal" href="/#projects">Back to selected work</a>
-      </div>
-      <div class="shell grid gap-12 pb-16 pt-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:pb-24">
+    <div class="reading-progress" aria-hidden="true"></div>
+    <div class="project-banner-stage">
+      <MottoBanner
+        image={banners[data.banner]}
+        alt={`Haikyuu: ${bannerNames[data.banner]}`}
+        accent={data.accent}
+      />
+    </div>
+    <header class="shell case-intro">
+      <a class="case-back" href="/#projects">
+        <ArrowLeft size={15} /> Selected work
+      </a>
+      <p class="section-label">{data.disciplines.join(" / ")}</p>
+      <h1>{data.title}</h1>
+      <p class="case-summary">{data.summary}</p>
+      <dl class="case-meta">
         <div>
-          <p class="eyebrow" style={`color:${frontmatter.accent}`}>{frontmatter.disciplines.join(" / ")}</p>
-          <h1 class="mt-7 text-[clamp(2.7rem,11vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.07em] [overflow-wrap:anywhere]">
-            {frontmatter.title}
-          </h1>
+          <dt>My role</dt>
+          <dd>{data.role}</dd>
         </div>
-        <div class="lg:pb-2">
-          <p class="max-w-xl text-xl leading-8 text-ink/65">{frontmatter.summary}</p>
-          <dl class="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-t hairline pt-6">
-            <div><dt class="technical-label text-ink/40">Role</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.role}</dd></div>
-            <div><dt class="technical-label text-ink/40">Timeframe</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.timeframe}</dd></div>
-            <div><dt class="technical-label text-ink/40">Status</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.status}</dd></div>
-            <div><dt class="technical-label text-ink/40">Stack</dt><dd class="mt-2 text-sm font-semibold">{frontmatter.technologies.slice(0, 3).join(", ")}</dd></div>
-          </dl>
+        <div>
+          <dt>Timeline</dt>
+          <dd>{data.timeframe}</dd>
         </div>
-      </div>
-      <div class="shell">
-        <ProjectVisual type={frontmatter.visual} accent={frontmatter.accent} />
-      </div>
-      <div class="shell grid grid-cols-3 border-x border-b hairline">
-        {frontmatter.metrics.map((metric) => (
-          <div class="scoreboard min-h-32 border-r p-5 hairline last:border-r-0 md:p-7" style={`--section-accent:${frontmatter.accent}`}>
-            <strong class="score-digit block text-xl font-semibold md:text-3xl">{metric.value}</strong>
-            <span class="technical-label mt-3 block text-ink/45">{metric.label}</span>
-          </div>
-        ))}
-      </div>
+        <div>
+          <dt>Status</dt>
+          <dd>
+            {data.caseStudyReady
+              ? data.status === "in-progress"
+                ? "Ongoing"
+                : "Complete"
+              : "Case study in progress"}
+          </dd>
+        </div>
+        <div>
+          <dt>Tools</dt>
+          <dd>{data.technologies.join(", ")}</dd>
+        </div>
+      </dl>
     </header>
-    <div class="project-case-body">
-      <aside class="project-net-rail" aria-hidden="true">
-        <span class="project-net-post"></span>
-        <span class="project-net-mesh"></span>
-        <span class="project-net-post"></span>
+    <section class="case-overview">
+      <div class="shell">
+        {data.outcome && (
+          <div class="case-outcome">
+            <p class="section-label">The result</p>
+            <p>{data.outcome}</p>
+          </div>
+        )}
+        <dl class="case-stats">
+          {data.metrics.map((metric) => (
+            <div>
+              <dt>{metric.label}</dt>
+              <dd>{metric.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+    <div class="shell case-body-grid">
+      <aside class="case-contents">
+        <nav aria-label="On this page">
+          <p class="section-label">On this page</p>
+          <ol>
+            {headings
+              .filter((h) => h.depth === 2)
+              .map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} data-section-link>
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+          </ol>
+        </nav>
+        <a class="text-link" href="/resume/">
+          Resume <ArrowUpRight size={15} />
+        </a>
       </aside>
-      <div class="case-study shell py-8 pb-24 md:pb-32">
+      <div class="case-study">
         <slot />
       </div>
     </div>
-    <aside class="border-t hairline bg-paper-deep">
-      <div class="shell flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <span class="technical-label text-signal">Next case study</span>
-          <p class="mt-2 text-2xl font-semibold tracking-tight">Explore more engineering work.</p>
-        </div>
-        <a class="project-return-button px-6 py-4 technical-label transition-[filter]" href="/#projects">View all projects</a>
-      </div>
-    </aside>
+    <div class="shell case-next">
+      <a class="text-link" href="/#projects">
+        <ArrowLeft size={16} /> All work
+      </a>
+      {nextProject && (
+        <a href={`/projects/${nextProject.id}/`}>
+          <div>
+            <p class="section-label">Next project</p>
+            <h2>{nextProject.data.shortTitle}</h2>
+          </div>
+          <ArrowRight size={26} />
+        </a>
+      )}
+    </div>
   </article>
+  <ImageViewer />
+  <script>
+    const sections =
+      document.querySelectorAll<HTMLElement>(".case-study h2[id]");
+    const links = document.querySelectorAll<HTMLAnchorElement>(
+      "[data-section-link]",
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+          )[0];
+        if (!visible) return;
+        links.forEach((link) => {
+          if (link.hash === `#${visible.target.id}`)
+            link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+      },
+      { rootMargin: "-5% 0px -65% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+  </script>
 </BaseLayout>

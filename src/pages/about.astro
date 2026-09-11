@@ -1,137 +1,128 @@
 ---
+import { ArrowUpRight, FileText } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const resumeHref = "/resume";
+import MottoBanner from "../components/MottoBanner.astro";
+import flyBanner from "../assets/banners/fly.webp";
+import { profile } from "../data/profile";
 ---
 
-<BaseLayout title="About | Tejas Kabra" description="About Tejas Kabra, an electrical engineering student at Texas A&M.">
-  <section class="court-section border-b hairline py-20 md:py-28">
-    <div class="shell max-w-5xl">
-      <p class="eyebrow text-signal">About</p>
-      <div class="mt-8 max-w-3xl">
-        <h1 class="text-6xl font-semibold leading-[0.92] tracking-[-0.065em] md:text-8xl">
-          Hi, I’m Tejas.
-        </h1>
-        <p class="mt-8 text-xl leading-9 text-ink/72 md:text-2xl md:leading-10">
-          I’m an Electrical Engineering student at Texas A&amp;M focused on embedded systems,
-          PCB design, telemetry, power electronics, and robotics.
-        </p>
-      </div>
-
-      <div class="mt-10 flex flex-wrap gap-3">
-        <a class="bg-signal px-6 py-4 technical-label text-[0.74rem] font-bold tracking-[0.12em] text-panel transition-transform hover:-translate-y-1 hover:bg-[#ff824f]" href={resumeHref}>
-          View resume
-        </a>
-        <a class="border border-ink/20 px-6 py-4 technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:border-signal hover:text-signal" href="/#projects">
-          View projects
-        </a>
-        <a class="border border-ink/20 px-6 py-4 technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:border-ink" href="https://www.linkedin.com/in/tejas-kabra-0869aa291">
-          LinkedIn
-        </a>
-      </div>
+<BaseLayout
+  title="About | Tejas Kabra"
+  description="I'm Tejas, a SpaceX Engineering Intern and Texas A&M electrical engineering student interested in embedded hardware, robotics, and space."
+>
+  <section class="page-intro shell">
+    <p class="section-label">About / The person behind the boards</p>
+    <h1>Hi, I’m Tejas.</h1>
+    <p class="page-lead">
+      An electrical engineering student at Texas A&amp;M.
+      <br />
+      Currently an Engineering Intern at SpaceX.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/resume/">
+        <FileText size={17} /> View resume
+      </a>
+      <a
+        class="button button-quiet"
+        href={profile.linkedin}
+        target="_blank"
+        rel="noreferrer"
+      >
+        LinkedIn <ArrowUpRight size={17} />
+      </a>
     </div>
   </section>
-
-  <section class="shell grid gap-14 py-20 md:py-28 lg:grid-cols-[0.85fr_1.15fr]">
+  <section class="about-section shell">
     <div>
-      <p class="eyebrow text-signal">Profile</p>
-      <h2 class="mt-6 text-5xl font-semibold leading-tight tracking-[-0.055em]">Who I am</h2>
+      <p class="section-label">01 / The work</p>
+      <h2>
+        I like figuring out
+        <br />
+        the whole system.
+      </h2>
     </div>
-    <div class="space-y-6 text-lg leading-9 text-ink/68">
+    <div class="about-copy">
       <p>
-        Most of my work sits between electrical design and system integration. I like projects where
-        the schematic, PCB layout, firmware, power tree, connectors, and mechanical constraints all
-        have to work together before the system is useful.
+        A board can look right in Altium and still give you a lot to work
+        through on the bench. That’s the part of electrical engineering I like:
+        getting the power, firmware, interfaces, and physical packaging to work
+        together.
       </p>
       <p>
-        At Texas A&amp;M Formula Electric, I designed a 4-layer STM32G4 telemetry board with CAN, UART,
-        power regulation, and a Quectel EG25 LTE modem. That project has shaped the way I think about
-        hardware because it had to move from layout to firmware to bench testing to vehicle integration.
+        With Texas A&amp;M Formula Electric, I’ve designed a four-layer STM32G4
+        telemetry board, written its firmware, and worked through two PCB
+        revisions. I’ve also built a Raspberry Pi inventory system with
+        solenoid-controlled drawers and worked on custom STM32 hardware with
+        RoboMasters.
       </p>
       <p>
-        I’m also a Craig and Galen Brown Engineering Honors student, part of Texas A&amp;M RoboMasters,
-        and have interned in electrical design for modular data center cooling infrastructure at
-        Southland Industries.
+        I’m a Craig and Galen Brown Engineering Honors student. Before SpaceX, I
+        interned at Southland Industries, working on electrical design for
+        modular data center cooling infrastructure.
       </p>
-    </div>
-  </section>
-
-  <section class="border-y hairline bg-panel/45 py-20 md:py-28">
-    <div class="shell grid gap-5 md:grid-cols-3">
-      <article class="border p-7 hairline">
-        <span class="technical-label text-signal">01</span>
-        <h3 class="mt-10 text-3xl font-semibold tracking-[-0.045em]">What I build</h3>
-        <p class="mt-5 leading-8 text-ink/62">
-          Embedded boards, CAN and LTE telemetry systems, power electronics, robotics hardware, and
-          small electromechanical systems.
-        </p>
-      </article>
-      <article class="border p-7 hairline">
-        <span class="technical-label text-signal">02</span>
-        <h3 class="mt-10 text-3xl font-semibold tracking-[-0.045em]">How I think</h3>
-        <p class="mt-5 leading-8 text-ink/62">
-          Start with constraints, design the full system, bring hardware up carefully, and use test
-          results to make the next version cleaner.
-        </p>
-      </article>
-      <article class="border p-7 hairline">
-        <span class="technical-label text-signal">03</span>
-        <h3 class="mt-10 text-3xl font-semibold tracking-[-0.045em]">What I want</h3>
-        <p class="mt-5 leading-8 text-ink/62">
-          A Fall 2026 co-op where I can contribute to electrical, embedded, hardware, or systems work
-          that has to perform outside a classroom.
-        </p>
-      </article>
     </div>
   </section>
-
-  <section class="shell grid gap-14 py-20 md:py-28 lg:grid-cols-[0.85fr_1.15fr]">
+  <section class="about-section shell">
     <div>
-      <p class="eyebrow text-signal">Purpose</p>
-      <h2 class="mt-6 text-5xl font-semibold leading-tight tracking-[-0.055em]">Why I do this</h2>
+      <p class="section-label">02 / The direction</p>
+      <h2>
+        Space has been
+        <br />
+        the long-term pull.
+      </h2>
     </div>
-    <div class="space-y-6 text-lg leading-9 text-ink/68">
+    <div class="about-copy">
       <p>
-        Space has been the long-term motivation for me. I like the idea of building hardware for
-        environments where the system has to work because there is no easy reset button.
+        I’m interested in hardware that helps people operate in difficult
+        environments. Space and medical robotics sit at the center of that for
+        me. <em>Project Hail Mary</em> is part of why: I love the combination of
+        engineering, improvisation, and a problem that makes you keep trying.
       </p>
       <p>
-        I’m especially interested in the overlap between embedded hardware, robotics, and systems that
-        could support people in extreme environments. Medical robotics for space applications is one
-        version of that idea, and stories like <em>Project Hail Mary</em> are part of why that kind of
-        engineering feels so interesting to me.
+        Getting to work at SpaceX is a big step. I’m there to contribute, ask
+        good questions, and learn from the engineers around me.
       </p>
       <p>
-        Right now, the practical path is simple: get better at designing boards, writing firmware,
-        testing real systems, documenting tradeoffs, and learning from engineers who have already
-        shipped serious hardware.
+        For summer 2027, I’m looking for an internship in electrical
+        engineering, embedded systems, or hardware, with plenty of time close to
+        the actual design and testing.
       </p>
     </div>
   </section>
-
-  <section class="shell py-20 md:py-28">
-    <div class="grid gap-10 border-t hairline pt-10 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+  <section class="about-haikyuu">
+    <div class="shell about-section">
       <div>
-        <p class="eyebrow text-signal">Current direction</p>
-        <h2 class="mt-6 max-w-4xl text-5xl font-semibold leading-tight tracking-[-0.055em] md:text-7xl">
-          I’m trying to become the kind of electrical engineer who can own the path from idea to
-          working hardware.
+        <p class="section-label">03 / A little personality</p>
+        <h2>
+          Yes, the banners
+          <br />
+          are from Haikyuu.
         </h2>
       </div>
-      <div class="space-y-5 text-lg leading-8 text-ink/64">
+      <div class="about-copy">
         <p>
-          I’m looking for work where the design has real constraints, the testing matters, and the
-          result has to be reliable enough for other people to use.
+          I like its focus on practice, teamwork, and getting a little better
+          every time you show up. The banners felt at home here.
         </p>
-        <div class="flex flex-wrap gap-3 pt-3">
-          <a class="border border-signal px-5 py-3 technical-label text-[0.74rem] font-bold tracking-[0.12em] text-signal transition-colors hover:bg-signal hover:text-panel" href={resumeHref}>
-            View resume
-          </a>
-          <a class="border border-ink/20 px-5 py-3 technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:border-ink" href="mailto:kabratejas24@gmail.com">
-            Email me
-          </a>
-        </div>
+        <MottoBanner image={flyBanner} alt="Haikyuu: Fly" compact />
       </div>
     </div>
+  </section>
+  <section class="shell about-toolkit">
+    <p class="section-label">Tools I work with</p>
+    <dl>
+      <div>
+        <dt>Hardware</dt>
+        <dd>Altium, PCB layout, power regulation, analog circuits</dd>
+      </div>
+      <div>
+        <dt>Embedded</dt>
+        <dd>STM32, C, STM32CubeIDE, CAN, UART, I2C</dd>
+      </div>
+      <div>
+        <dt>Integration</dt>
+        <dd>LTspice, oscilloscopes, DMMs, soldering, Python</dd>
+      </div>
+    </dl>
   </section>
 </BaseLayout>

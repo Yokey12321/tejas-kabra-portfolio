@@ -1,80 +1,57 @@
 ---
+import { ArrowUpRight, Download } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const pdfHref = "/assets/tejas-kabra-resume.pdf";
+import { profile } from "../data/profile";
 ---
 
 <BaseLayout
   title="Resume | Tejas Kabra"
-  description="View or download Tejas Kabra's electrical engineering resume."
+  description="Tejas Kabra's electrical engineering resume. Currently an Engineering Intern at SpaceX and seeking summer 2027 internships."
 >
-  <section class="court-section border-b hairline py-16 md:py-24">
-    <div class="shell grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.55fr)] lg:items-end">
-      <div>
-        <p class="eyebrow text-signal">Resume</p>
-        <h1 class="mt-6 text-6xl font-semibold leading-[0.9] tracking-[-0.065em] md:text-8xl">
-          Resume
-        </h1>
-        <p class="mt-8 max-w-3xl text-lg leading-8 text-ink/68 md:text-xl md:leading-9">
-          View the PDF in-browser or download a copy. The project pages on this site go deeper,
-          but this version is formatted for applications that need a standard resume file.
-        </p>
-      </div>
-
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+  <section class="page-intro shell resume-intro">
+    <div>
+      <p class="section-label">Resume</p>
+      <h1>Tejas Kabra.</h1>
+      <p class="page-lead">Electrical engineering / Texas A&amp;M</p>
+      <p class="resume-current">
+        <span class="status-dot"></span> Currently at SpaceX. Seeking summer
+        2027 internships.
+      </p>
+    </div>
+    <div class="hero-actions">
+      <a
+        class="button button-primary"
+        href={profile.resume}
+        download="Tejas-Kabra-Resume.pdf"
+      >
+        <Download size={17} /> Download PDF
+      </a>
+      <a
+        class="button button-quiet"
+        href={profile.resume}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Open PDF <ArrowUpRight size={17} />
+      </a>
+    </div>
+  </section>
+  <section class="shell resume-document">
+    <object
+      data={`${profile.resume}#view=FitH`}
+      type="application/pdf"
+      aria-label="Tejas Kabra resume PDF"
+    >
+      <p>
         <a
-          class="bg-signal px-6 py-4 text-center technical-label text-[0.74rem] font-bold tracking-[0.12em] text-panel transition-transform hover:-translate-y-1 hover:bg-[#ff824f]"
-          href={pdfHref}
+          class="text-link"
+          href={profile.resume}
           target="_blank"
           rel="noreferrer"
         >
-          Open PDF
+          Open resume PDF <ArrowUpRight size={17} />
         </a>
-        <a
-          class="border border-ink/20 px-6 py-4 text-center technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:border-signal hover:text-signal"
-          href={pdfHref}
-          download
-        >
-          Download PDF
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="shell py-10 md:py-14">
-    <div class="overflow-hidden border hairline bg-panel/70 shadow-[0_2rem_6rem_rgba(0,0,0,0.28)]">
-      <div class="flex flex-col gap-3 border-b hairline px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="technical-label text-signal">PDF preview</p>
-          <p class="mt-1 text-sm leading-6 text-ink/55">
-            If the preview does not load, use Open PDF or Download PDF above.
-          </p>
-        </div>
-        <span class="technical-label text-ink/35">Tejas Kabra</span>
-      </div>
-
-      <object
-        class="block h-[72vh] min-h-[34rem] w-full bg-paper"
-        data={`${pdfHref}#view=FitH`}
-        type="application/pdf"
-      >
-        <div class="grid min-h-[34rem] place-items-center px-6 py-16 text-center">
-          <div class="max-w-xl">
-            <p class="text-2xl font-semibold tracking-[-0.035em]">PDF preview unavailable in this browser.</p>
-            <p class="mt-4 leading-7 text-ink/60">
-              Some mobile browsers block embedded PDF previews. You can still open or download the file directly.
-            </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-3">
-              <a class="bg-signal px-5 py-3 technical-label text-panel" href={pdfHref} target="_blank" rel="noreferrer">
-                Open PDF
-              </a>
-              <a class="border border-ink/20 px-5 py-3 technical-label" href={pdfHref} download>
-                Download PDF
-              </a>
-            </div>
-          </div>
-        </div>
-      </object>
-    </div>
+      </p>
+    </object>
   </section>
 </BaseLayout>

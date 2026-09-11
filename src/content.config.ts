@@ -20,7 +20,13 @@ const projects = defineCollection({
       accentSecondary: z.string(),
       themeSurface: z.string(),
       visual: z.enum(["telemetry", "pcb", "power", "robotics", "drone"]),
-      banner: z.enum(["connect", "simplicity-fortitude", "one-ball-heart-soul", "memories", "habit-second-nature"]),
+      banner: z.enum([
+        "connect",
+        "simplicity-fortitude",
+        "one-ball-heart-soul",
+        "memories",
+        "habit-second-nature",
+      ]),
       metrics: z.array(
         z.object({
           value: z.string(),
@@ -28,6 +34,9 @@ const projects = defineCollection({
         }),
       ),
       heroImage: image().optional(),
+      heroImageAlt: z.string().optional(),
+      category: z.enum(["electronics", "robotics"]),
+      caseStudyReady: z.boolean().default(true),
       outcome: z.string().optional(),
       repository: z.url().optional(),
     }),

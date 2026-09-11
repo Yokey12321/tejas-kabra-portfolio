@@ -1,57 +1,92 @@
 ---
+import {
+  ArrowUpRight,
+  Menu,
+  X,
+  FileText,
+  CodeXml,
+  BriefcaseBusiness,
+} from "@lucide/astro";
+import { profile } from "../data/profile";
+import SiteMotion from "../components/SiteMotion.astro";
 import "../styles/global.css";
-import "../styles/space-background.css";
+import "../styles/site.css";
+import "../styles/motion.css";
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
 }
-
-const { title, description } = Astro.props;
-const currentPath = Astro.url.pathname;
-const resumeHref = "/resume";
+const { title, description, image } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : undefined;
+const socialImage =
+  image && Astro.site ? new URL(image, Astro.site).href : undefined;
+const nav = [
+  { label: "Work", href: "/#projects", active: path.startsWith("/projects") },
+  { label: "About", href: "/about/", active: path === "/about" },
+  { label: "Resume", href: "/resume/", active: path === "/resume" },
+];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a080d" />
+    <meta name="theme-color" content="#111312" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23171914%22/><path d=%22M22 28h56M50 28v50%22 stroke=%22%23e5663a%22 stroke-width=%2212%22/></svg>" />
+    <meta property="og:site_name" content="Tejas Kabra" />
+    {canonical && <meta property="og:url" content={canonical.href} />}
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <meta
+      name="twitter:card"
+      content={socialImage ? "summary_large_image" : "summary"}
+    />
+    {canonical && <link rel="canonical" href={canonical.href} />}
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%23111312'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-weight='700' font-size='30' fill='%23ff7947'%3ETK%3C/text%3E%3C/svg%3E"
+    />
     <title>{title}</title>
   </head>
   <body>
-    <div class="site-space-bg" aria-hidden="true"></div>
-    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3" href="#main">
+    <a class="skip-link" href="#main">
       Skip to content
     </a>
-    <header class="relative z-40 border-b hairline bg-paper/95">
-      <nav class="shell flex h-24 items-center justify-between">
-        <a class="group flex items-center gap-3" href="/" aria-label="Tejas Kabra home">
-          <span class="grid h-9 w-9 place-items-center border border-ink/20 bg-panel font-mono text-sm font-bold text-signal">TK</span>
-          <span>
-            <strong class="block text-base leading-none tracking-tight">Tejas Kabra</strong>
-            <span class="technical-label mt-1 block text-ink/45">Electrical Engineer</span>
+    <header class="site-header">
+      <nav class="shell site-nav" aria-label="Main navigation">
+        <a class="site-brand" href="/" aria-label="Tejas Kabra home">
+          <span class="brand-mark">
+            TK<span>.</span>
           </span>
+          <span>Tejas Kabra</span>
         </a>
-        <div class="flex items-center gap-4 sm:gap-6">
-          <a class:list={["technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:text-signal", currentPath.startsWith("/projects") ? "text-signal" : ""]} href="/#projects">
-            Work
-          </a>
-          <a class:list={["technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:text-signal", currentPath === "/about/" ? "text-signal" : ""]} href="/about">
-            About
-          </a>
-          <a class:list={["hidden technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:text-signal sm:block", currentPath === "/resume/" ? "text-signal" : ""]} href={resumeHref}>
-            Resume
-          </a>
-          <a class="hidden border border-ink/20 px-5 py-2.5 technical-label text-[0.74rem] font-bold tracking-[0.12em] transition-colors hover:border-signal hover:bg-signal hover:text-panel sm:block" href="https://github.com/Yokey12321">
-            Contact
+        <button
+          class="icon-button menu-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          data-menu-toggle
+        >
+          <Menu size={22} class="menu-open-icon" />
+          <X size={22} class="menu-close-icon" />
+        </button>
+        <div class="nav-links" id="nav-links">
+          {nav.map((item) => (
+            <a href={item.href} aria-current={item.active ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))}
+          <a class="nav-contact" href="#contact">
+            Get in touch <ArrowUpRight size={16} />
           </a>
         </div>
       </nav>
@@ -59,27 +94,82 @@ const resumeHref = "/resume";
     <main id="main">
       <slot />
     </main>
-    <footer class="border-t border-ink/10 bg-panel text-ink">
-      <div class="shell grid gap-10 py-12 md:grid-cols-2 md:items-end">
+    <SiteMotion />
+    <footer id="contact" class="site-footer">
+      <div class="shell contact-grid">
         <div>
-          <span class="eyebrow text-signal">Contact</span>
-          <p class="mt-5 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.035em]">
-            Available for Fall 2026 electrical engineering co-op opportunities.
+          <p class="section-label">
+            <span class="status-dot"></span> Looking ahead / Summer 2027
           </p>
-        </div>
-        <div class="md:text-right">
-          <a class="text-lg underline decoration-signal decoration-2 underline-offset-8" href="https://github.com/Yokey12321">
-            github.com/Yokey12321
+          <h2>
+            Let’s build
+            <br />
+            something that works.
+          </h2>
+          <p class="contact-description">
+            I’m looking for a summer 2027 internship in electrical engineering,
+            embedded systems, or hardware. Have a team I should talk to?
+          </p>
+          <a class="contact-email" href={`mailto:${profile.email}`}>
+            {profile.email}
+            <ArrowUpRight size={24} />
           </a>
-          <p class="technical-label mt-6 text-ink/40">Texas A&amp;M University // College Station, TX</p>
+        </div>
+        <div class="contact-links">
+          <a href={profile.linkedin} target="_blank" rel="noreferrer">
+            <BriefcaseBusiness size={18} />
+            LinkedIn
+            <ArrowUpRight size={16} />
+          </a>
+          <a href={profile.github} target="_blank" rel="noreferrer">
+            <CodeXml size={18} />
+            GitHub
+            <ArrowUpRight size={16} />
+          </a>
+          <a href="/resume/">
+            <FileText size={18} />
+            Resume
+            <ArrowUpRight size={16} />
+          </a>
         </div>
       </div>
-      <div class="border-t border-ink/10">
-        <div class="shell flex flex-col gap-3 py-5 technical-label text-ink/40 sm:flex-row sm:justify-between">
-          <span>Electrical engineering portfolio.</span>
-          <span>© {new Date().getFullYear()} Tejas Kabra</span>
-        </div>
+      <div class="shell footer-bottom">
+        <span>Texas A&amp;M Electrical Engineering</span>
+        <span>&copy; {new Date().getFullYear()} Tejas Kabra</span>
+        <a href="#main">
+          Back to top <ArrowUpRight size={14} />
+        </a>
       </div>
     </footer>
+    <script>
+      const toggle =
+        document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+      const links = document.getElementById("nav-links");
+      const closeMenu = () => toggle?.setAttribute("aria-expanded", "false");
+      toggle?.addEventListener("click", () =>
+        toggle.setAttribute(
+          "aria-expanded",
+          String(toggle.getAttribute("aria-expanded") !== "true"),
+        ),
+      );
+      links?.addEventListener("click", (event) => {
+        if ((event.target as Element).closest("a")) closeMenu();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          toggle?.getAttribute("aria-expanded") === "true"
+        ) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+      document.addEventListener("click", (event) => {
+        if (!(event.target as Element).closest(".site-nav")) closeMenu();
+      });
+      window
+        .matchMedia("(min-width: 701px)")
+        .addEventListener("change", closeMenu);
+    </script>
   </body>
 </html>

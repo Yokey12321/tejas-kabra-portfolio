@@ -1,0 +1,118 @@
+---
+import { X, ZoomIn, ExternalLink } from "@lucide/astro";
+---
+
+<dialog
+  class="image-dialog"
+  aria-label="Project image viewer"
+  data-image-dialog
+>
+  <div class="image-dialog-header">
+    <p data-viewer-title></p>
+    <div class="image-dialog-actions">
+      <button
+        class="icon-button"
+        type="button"
+        data-image-zoom
+        aria-label="View full size"
+        title="Toggle full size"
+        aria-pressed="false"
+      >
+        <ZoomIn size={19} />
+      </button>
+      <a
+        class="icon-button"
+        data-image-original
+        href="#"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Open original image"
+        title="Open original image"
+      >
+        <ExternalLink size={18} />
+      </a>
+      <button
+        class="icon-button"
+        type="button"
+        data-image-close
+        aria-label="Close image"
+        title="Close image"
+      >
+        <X size={21} />
+      </button>
+    </div>
+  </div>
+  <div class="image-dialog-stage" data-image-stage></div>
+  <p class="image-dialog-caption" data-viewer-caption></p>
+</dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>(
+    "[data-image-dialog]",
+  );
+  const stage = document.querySelector<HTMLElement>("[data-image-stage]");
+  const title = document.querySelector("[data-viewer-title]");
+  const caption = document.querySelector("[data-viewer-caption]");
+  const original = document.querySelector<HTMLAnchorElement>(
+    "[data-image-original]",
+  );
+  const zoom = document.querySelector<HTMLButtonElement>("[data-image-zoom]");
+  let opener: HTMLAnchorElement | null = null;
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-expand-image]")
+    .forEach((link) =>
+      link.addEventListener("click", (event) => {
+        if (
+          event.ctrlKey ||
+          event.metaKey ||
+          event.shiftKey ||
+          event.altKey ||
+          !dialog ||
+          !stage
+        )
+          return;
+        event.preventDefault();
+        opener = link;
+        const img = new window.Image();
+        img.src = link.href;
+        img.alt = link.dataset.imageAlt || "Project image";
+        stage.replaceChildren(img);
+        stage.classList.remove("is-zoomed");
+        zoom?.setAttribute("aria-pressed", "false");
+        zoom?.setAttribute("aria-label", "View full size");
+        if (title) title.textContent = img.alt;
+        if (caption) caption.textContent = link.dataset.imageCaption || "";
+        if (original) original.href = link.href;
+        dialog.showModal();
+        document
+          .querySelector<HTMLButtonElement>("[data-image-close]")
+          ?.focus();
+      }),
+    );
+  zoom?.addEventListener("click", () => {
+    const expanded = stage?.classList.toggle("is-zoomed") ?? false;
+    zoom.setAttribute("aria-pressed", String(expanded));
+    zoom.setAttribute(
+      "aria-label",
+      expanded ? "Fit image to window" : "View full size",
+    );
+  });
+  document
+    .querySelector("[data-image-close]")
+    ?.addEventListener("click", () => dialog?.close());
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      const rect = dialog.getBoundingClientRect();
+      if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+      )
+        dialog.close();
+    }
+  });
+  dialog?.addEventListener("close", () => {
+    stage?.replaceChildren();
+    opener?.focus();
+  });
+</script>
