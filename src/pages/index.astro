@@ -3,7 +3,6 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { ArrowDown, ArrowUpRight, ArrowRight, FileText } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ScrollServe from "../components/ScrollServe.astro";
 import flyBanner from "../assets/banners/fly.webp";
 import { profile } from "../data/profile";
 
@@ -227,7 +226,6 @@ const filters = [
       Meet Tejas <ArrowRight size={18} />
     </a>
   </div>
-  <ScrollServe />
   <script>
     const buttons = document.querySelectorAll<HTMLButtonElement>(
       "[data-project-filter]",

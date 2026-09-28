@@ -67,9 +67,6 @@
   translate: var(--art-x, 0px) var(--art-y, 0px);
   transition: translate 400ms ease-out;
 }
-.serve-ball {
-  animation: none;
-}
 .reading-progress {
   display: none;
 }

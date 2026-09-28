@@ -596,88 +596,6 @@
   height: 2px;
   background: var(--banner-accent);
 }
-.serve-transition {
-  position: relative;
-  overflow: hidden;
-  height: 120px;
-  background: #0b0e0c;
-  view-timeline-name: --serve-section;
-  border-top: 1px solid #303930;
-}
-.serve-message {
-  position: absolute;
-  left: 48px;
-  top: 30px;
-  color: #a2b0a6;
-  font: 10px/1.8 var(--font-mono);
-  text-transform: uppercase;
-}
-.serve-message strong {
-  display: block;
-  font-size: 22px;
-  font-family: var(--font-sans);
-  text-transform: none;
-  color: #dce5db;
-  font-weight: 500;
-}
-.serve-ball {
-  position: absolute;
-  left: 55%;
-  top: 28px;
-  width: 52px;
-  animation: court-pass linear both;
-  animation-timeline: --serve-section;
-  animation-range: entry 0% exit 100%;
-}
-.serve-court {
-  position: absolute;
-  right: 6%;
-  bottom: 0;
-  width: 300px;
-  height: 80px;
-  display: grid;
-  grid-template-columns: 1fr 5px 1fr;
-  transform: perspective(280px) rotateX(55deg);
-  border: 1px solid #718579;
-  opacity: 0.3;
-}
-.serve-side {
-  position: relative;
-  border: 1px solid #718579;
-}
-.serve-net {
-  background: #b8c6bb;
-}
-.serve-player {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ff7947;
-}
-.serve-player-a {
-  top: 20%;
-  left: 30%;
-}
-.serve-player-b {
-  top: 60%;
-  left: 70%;
-}
-.serve-player-c {
-  top: 80%;
-  left: 20%;
-}
-.serve-floor {
-  display: none;
-}
-@keyframes court-pass {
-  from {
-    transform: translateX(-150px) rotate(-180deg);
-  }
-  to {
-    transform: translateX(200px) rotate(260deg);
-  }
-}
 .case-intro {
   padding-block: 34px 48px;
 }
@@ -1269,17 +1187,6 @@ body:has(.image-dialog[open]) {
     padding-block: 38px;
     gap: 20px;
   }
-  .serve-message {
-    left: 20px;
-  }
-  .serve-court {
-    right: -50px;
-    width: 200px;
-  }
-  .serve-ball {
-    left: 58%;
-    width: 44px;
-  }
   .site-footer {
     padding-top: 46px;
   }
@@ -1467,9 +1374,6 @@ body:has(.image-dialog[open]) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .serve-ball {
-    animation: none;
-  }
   .work-image > img {
     transition: none;
   }
