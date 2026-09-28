@@ -36,6 +36,7 @@ const bannerNames = {
   title={`${data.title} | Tejas Kabra`}
   description={data.summary}
   image={data.heroImage?.src}
+  projectTheme={data}
 >
   <article
     class="project-case"
@@ -53,7 +54,12 @@ const bannerNames = {
       <a class="case-back" href="/#projects">
         <ArrowLeft size={15} /> Selected work
       </a>
-      <p class="section-label">{data.disciplines.join(" / ")}</p>
+      <div class="case-title-meta">
+        <p class="section-label">{data.disciplines.join(" / ")}</p>
+        <span class="case-file">
+          Project {String(data.order).padStart(2, "0")}
+        </span>
+      </div>
       <h1>{data.title}</h1>
       <p class="case-summary">{data.summary}</p>
       <dl class="case-meta">

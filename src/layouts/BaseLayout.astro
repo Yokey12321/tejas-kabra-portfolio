@@ -12,13 +12,19 @@ import SiteMotion from "../components/SiteMotion.astro";
 import "../styles/global.css";
 import "../styles/site.css";
 import "../styles/motion.css";
+import "../styles/project-theme.css";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  projectTheme?: {
+    accent: string;
+    accentSecondary: string;
+    themeSurface: string;
+  };
 }
-const { title, description, image } = Astro.props;
+const { title, description, image, projectTheme } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
@@ -33,12 +39,23 @@ const nav = [
 ---
 
 <!doctype html>
-<html lang="en">
+<html
+  lang="en"
+  data-project-theme={projectTheme ? "" : undefined}
+  style={
+    projectTheme
+      ? `--project-accent:${projectTheme.accent};--project-accent-secondary:${projectTheme.accentSecondary};--project-surface:${projectTheme.themeSurface}`
+      : undefined
+  }
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#111312" />
+    <meta
+      name="theme-color"
+      content={projectTheme?.themeSurface || "#111312"}
+    />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
